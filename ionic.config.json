@@ -1,0 +1,7 @@
+{
+  "name": "Hunt2HandFront",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
