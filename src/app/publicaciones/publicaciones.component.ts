@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
+import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
 
 @Component({
   selector: 'app-publicaciones',
   templateUrl: './publicaciones.component.html',
   styleUrls: ['./publicaciones.component.scss'],
   imports: [
-    IonicModule
+    IonicModule,
+    MenuInferiorComponent
   ],
   standalone: true
 })
