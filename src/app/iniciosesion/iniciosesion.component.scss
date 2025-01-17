@@ -1,0 +1,26 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  ion-card {
+    width: 100%;
+    max-width: 400px;
+  }
+  links-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .olvidon {
+    font-size: 0.8rem;
+    margin-left: 120px;
+  }
+}
+
+
+
+
