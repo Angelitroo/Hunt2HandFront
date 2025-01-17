@@ -1,0 +1,23 @@
+<ion-header>
+  <div>
+    <ion-searchbar placeholder="Buscar">
+      <ion-buttons slot="start" class="menu-button-inside">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
+  <div>
+      <ion-title>Menú</ion-title>
+  </div>
+
+  <ion-content>
+    <ion-list>
+      <ion-item routerLink="/pagina1">Página 1</ion-item>
+      <ion-item routerLink="/pagina2">Página 2</ion-item>
+      <ion-item routerLink="/pagina3">Página 3</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
