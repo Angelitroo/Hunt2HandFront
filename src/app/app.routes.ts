@@ -23,4 +23,16 @@ export const routes: Routes = [
     path: 'buscadormenu',
     loadComponent: () => import('./buscadormenu/buscadormenu.component').then((m) => m.BuscadormenuComponent),
   },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
+  },
+  {
+    path: 'publicaciones',
+    loadComponent: () => import('./publicaciones/publicaciones.component').then((m) => m.PublicacionesComponent),
+  },
+  {
+    path: 'menu-inferior',
+    loadComponent: () => import('./menu-inferior/menu-inferior.component').then((m) => m.MenuInferiorComponent),
+  }
 ];
