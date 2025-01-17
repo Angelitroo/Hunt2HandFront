@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { BuscadormenuComponent } from './buscadormenu.component';
+import { InicioSesionComponent } from './inicio-sesion.component';
 
-describe('BuscadormenuComponent', () => {
-  let component: BuscadormenuComponent;
-  let fixture: ComponentFixture<BuscadormenuComponent>;
+describe('IniciosesionComponent', () => {
+  let component: InicioSesionComponent;
+  let fixture: ComponentFixture<InicioSesionComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BuscadormenuComponent],
+      imports: [InicioSesionComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BuscadormenuComponent);
+    fixture = TestBed.createComponent(InicioSesionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

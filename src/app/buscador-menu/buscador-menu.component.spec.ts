@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { PaneladminComponent } from './paneladmin.component';
+import { BuscadorMenuComponent } from './buscador-menu.component';
 
-describe('PaneladminComponent', () => {
-  let component: PaneladminComponent;
-  let fixture: ComponentFixture<PaneladminComponent>;
+describe('BuscadormenuComponent', () => {
+  let component: BuscadorMenuComponent;
+  let fixture: ComponentFixture<BuscadorMenuComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PaneladminComponent],
+      imports: [BuscadorMenuComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PaneladminComponent);
+    fixture = TestBed.createComponent(BuscadorMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

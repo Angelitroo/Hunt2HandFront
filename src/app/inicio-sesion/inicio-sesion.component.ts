@@ -10,8 +10,8 @@ import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-iniciosesion',
-  templateUrl: './iniciosesion.component.html',
-  styleUrls: ['./iniciosesion.component.scss'],
+  templateUrl: './inicio-sesion.component.html',
+  styleUrls: ['./inicio-sesion.component.scss'],
   standalone: true,
   imports: [
     IonicModule,
@@ -21,7 +21,7 @@ import {NgIf} from "@angular/common";
     NgIf,
   ]
 })
-export class IniciosesionComponent  implements OnInit {
+export class InicioSesionComponent implements OnInit {
   username: string = '';
   password: string = '';
   isRegistro: boolean = false;

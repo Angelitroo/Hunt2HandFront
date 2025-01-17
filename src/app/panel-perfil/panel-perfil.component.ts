@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
+import {PerfilComponent} from "../perfil/perfil.component";
 import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
-import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 
 @Component({
-  selector: 'app-publicaciones',
-  templateUrl: './publicaciones.component.html',
-  styleUrls: ['./publicaciones.component.scss'],
+  selector: 'app-panel-perfil',
+  templateUrl: './panel-perfil.component.html',
+  styleUrls: ['./panel-perfil.component.scss'],
   imports: [
-    IonicModule,
+    PerfilComponent,
     MenuInferiorComponent,
-    BuscadorMenuComponent
+    IonicModule
   ],
   standalone: true
 })
-export class PublicacionesComponent  implements OnInit {
+export class PanelPerfilComponent  implements OnInit {
   items: string[] = [];
 
   constructor() { }

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { IniciosesionComponent } from './iniciosesion.component';
+import { PanelAdminComponent } from './panel-admin.component';
 
-describe('IniciosesionComponent', () => {
-  let component: IniciosesionComponent;
-  let fixture: ComponentFixture<IniciosesionComponent>;
+describe('PaneladminComponent', () => {
+  let component: PanelAdminComponent;
+  let fixture: ComponentFixture<PanelAdminComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IniciosesionComponent],
+      imports: [PanelAdminComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(IniciosesionComponent);
+    fixture = TestBed.createComponent(PanelAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

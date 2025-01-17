@@ -2,12 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'iniciosesion',
-    loadComponent: () => import('./iniciosesion/iniciosesion.component').then((m) => m.IniciosesionComponent),
+    path: 'inicio-sesion',
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },
   {
     path: '',
-    redirectTo: 'iniciosesion',
+    redirectTo: 'inicio-sesion',
     pathMatch: 'full',
   },
   {
@@ -15,13 +15,12 @@ export const routes: Routes = [
     loadComponent: () => import('./navbar/navbar.component').then((m) => m.NavbarComponent),
   },
   {
-    path: 'paneladmin',
-    loadComponent: () => import('./paneladmin/paneladmin.component').then((m) => m.PaneladminComponent),
+    path: 'panel-admin',
+    loadComponent: () => import('./panel-admin/panel-admin.component').then((m) => m.PanelAdminComponent),
   },
-
   {
-    path: 'buscadormenu',
-    loadComponent: () => import('./buscadormenu/buscadormenu.component').then((m) => m.BuscadormenuComponent),
+    path: 'buscador-menu',
+    loadComponent: () => import('./buscador-menu/buscador-menu.component').then((m) => m.BuscadorMenuComponent),
   },
   {
     path: 'perfil',
@@ -34,5 +33,9 @@ export const routes: Routes = [
   {
     path: 'menu-inferior',
     loadComponent: () => import('./menu-inferior/menu-inferior.component').then((m) => m.MenuInferiorComponent),
+  },
+  {
+    path: 'panel-perfil',
+    loadComponent: () => import('./panel-perfil/panel-perfil.component').then((m) => m.PanelPerfilComponent),
   }
 ];

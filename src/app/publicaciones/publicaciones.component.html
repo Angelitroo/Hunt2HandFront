@@ -1,6 +1,6 @@
-<ion-content>
-  <ion-searchbar placeholder="Busca el producto que deseas" animated="true" show-clear-button="focus"></ion-searchbar>
+<app-buscador-menu></app-buscador-menu>
 
+<ion-content>
   <ion-list>
     <ion-grid>
       <ion-row>
@@ -26,6 +26,6 @@
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
-  <app-menu-inferior></app-menu-inferior>
 </ion-content>
+
+<app-menu-inferior></app-menu-inferior>

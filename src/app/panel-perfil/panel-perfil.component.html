@@ -1,0 +1,46 @@
+<ion-content>
+  <app-perfil></app-perfil>
+
+  <br>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <h1>0</h1>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <h1>0</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <h1>Ventas</h1>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <h1>Reseñas</h1>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <br>
+
+  <ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="3" size-lg="3">
+          <ion-card>
+            <ion-card-content class="ion-margin">
+              <ion-img src="*"/>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <app-menu-inferior></app-menu-inferior>
+</ion-content>

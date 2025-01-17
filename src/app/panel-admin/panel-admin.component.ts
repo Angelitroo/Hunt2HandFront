@@ -3,14 +3,14 @@ import {IonicModule} from "@ionic/angular";
 
 @Component({
   selector: 'app-paneladmin',
-  templateUrl: './paneladmin.component.html',
-  styleUrls: ['./paneladmin.component.scss'],
+  templateUrl: './panel-admin.component.html',
+  styleUrls: ['./panel-admin.component.scss'],
   standalone: true,
   imports: [
     IonicModule
   ]
 })
-export class PaneladminComponent  implements OnInit {
+export class PanelAdminComponent implements OnInit {
 
   constructor() { }
 
