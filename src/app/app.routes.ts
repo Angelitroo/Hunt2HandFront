@@ -35,7 +35,23 @@ export const routes: Routes = [
     loadComponent: () => import('./menu-inferior/menu-inferior.component').then((m) => m.MenuInferiorComponent),
   },
   {
-    path: 'panel-perfil',
-    loadComponent: () => import('./panel-perfil/panel-perfil.component').then((m) => m.PanelPerfilComponent),
+    path: 'menu-inferior-admin',
+    loadComponent: () => import('./menu-inferior-admin/menu-inferior-admin.component').then((m) => m.MenuInferiorAdminComponent),
+  },
+  {
+    path: 'panel-admin-publicaciones',
+    loadComponent: () => import('./panel-admin-publicaciones/panel-admin-publicaciones.component').then((m) => m.PanelAdminPublicacionesComponent),
+  },
+  {
+    path: 'panel-admin-perfiles',
+    loadComponent: () => import('./panel-admin-perfiles/panel-admin-perfiles.component').then((m) => m.PanelAdminPerfilesComponent),
+  },
+  {
+    path: 'panel-admin-reportes',
+    loadComponent: () => import('./panel-admin-reportes/panel-admin-reportes.component').then((m) => m.PanelAdminReportesComponent),
+  },
+  {
+    path: 'perfil-configuracion',
+    loadComponent: () => import('./perfil-configuracion/perfil-configuracion.component').then((m) => m.PerfilConfiguracionComponent),
   }
 ];

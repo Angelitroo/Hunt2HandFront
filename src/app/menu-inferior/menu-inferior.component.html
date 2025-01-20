@@ -1,6 +1,6 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom" class="color-app-hover">
-    <ion-tab-button tab="inicio">
+    <ion-tab-button tab="inicio" [routerLink]="'/publicaciones'">
       <ion-icon name="home"></ion-icon>
       <ion-text> Inicio </ion-text>
     </ion-tab-button>
@@ -16,7 +16,7 @@
       <ion-icon name="chatbubbles"></ion-icon>
       <ion-text> Mensajes </ion-text>
     </ion-tab-button>
-    <ion-tab-button tab="cuenta">
+    <ion-tab-button tab="cuenta" [routerLink]="'/perfil'">
       <ion-icon name="person"></ion-icon>
       <ion-text> Cuenta </ion-text>
     </ion-tab-button>

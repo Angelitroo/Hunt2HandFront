@@ -1,29 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
-import {addIcons} from "ionicons";
-import {heartOutline} from "ionicons/icons";
-import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
+import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
 import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
 
 @Component({
-  selector: 'app-publicaciones',
-  templateUrl: './publicaciones.component.html',
-  styleUrls: ['./publicaciones.component.scss'],
+  selector: 'app-panel-admin-publicaciones',
+  templateUrl: './panel-admin-publicaciones.component.html',
+  styleUrls: ['./panel-admin-publicaciones.component.scss'],
   imports: [
     IonicModule,
-    MenuInferiorComponent,
-    BuscadorMenuComponent
+    MenuInferiorAdminComponent,
+    BuscadorMenuComponent,
+    PanelAdminComponent
   ],
   standalone: true
 })
-export class PublicacionesComponent  implements OnInit {
+export class PanelAdminPublicacionesComponent  implements OnInit {
   items: string[] = [];
 
-  constructor() {
-    addIcons({
-      'heart-outline': heartOutline
-    });
-  }
+  constructor() { }
 
   ngOnInit() {
     this.generateItems();

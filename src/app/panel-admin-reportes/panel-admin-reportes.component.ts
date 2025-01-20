@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {PerfilComponent} from "../perfil/perfil.component";
-import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
+import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
+import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
 
 @Component({
-  selector: 'app-panel-perfil',
-  templateUrl: './panel-perfil.component.html',
-  styleUrls: ['./panel-perfil.component.scss'],
+  selector: 'app-panel-admin-reportes',
+  templateUrl: './panel-admin-reportes.component.html',
+  styleUrls: ['./panel-admin-reportes.component.scss'],
   imports: [
-    PerfilComponent,
-    MenuInferiorComponent,
-    IonicModule
+    BuscadorMenuComponent,
+    PanelAdminComponent,
+    IonicModule,
+    MenuInferiorAdminComponent
   ],
   standalone: true
 })
-export class PanelPerfilComponent  implements OnInit {
+export class PanelAdminReportesComponent  implements OnInit {
   items: string[] = [];
 
   constructor() { }

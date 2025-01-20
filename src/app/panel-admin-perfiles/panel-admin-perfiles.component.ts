@@ -1,30 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
-import {addIcons} from "ionicons";
-import {settings, heartOutline} from "ionicons/icons";
-import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
-import {RouterLink} from "@angular/router";
+import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
+import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
 
 @Component({
-  selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.scss'],
+  selector: 'app-panel-admin-perfiles',
+  templateUrl: './panel-admin-perfiles.component.html',
+  styleUrls: ['./panel-admin-perfiles.component.scss'],
   imports: [
     IonicModule,
-    MenuInferiorComponent,
-    RouterLink,
+    BuscadorMenuComponent,
+    PanelAdminComponent,
+    MenuInferiorAdminComponent
   ],
   standalone: true
 })
-export class PerfilComponent  implements OnInit {
+
+export class PanelAdminPerfilesComponent  implements OnInit {
   items: string[] = [];
 
-  constructor() {
-    addIcons({
-      'settings': settings,
-      'heartOutline': heartOutline
-    })
-  }
+  constructor() { }
 
   ngOnInit() {
     this.generateItems();

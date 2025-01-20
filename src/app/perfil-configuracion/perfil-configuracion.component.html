@@ -1,0 +1,62 @@
+<ion-content class="ion-text-center ion-justify-content-center" style="height: 100%; display: flex; flex-direction: column; align-items: center;">
+  <ion-title style="font-size: 2rem; text-align: center; margin-bottom: 4%; margin-top: 4%">
+    <b>Modificar Perfil</b>
+  </ion-title>
+  <ion-grid style="margin-top: 10vh; width: 90%;">
+    <ion-row class="avatar-row">
+      <ion-col size="12" class="ion-text-center">
+        <ion-avatar class="avatar" style="margin: auto; margin-bottom: 5%">
+          <img alt="Silhouette of a person's head" [src]="avatarSrc" />
+        </ion-avatar>
+        <ion-item>
+          <ion-label position="floating" style="text-align: center">URL Imagen</ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Nombre Usuario</ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Ubicación</ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item class="password-item">
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input [type]="passwordFieldType" [(ngModel)]="password"></ion-input>
+          <ion-icon
+            slot="end"
+            [name]="passwordFieldType === 'password' ? 'eye' : 'eye-off'"
+            (click)="togglePasswordVisibility()"
+            style="cursor: pointer;">
+          </ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button class="boton-guardar">
+    Guardar Cambios
+  </ion-button>
+
+  <app-menu-inferior></app-menu-inferior>
+</ion-content>

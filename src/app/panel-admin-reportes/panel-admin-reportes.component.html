@@ -1,0 +1,35 @@
+<app-panel-admin></app-panel-admin>
+<app-buscador-menu></app-buscador-menu>
+
+<ion-content>
+  <ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="12" size-lg="12">
+          <ion-card>
+            <ion-card-content class="ion-margin">
+              <ion-card-subtitle style="font-size: 12px; margin-top: 10px">
+                <b>Reporte de cuenta: Nombre Cuenta (email)</b>
+              </ion-card-subtitle>
+              <ion-card-subtitle style="font-size: 12px">
+                <b>Reportado por Nombre Cuenta</b>
+              </ion-card-subtitle>
+              <ion-card-subtitle style="font-size: 12px">
+                <b>Fecha Reporte</b>
+              </ion-card-subtitle>
+              <ion-card-subtitle style="font-size: 12px">
+                <b>Motivo Reporte</b>
+              </ion-card-subtitle>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<app-menu-inferior-admin></app-menu-inferior-admin>

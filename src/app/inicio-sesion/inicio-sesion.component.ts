@@ -5,7 +5,7 @@ import { Keyboard } from '@capacitor/keyboard';
 import {Router, RouterLink} from "@angular/router";
 import {NavbarComponent} from "../navbar/navbar.component";
 import {addIcons} from "ionicons";
-import {arrowBack} from "ionicons/icons";
+import {arrowBack, eye, eyeOff} from "ionicons/icons";
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -25,10 +25,13 @@ export class InicioSesionComponent implements OnInit {
   username: string = '';
   password: string = '';
   isRegistro: boolean = false;
-
+  passwordFieldType: string = 'password';
 
   constructor(private navController: NavController, private router: Router) {
-    addIcons({ arrowBack });
+    addIcons({
+      'arrowBack': arrowBack,
+      'eye-off': eyeOff,
+      'eye': eye});
   }
 
   ngOnInit() {Keyboard.setScroll({ isDisabled: true });}
@@ -39,5 +42,9 @@ export class InicioSesionComponent implements OnInit {
 
   cambioRegistro() {
     this.isRegistro = !this.isRegistro;
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 }

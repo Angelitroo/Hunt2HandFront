@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Louis George Cafe';
+  src: url('/assets/fonts/Louis George Cafe.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -18,6 +25,14 @@
   .olvidon {
     font-size: 0.8rem;
     margin-left: 120px;
+  }
+
+  ion-input, ion-label {
+    font-family: 'Louis George Cafe', sans-serif;
+  }
+
+  .password-item ion-icon {
+    align-self: center;
   }
 }
 

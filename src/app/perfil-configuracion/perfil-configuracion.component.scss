@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'Louis George Cafe';
+  src: url('/assets/fonts/Louis George Cafe.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.avatar-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.boton-guardar {
+  --background: #994B7C;
+  margin-top: 20px;
+}
+
+ion-input, ion-label {
+  font-family: 'Louis George Cafe', sans-serif;
+}
+
+.password-item ion-icon {
+  align-self: center;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.upload-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+}

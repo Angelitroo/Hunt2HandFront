@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 
 @Component({
-  selector: 'app-paneladmin',
+  selector: 'app-panel-admin',
   templateUrl: './panel-admin.component.html',
   styleUrls: ['./panel-admin.component.scss'],
   standalone: true,
