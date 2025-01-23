@@ -4,6 +4,10 @@ import {addIcons} from "ionicons";
 import {heartOutline} from "ionicons/icons";
 import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
 import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {ProductosService} from "../services/productos.service";
+import {Producto} from "../modelos/Producto";
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-publicaciones',
@@ -12,14 +16,17 @@ import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
   imports: [
     IonicModule,
     MenuInferiorComponent,
-    BuscadorMenuComponent
+    BuscadorMenuComponent,
+    CommonModule
   ],
   standalone: true
 })
 export class PublicacionesComponent  implements OnInit {
   items: string[] = [];
+  productos: Producto[] = [];
 
-  constructor() {
+
+  constructor(private productosService: ProductosService) {
     addIcons({
       'heart-outline': heartOutline
     });
@@ -27,6 +34,14 @@ export class PublicacionesComponent  implements OnInit {
 
   ngOnInit() {
     this.generateItems();
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error fetching productos', err);
+      }
+    });
   }
 
   private generateItems() {

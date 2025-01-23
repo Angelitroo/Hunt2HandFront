@@ -13,6 +13,7 @@ export class ProductosService {
 
   getProductos(): Observable<Producto[]> {
     const options = this.authService.getAuthHeaders();
+    console.log('GET /api/productos', options);
     return this.httpClient.get<Producto[]>('/api/productos', options);
   }
 

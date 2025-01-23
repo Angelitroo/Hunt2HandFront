@@ -13,6 +13,7 @@ export class PerfilesService {
 
   getPerfiles(): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
+    console.log('GET /api/perfiles', options);
     return this.httpClient.get<Perfil[]>('api/perfiles/', options);
   }
 
