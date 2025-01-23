@@ -1,0 +1,84 @@
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+  margin-left: 10px;
+
+}
+
+.preview-container ion-card {
+  height: 110px;
+  width: 110px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  border-radius: 15px;
+  border: 1px solid black;
+
+}
+
+.preview-container img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.image-preview-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #777;
+}
+
+.custom-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+ion-item {
+  --border-color: #994B7C;
+}
+
+.align-items-center {
+  align-items: center;
+  display: flex;
+}
+
+.horizontal-button-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 1px;
+}
+
+.outlined-button {
+  --background: #994B7C;
+  --background-activated: #7a3a63;
+  --background-focused: #7a3a63;
+  --background-hover: #7a3a63;
+  --color: #fff;
+  --border-color: #000;
+  --border-width: 1px;
+  --border-style: solid;
+  font-size: 12px;
+  padding: 5px 0px;
+  border-radius: 5px;
+}
+
+.large-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-button {
+  --background: #994B7C;
+  --background-activated: #7a3a63;
+  --background-focused: #7a3a63;
+  --background-hover: #7a3a63;
+  --color: #fff;
+  font-size: 20px;
+  width: 70%;
+  height: 60px;
+  border: 1px solid #000;
+  border-radius: 10px;
+}

@@ -53,5 +53,10 @@ export const routes: Routes = [
   {
     path: 'perfil-configuracion',
     loadComponent: () => import('./perfil-configuracion/perfil-configuracion.component').then((m) => m.PerfilConfiguracionComponent),
+  },
+
+  {
+    path: 'crear-producto',
+    loadComponent: () => import('./crear-producto/crear-producto.component').then((m) => m.CrearProductoComponent),
   }
 ];
