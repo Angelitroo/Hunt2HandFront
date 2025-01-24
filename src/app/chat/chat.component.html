@@ -1,0 +1,34 @@
+<ion-content class="chat-container">
+  <ion-grid>
+    <ion-row class="message-row received">
+      <ion-col class="message-content">
+        <div class="message-bubble">
+          Hola, ¿cómo estás?
+        </div>
+        <p class="message-time">10:45 AM</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="message-row sent">
+      <ion-col class="message-content">
+        <div class="message-bubble">
+          ¡Hola! Todo bien, ¿y tú?
+        </div>
+        <p class="message-time">10:46 AM</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <div class="chat-input-container">
+    <ion-item lines="none">
+      <ion-input placeholder="Escribe un mensaje..."></ion-input>
+      <ion-icon name="send" slot="end" class="send-icon"></ion-icon>
+    </ion-item>
+  </div>
+
+  <div class="menu-inferior-container">
+    <app-menu-inferior></app-menu-inferior>
+  </div>
+</ion-footer>

@@ -6,7 +6,7 @@ import {Router, RouterLink} from "@angular/router";
 import {NavbarComponent} from "../navbar/navbar.component";
 import {addIcons} from "ionicons";
 import {arrowBack, eye, eyeOff} from "ionicons/icons";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-iniciosesion',
@@ -19,13 +19,25 @@ import {NgIf} from "@angular/common";
     RouterLink,
     NavbarComponent,
     NgIf,
+    NgForOf,
   ]
 })
 export class InicioSesionComponent implements OnInit {
   username: string = '';
   password: string = '';
+  ubicacion: string = '';
   isRegistro: boolean = false;
   passwordFieldType: string = 'password';
+  provincias: string[] = [
+    'Álava', 'Albacete', 'Alicante', 'Almería', 'Asturias', 'Ávila', 'Badajoz',
+    'Barcelona', 'Burgos', 'Cáceres', 'Cádiz', 'Cantabria', 'Castellón',
+    'Ciudad Real', 'Córdoba', 'Cuenca', 'Gerona', 'Granada', 'Guadalajara',
+    'Guipúzcoa', 'Huelva', 'Huesca', 'Islas Baleares', 'Jaén', 'La Coruña',
+    'La Rioja', 'Las Palmas', 'León', 'Lérida', 'Lugo', 'Madrid', 'Málaga',
+    'Murcia', 'Navarra', 'Orense', 'Palencia', 'Pontevedra', 'Salamanca',
+    'Segovia', 'Sevilla', 'Soria', 'Tarragona', 'Tenerife', 'Teruel', 'Toledo',
+    'Valencia', 'Valladolid', 'Vizcaya', 'Zamora', 'Zaragoza'
+  ];
 
   constructor(private navController: NavController, private router: Router) {
     addIcons({

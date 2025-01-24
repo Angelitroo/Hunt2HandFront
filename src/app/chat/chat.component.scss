@@ -1,0 +1,68 @@
+.chat-container {
+  --background: #f0f0f0;
+  padding: 10px;
+}
+
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 15px;
+}
+
+.message-row.received {
+  justify-content: flex-start;
+}
+
+.message-row.sent {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 75%;
+}
+
+.message-bubble {
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.message-row.sent .message-bubble {
+  background-color: #994B7C; /* Color del emisor */
+  color: white;
+}
+
+.message-time {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+/* Input de mensaje */
+.chat-input-container {
+  background-color: #ffffff;
+  padding: 5px 10px;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input-container ion-item {
+  --padding-start: 10px;
+  --background: #f9f9f9;
+  border-radius: 20px;
+  margin-bottom: 30px; /* Espaciado entre el input y el menú */
+}
+
+.send-icon {
+  font-size: 20px;
+  color: #994B7C;
+  cursor: pointer;
+}
+
+.menu-inferior-container {
+  background-color: #ffffff;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}

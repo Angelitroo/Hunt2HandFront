@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  overflow: hidden;
 
   ion-card {
     width: 100%;
@@ -34,6 +35,17 @@
   .password-item ion-icon {
     align-self: center;
   }
+
+  .registroinicio{
+    --background: #994B7C;
+    --background-activated: #7a3a63;
+    --background-focused: #7a3a63;
+    --background-hover: #7a3a63;
+    --color: #fff;
+    --border-color: #000;
+  }
+
+
 }
 
 

@@ -58,5 +58,15 @@ export const routes: Routes = [
   {
     path: 'crear-producto',
     loadComponent: () => import('./crear-producto/crear-producto.component').then((m) => m.CrearProductoComponent),
-  }
+  },
+
+  {
+    path: 'chat',
+    loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
+  },
+
+  {
+    path: 'dentro-chat',
+    loadComponent: () => import('./dentro-chat/dentro-chat.component').then((m) => m.DentroChatComponent),
+  },
 ];
