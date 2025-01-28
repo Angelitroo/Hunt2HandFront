@@ -1,32 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import {Producto} from "../modelos/Producto";
-import {ProductosService} from "../services/productos.service";
-import {Router} from "@angular/router";
+import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import {heartOutline} from "ionicons/icons";
-import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
-import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
 import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
-import {NgForOf} from "@angular/common";
+import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
+import {ProductosService} from "../services/productos.service";
+import {Producto} from "../modelos/Producto";
+import { CommonModule } from '@angular/common';
+
 
 @Component({
-  selector: 'app-favoritos',
-  templateUrl: './favoritos.component.html',
-  styleUrls: ['./favoritos.component.scss'],
+  selector: 'app-publicaciones',
+  templateUrl: './publicaciones.component.html',
+  styleUrls: ['./publicaciones.component.scss'],
   imports: [
     IonicModule,
-    BuscadorMenuComponent,
     MenuInferiorComponent,
-    NgForOf
+    BuscadorMenuComponent,
+    CommonModule
   ],
   standalone: true
 })
-
-export class FavoritosComponent  implements OnInit {
+export class PublicacionesComponent  implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
 
-  constructor(private productosService: ProductosService, private router: Router) {
+
+  constructor(private productosService: ProductosService) {
     addIcons({
       'heart-outline': heartOutline
     });
@@ -67,10 +67,6 @@ export class FavoritosComponent  implements OnInit {
         console.error('Error fetching productos', err);
       }
     });
-  }
-
-  verProducto(id: number) {
-    this.router.navigate(['/publicaciones', id]);
   }
 
   onSearch(searchValue: string) {
