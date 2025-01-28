@@ -3,6 +3,9 @@ import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
 import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
 import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
+import {ProductosService} from "../services/productos.service";
+import {Producto} from "../modelos/Producto";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-panel-admin-publicaciones',
@@ -12,17 +15,28 @@ import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
     IonicModule,
     MenuInferiorAdminComponent,
     BuscadorMenuComponent,
-    PanelAdminComponent
+    PanelAdminComponent,
+    CommonModule
   ],
   standalone: true
 })
 export class PanelAdminPublicacionesComponent  implements OnInit {
   items: string[] = [];
+  productos: Producto[] = [];
 
-  constructor() { }
+
+  constructor(private productosService: ProductosService) {}
 
   ngOnInit() {
     this.generateItems();
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error fetching productos', err);
+      }
+    });
   }
 
   private generateItems() {
