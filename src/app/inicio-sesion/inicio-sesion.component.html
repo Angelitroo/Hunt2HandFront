@@ -11,25 +11,25 @@
 
       <ion-card-content>
         <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="email" [(ngModel)]="username" required></ion-input>
+          <ion-label position="floating">Nombre de usuario</ion-label>
+          <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
         </ion-item>
 
         <ion-item class="password-item">
           <ion-label position="floating">Contraseña</ion-label>
-            <ion-input [type]="passwordFieldType" [(ngModel)]="password"></ion-input>
-            <ion-icon
-              slot="end"
-              [name]="passwordFieldType === 'password' ? 'eye' : 'eye-off'"
-              (click)="togglePasswordVisibility()"
-              style="cursor: pointer;">
-            </ion-icon>
+          <ion-input [type]="passwordFieldType" [(ngModel)]="password" required></ion-input>
+          <ion-icon
+            slot="end"
+            [name]="passwordFieldType === 'password' ? 'eye' : 'eye-off'"
+            (click)="togglePasswordVisibility()"
+            style="cursor: pointer;">
+          </ion-icon>
         </ion-item>
 
-        <ion-button expand="full" (click)="login()">Iniciar Sesión</ion-button>
+        <ion-button expand="full" (click)="login()" class="registroinicio">Iniciar Sesión</ion-button>
         <p>¿Quiere crear una cuenta?</p>
-        <a (click)="cambioRegistro()" style="color: var(--ion-color-secondary);">Registrate</a>
-        <a [routerLink]="'/recuperarpassword'" class="olvidon" style="color: var(--ion-color-secondary);">
+        <a (click)="cambioRegistro()" style="color: #994B7C;">Registrate</a>
+        <a [routerLink]="'/recuperarpassword'" class="olvidon" style="color: #994B7C;">
           ¿Olvidó la contraseña?
         </a>
       </ion-card-content>
@@ -47,42 +47,36 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" [(ngModel)]="nombre" required></ion-input>
+          <ion-input type="text" [(ngModel)]="nombre" name="nombre" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Apellidos</ion-label>
-          <ion-input type="text" [(ngModel)]="apellidos" required></ion-input>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input type="text" [(ngModel)]="apellido" name="apellido" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Correo Electrónico</ion-label>
-          <ion-input type="email" [(ngModel)]="mail" required></ion-input>
+          <ion-label position="floating" style="margin-bottom: 20px">Ubicación</ion-label>
+          <ion-select [(ngModel)]="ubicacion" name="ubicacion" placeholder="Selecciona una provincia">
+            <ion-select-option *ngFor="let provincia of provincias" [value]="provincia">
+              {{ provincia }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Fecha de Nacimiento</ion-label>
-          <ion-input type="date" [(ngModel)]="fechaNacimiento" required></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">DNI</ion-label>
-          <ion-input type="text" [(ngModel)]="dni" required></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="text" [(ngModel)]="username" required></ion-input>
+          <ion-label position="floating">Nombre de usuario</ion-label>
+          <ion-input type="text" [(ngModel)]="username" name="username" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="password" required></ion-input>
+          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
         </ion-item>
 
-        <ion-button expand="full" (click)="register()">Crear Cuenta</ion-button>
+        <ion-button expand="full" (click)="register()" class="registroinicio">Crear Cuenta</ion-button>
         <p>¿Ya tiene cuenta?</p>
-        <a (click)="cambioRegistro()" style="color: var(--ion-color-secondary);">Inicie sesión</a>
+        <a (click)="cambioRegistro()" style="color: #994B7C;">Inicie sesión</a>
       </ion-card-content>
     </ion-card>
   </div>

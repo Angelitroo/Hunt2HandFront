@@ -7,9 +7,10 @@ import { NavbarComponent } from "../navbar/navbar.component";
 import { addIcons } from "ionicons";
 import { arrowBack, eye, eyeOff } from "ionicons/icons";
 import { NgIf } from "@angular/common";
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from "@angular/common";
 import { AuthService } from '../services/auth.service';
 import { Registro } from '../modelos/Registro';
+import {LoginService} from "../services/login.service";
 
 @Component({
   selector: 'app-iniciosesion',
@@ -22,24 +23,37 @@ import { Registro } from '../modelos/Registro';
     RouterLink,
     NavbarComponent,
     NgIf,
+    CommonModule
   ]
 })
 
 export class InicioSesionComponent implements OnInit {
-  username: string = '';
-  password: string = '';
+
   isRegistro: boolean = false;
   passwordFieldType: string = 'password';
   nombre: string = '';
-  apellidos: string = '';
-  mail: string = '';
-  fechaNacimiento: string = '';
-  dni: string = '';
+  apellido: string = '';
+  ubicacion: string = '';
+  username: string = '';
+  password: string = '';
+  role: string = '1';
+  provincias: string[] = [
+    'Álava', 'Albacete', 'Alicante', 'Almería', 'Asturias', 'Ávila', 'Badajoz',
+    'Barcelona', 'Burgos', 'Cáceres', 'Cádiz', 'Cantabria', 'Castellón',
+    'Ciudad Real', 'Córdoba', 'Cuenca', 'Gerona', 'Granada', 'Guadalajara',
+    'Guipúzcoa', 'Huelva', 'Huesca', 'Islas Baleares', 'Jaén', 'La Coruña',
+    'La Rioja', 'Las Palmas', 'León', 'Lérida', 'Lugo', 'Madrid', 'Málaga',
+    'Murcia', 'Navarra', 'Orense', 'Palencia', 'Pontevedra', 'Salamanca',
+    'Segovia', 'Sevilla', 'Soria', 'Tarragona', 'Tenerife', 'Teruel', 'Toledo',
+    'Valencia', 'Valladolid', 'Vizcaya', 'Zamora', 'Zaragoza'
+  ];
+
+
 
   constructor(
     private navController: NavController,
     private router: Router,
-    private http: HttpClient,
+    private loginService: LoginService,
     private authService: AuthService,
     private platform: Platform
   ) {
@@ -76,10 +90,11 @@ export class InicioSesionComponent implements OnInit {
 
     console.log('Datos de login:', loginData);
 
-    this.http.post<{ token: string }>('/api/auth/login', loginData).subscribe({
+    this.loginService.login(loginData).subscribe({
       next: response => {
         console.log('Login successful, received token:', response.token);
         this.authService.setToken(response.token);
+        this.loginService.setAuthState(true);
         console.log('Token saved to local storage:', this.authService.getToken());
         this.router.navigate(['/publicaciones']);
       },
@@ -92,15 +107,16 @@ export class InicioSesionComponent implements OnInit {
   register(): void {
     const registro: Registro = {
       nombre: this.nombre,
-      apellidos: this.apellidos,
-      mail: this.mail,
-      fechaNacimiento: this.fechaNacimiento,
-      dni: this.dni,
+      apellido: this.apellido,
+      ubicacion: this.ubicacion,
       username: this.username,
-      password: this.password
+      password: this.password,
+      rol: this.role
     };
 
-    this.http.post('api/auth/register', registro).subscribe({
+    console.log('Registro completado', JSON.stringify(registro));
+
+    this.loginService.register(registro).subscribe({
       next: () => {
         this.cambioRegistro();
       },
