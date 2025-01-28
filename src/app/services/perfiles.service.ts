@@ -36,4 +36,9 @@ export class PerfilesService {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.post<Perfil>('/perfiles/', perfil, options);
   }
+
+  buscarPorNombre(nombre: string): Observable<Perfil[]> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil[]>(`/api/perfiles/buscar/${nombre}`, options);
+  }
 }

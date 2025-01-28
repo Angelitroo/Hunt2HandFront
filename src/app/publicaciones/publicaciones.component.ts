@@ -57,4 +57,31 @@ export class PublicacionesComponent  implements OnInit {
       event.target.complete();
     }, 500);
   }
+
+  private getProductos() {
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error fetching productos', err);
+      }
+    });
+  }
+
+  onSearch(searchValue: string) {
+    if (searchValue) {
+      this.productosService.getProductoByNombre(searchValue).subscribe({
+        next: (data) => {
+          this.productos = Array.isArray(data) ? data : [data];
+        },
+        error: (err) => {
+          console.error('Error fetching producto by nombre', err);
+          this.productos = [];
+        }
+      });
+    } else {
+      this.getProductos();
+    }
+  }
 }

@@ -1,4 +1,4 @@
-<app-buscador-menu></app-buscador-menu>
+<app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
 
 <ion-content>
   <ion-list>
@@ -9,7 +9,7 @@
             <ion-card-content class="ion-margin">
               <ion-img [src]="'https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'"/>
               <ion-card-title class="price-container" style="margin-top: 10px">
-                {{ producto.precio }}
+                {{ producto.precio + "€"}}
                 <ion-button fill="clear" class="ion-float-end">
                   <ion-icon name="heart-outline" class="heart-icon"></ion-icon>
                 </ion-button>
