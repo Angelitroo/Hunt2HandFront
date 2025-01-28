@@ -36,7 +36,7 @@ export class LoginService {
 
 
   registrar(registro: Registro): Observable<any>{
-    return this.http.post<any>(`api/auth/registro/perfil`,registro) ;
+    return this.http.post<any>(`api/auth/registro`,registro) ;
   }
 
 }
