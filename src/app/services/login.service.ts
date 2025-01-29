@@ -10,33 +10,20 @@ import {Registro} from "../modelos/Registro";
 })
 export class LoginService {
 
-  private authState = new BehaviorSubject<boolean>(!!sessionStorage.getItem('authToken'));
+  private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
+
   setAuthState(isAuthenticated: boolean): void {
     this.authState.next(isAuthenticated);
   }
 
-
-  loguear(login: Login): Observable<any>{
-    return this.http.post<any>(`api/auth/login`,login) ;
+  login(loginData: Login): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>('api/auth/login', loginData);
   }
 
-  autorizarPeticion() {
-    const headers:HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
-    });
-
-    return {headers: headers}
+  register(registro: Registro): Observable<any> {
+    return this.http.post<any>('api/auth/registro', registro);
   }
-
-
-
-  registrar(registro: Registro): Observable<any>{
-    return this.http.post<any>(`api/auth/registro`,registro) ;
-  }
-
 }
