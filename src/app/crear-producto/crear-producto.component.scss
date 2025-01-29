@@ -13,6 +13,7 @@
   margin-bottom: 5px;
   border-radius: 15px;
   border: 1px solid black;
+
 }
 
 .preview-container img {
@@ -28,8 +29,9 @@
 }
 
 .url-input-container {
-  margin-left: 0; /* Eliminado margen adicional */
-  padding-left: 10px; /* Espaciado entre el preview y el input */
+  margin: 0;
+  padding: 0;
+  float: left;
 }
 
 .custom-label {

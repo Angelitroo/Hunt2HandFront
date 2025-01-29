@@ -1,3 +1,32 @@
+<ion-header>
+  <ion-toolbar style="cursor: pointer;">
+    <ion-avatar slot="start" class="navbar-avatar">
+      <img src="../../assets/iconoperfil.png" />
+    </ion-avatar>
+
+    <ion-title class="nombreusuario">Angel Andrada</ion-title>
+    <div class="estrellas">
+
+      <button fill="clear" class="estrella-btn" id="estrella1" (click)="pulsada1()">
+        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 1}" name="star" size="large"></ion-icon>
+      </button>
+      <button fill="clear" class="estrella-btn" id="estrella2" (click)="pulsada2()">
+        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 2}" name="star" size="large"></ion-icon>
+      </button>
+      <button fill="clear" class="estrella-btn" id="estrella3" (click)="pulsada3()">
+        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 3}" name="star" size="large"></ion-icon>
+      </button>
+      <button fill="clear" class="estrella-btn" id="estrella4" (click)="pulsada4()">
+        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 4}" name="star" size="large"></ion-icon>
+      </button>
+      <button fill="clear" class="estrella-btn" id="estrella5" (click)="pulsada5()">
+        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 5}" name="star" size="large"></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
 <ion-content class="chat-container">
   <ion-grid>
     <ion-row class="message-row received">
@@ -20,15 +49,15 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer>
+<ion-toolbar style="background-color: #f0f0f0">
   <div class="chat-input-container">
-    <ion-item lines="none">
-      <ion-input placeholder="Escribe un mensaje..."></ion-input>
-      <ion-icon name="send" slot="end" class="send-icon"></ion-icon>
-    </ion-item>
+    <div class="chat-input">
+      <input type="text" placeholder="Escribe un mensaje..." class="input-field" />
+      <ion-icon name="send" class="send-icon"></ion-icon>
+    </div>
   </div>
 
   <div class="menu-inferior-container">
     <app-menu-inferior></app-menu-inferior>
   </div>
-</ion-footer>
+</ion-toolbar>
