@@ -67,17 +67,21 @@ export class CrearProductoComponent implements OnInit {
 
   ngOnInit() {}
 
-  onCategoriaChange(event: any) {
-    this.producto.categoria = event.detail.value;
-  }
+  crearProducto(): void {
+    const nuevoProducto: Partial<Producto> = {
+      nombre: this.producto.nombre,
+      categoria: this.producto.categoria,
+      descripcion: this.producto.descripcion,
+      precio: this.producto.precio,
+      estado: this.producto.estado,
+      imagen: this.imagePath,
+      vendido: false,
+      perfil: this.perfilId
+    };
 
-  onEstadoChange(estado: string) {
-    this.producto.estado = estado;
-  }
+    console.log('Producto a crear:', JSON.stringify(nuevoProducto));
 
-  crearProducto() {
-    this.producto.imagen = this.imagePath;
-    this.productosService.guardarProducto(this.perfilId, this.producto).subscribe({
+    this.productosService.guardarProducto(this.perfilId, nuevoProducto).subscribe({
       next: () => {
         console.log('Producto creado exitosamente');
         this.router.navigate(['/productos']);
@@ -87,4 +91,5 @@ export class CrearProductoComponent implements OnInit {
       }
     });
   }
+
 }

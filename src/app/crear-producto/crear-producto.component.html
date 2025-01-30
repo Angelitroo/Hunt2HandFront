@@ -38,7 +38,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked" class="custom-label" style="margin-bottom: 10px">Categoría</ion-label>
-          <ion-select name="categoria" placeholder="Selecciona una categoria" (ionChange)="onCategoriaChange($event)">
+          <ion-select name="categoria" placeholder="Selecciona una categoria" [(ngModel)]="producto.categoria">
             <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
               {{ categoria }}
             </ion-select-option>
@@ -80,10 +80,10 @@
         <ion-item>
           <ion-label class="custom-label" position="stacked" style="margin-bottom:15px">Estado del Producto</ion-label>
           <div class="horizontal-button-container">
-            <ion-button class="outlined-button" (click)="onEstadoChange('Muy usado')">Muy usado</ion-button>
-            <ion-button class="outlined-button" (click)="onEstadoChange('Usado')">Usado</ion-button>
-            <ion-button class="outlined-button" (click)="onEstadoChange('Casi nuevo')">Casi nuevo</ion-button>
-            <ion-button class="outlined-button" (click)="onEstadoChange('Nuevo')">Nuevo</ion-button>
+            <ion-button class="outlined-button" (click)="producto.estado = 'Muy usado'">Muy usado</ion-button>
+            <ion-button class="outlined-button" (click)="producto.estado = 'Usado'">Usado</ion-button>
+            <ion-button class="outlined-button" (click)="producto.estado = 'Casi nuevo'">Casi nuevo</ion-button>
+            <ion-button class="outlined-button" (click)="producto.estado = 'Nuevo'">Nuevo</ion-button>
           </div>
         </ion-item>
       </ion-col>
