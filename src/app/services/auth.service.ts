@@ -1,3 +1,4 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -9,27 +10,22 @@ export class AuthService {
 
   constructor() {}
 
-  // Save token in the browser
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  // Retrieve token
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  // Remove token
   clearToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
 
-  // Check if authenticated
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-  // Get headers
   getAuthHeaders(): { headers: HttpHeaders } {
     const token = this.getToken();
     const headers = new HttpHeaders({
@@ -37,5 +33,20 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     });
     return { headers };
+  }
+
+  getPerfilIdFromToken(): number | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload); // Log the token payload
+        return payload.tokenDataDTO?.id || null;
+      } catch (e) {
+        console.error('Error decoding token:', e);
+        return null;
+      }
+    }
+    return null;
   }
 }

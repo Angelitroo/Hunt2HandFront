@@ -48,8 +48,6 @@ export class InicioSesionComponent implements OnInit {
     'Valencia', 'Valladolid', 'Vizcaya', 'Zamora', 'Zaragoza'
   ];
 
-
-
   constructor(
     private navController: NavController,
     private router: Router,
