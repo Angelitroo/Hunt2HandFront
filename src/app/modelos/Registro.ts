@@ -1,11 +1,10 @@
 export class Registro{
 
-  nombre?:string;
-  apellidos?:string;
-  mail?:string;
-  fechaNacimiento?:string;
-  dni?:string;
-  username?:string;
-  password?:string;
+  nombre?: string;
+  apellido?: string;
+  ubicacion?: string;
+  username?: string;
+  password?: string;
+  rol?: string;
 
 }

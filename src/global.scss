@@ -72,3 +72,37 @@ hr {
 ion-text, h1, h2, h3, h4, h5, h6, ion-title, ion-card-subtitle, ion-card-title, ion-button, ion-item, p, a {
   font-family: "Louis George Cafe";
 }
+
+ion-content {
+  padding-top: 120px;
+  padding-bottom: 50px;
+  box-sizing: border-box;
+}
+
+app-buscador-menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 1%;
+}
+
+app-menu-inferior {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 50px;
+}
+
+.grid-container {
+  position: absolute;
+  top: 7%;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  padding: 0 16px;
+  z-index: 500;
+}
+

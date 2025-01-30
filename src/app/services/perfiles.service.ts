@@ -24,6 +24,7 @@ export class PerfilesService {
 
   getPerfilById(id: number): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
+    console.log(`GET /api/perfiles/${id}`, options);
     return this.httpClient.get<Perfil>(`/api/perfiles/${id}`, options);
   }
 
@@ -40,5 +41,10 @@ export class PerfilesService {
   crearPerfil(perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.post<Perfil>('/perfiles/', perfil, options);
+  }
+
+  buscarPorNombre(nombre: string): Observable<Perfil[]> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil[]>(`/api/perfiles/buscar/${nombre}`, options);
   }
 }

@@ -8,7 +8,7 @@ import {Producto} from "../modelos/Producto";
 import {CommonModule} from "@angular/common";
 
 @Component({
-  selector: 'app-panel-admin-publicaciones',
+  selector: 'app-panel-admin-productos',
   templateUrl: './panel-admin-publicaciones.component.html',
   styleUrls: ['./panel-admin-publicaciones.component.scss'],
   imports: [

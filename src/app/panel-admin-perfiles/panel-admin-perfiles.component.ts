@@ -40,6 +40,15 @@ export class PanelAdminPerfilesComponent implements OnInit {
     );
   }
 
+  private getPerfiles() {
+    this.perfilesService.getPerfiles().subscribe(
+      (data: Perfil[]) => {
+        console.log('Perfiles cargados:', data);
+        this.perfiles = data;
+      },
+      (error) => console.error('Error al cargar perfiles:', error)
+    );
+  }
   buscarPerfil() {
     if (this.username) {
       this.perfilesService.getPerfilByUsername(this.username).subscribe((perfil: Perfil) => {
@@ -83,5 +92,21 @@ export class PanelAdminPerfilesComponent implements OnInit {
     setTimeout(() => {
       event.target.complete();
     }, 500);
+  }
+
+  onSearch(searchValue: string) {
+    if (searchValue) {
+      this.perfilesService.buscarPorNombre(searchValue).subscribe({
+        next: (data) => {
+          this.perfiles = data;
+        },
+        error: (err) => {
+          console.error('Error fetching perfiles by nombre', err);
+          this.perfiles = [];
+        }
+      });
+    } else {
+      this.getPerfiles();
+    }
   }
 }

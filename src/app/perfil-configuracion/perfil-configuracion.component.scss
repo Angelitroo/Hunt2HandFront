@@ -60,3 +60,12 @@ ion-input, ion-label {
   cursor: pointer;
   border: none;
 }
+
+app-menu-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 50px;
+}

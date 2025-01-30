@@ -1,5 +1,5 @@
 <app-panel-admin></app-panel-admin>
-<app-buscador-menu></app-buscador-menu>
+<app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
 
 <ion-content>
   <ion-list>

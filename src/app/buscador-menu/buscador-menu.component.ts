@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-buscador-menu',
@@ -11,9 +12,15 @@ import {IonicModule} from "@ionic/angular";
   ]
 })
 export class BuscadorMenuComponent implements OnInit {
+  @Output() searchEvent = new EventEmitter<{ searchValue: any, url: any }>();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
+  onSearchChange(event: any) {
+    const searchValue = event.target.value;
+    const url = this.router.url;
+    this.searchEvent.emit({ searchValue, url });
+  }
 }

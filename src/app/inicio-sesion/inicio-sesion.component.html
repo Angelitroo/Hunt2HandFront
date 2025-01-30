@@ -26,7 +26,7 @@
           </ion-icon>
         </ion-item>
 
-        <ion-button expand="full" class="registroinicio">Iniciar Sesión</ion-button>
+        <ion-button expand="full" (click)="login()" class="registroinicio">Iniciar Sesión</ion-button>
         <p>¿Quiere crear una cuenta?</p>
         <a (click)="cambioRegistro()" style="color: #994B7C;">Registrate</a>
         <a [routerLink]="'/recuperarpassword'" class="olvidon" style="color: #994B7C;">
@@ -47,17 +47,17 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" name="nombre" required></ion-input>
+          <ion-input type="text" [(ngModel)]="nombre" name="nombre" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Apellido</ion-label>
-          <ion-input type="text" name="apellido" required></ion-input>
+          <ion-input type="text" [(ngModel)]="apellido" name="apellido" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating" style="margin-bottom: 20px">Ubicación</ion-label>
-          <ion-select   name="ubicacion" placeholder="Selecciona una provincia">
+          <ion-select [(ngModel)]="ubicacion" name="ubicacion" placeholder="Selecciona una provincia">
             <ion-select-option *ngFor="let provincia of provincias" [value]="provincia">
               {{ provincia }}
             </ion-select-option>
@@ -74,7 +74,7 @@
           <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
         </ion-item>
 
-        <ion-button expand="full" class="registroinicio">Crear Cuenta</ion-button>
+        <ion-button expand="full" (click)="register()" class="registroinicio">Crear Cuenta</ion-button>
         <p>¿Ya tiene cuenta?</p>
         <a (click)="cambioRegistro()" style="color: #994B7C;">Inicie sesión</a>
       </ion-card-content>
