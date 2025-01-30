@@ -41,7 +41,7 @@ export class ProductosService {
     return this.httpClient.put<Producto>(`/api/productos/${id}`, producto, options);
   }
 
-  crearProducto(producto: Producto): Observable<Producto> {
+  guardarProducto(producto: Producto): Observable<Producto> {
     const options = this.authService.getAuthHeaders();
     console.log('POST /api/productos', producto, options);
     return this.httpClient.post<Producto>('/api/productos', producto, options);

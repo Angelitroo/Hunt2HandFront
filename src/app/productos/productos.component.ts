@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
-import {addIcons} from "ionicons";
-import {heartOutline} from "ionicons/icons";
-import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
-import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
-import {ProductosService} from "../services/productos.service";
-import {Producto} from "../modelos/Producto";
+import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
+import { addIcons } from "ionicons";
+import { heartOutline } from "ionicons/icons";
+import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
+import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
+import { ProductosService } from "../services/productos.service";
+import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
-
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-publicaciones',
-  templateUrl: './publicaciones.component.html',
-  styleUrls: ['./publicaciones.component.scss'],
+  selector: 'app-productos',
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.scss'],
   imports: [
     IonicModule,
     MenuInferiorComponent,
@@ -21,12 +21,11 @@ import { CommonModule } from '@angular/common';
   ],
   standalone: true
 })
-export class PublicacionesComponent  implements OnInit {
+export class ProductosComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
 
-
-  constructor(private productosService: ProductosService) {
+  constructor(private productosService: ProductosService, private router: Router) {
     addIcons({
       'heart-outline': heartOutline
     });
@@ -67,6 +66,10 @@ export class PublicacionesComponent  implements OnInit {
         console.error('Error fetching productos', err);
       }
     });
+  }
+
+  verProducto(id: number) {
+    this.router.navigate(['/publicaciones', id]);
   }
 
   onSearch(searchValue: string) {

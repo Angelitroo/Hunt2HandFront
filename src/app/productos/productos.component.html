@@ -1,0 +1,33 @@
+<ion-content>
+  <app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
+
+  <ion-list class="grid-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
+          <ion-card tappable (click)="verProducto(producto.id)">
+            <ion-card-content class="ion-margin" >
+              <ion-img [src]="producto.imagen"/>
+              <ion-card-title class="price-container" style="margin-top: 10px">
+                {{ producto.precio + "€"}}
+                <ion-button fill="clear" class="ion-float-end" >
+                  <ion-icon name="heart-outline" class="heart-icon"></ion-icon>
+                </ion-button>
+              </ion-card-title>
+              <ion-card-subtitle class="product-name">
+                <b>{{ producto.nombre }}</b>
+              </ion-card-subtitle>
+              <ion-card-subtitle class="ion-text-end">{{ producto.descripcion }}</ion-card-subtitle>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <app-menu-inferior></app-menu-inferior>
+</ion-content>

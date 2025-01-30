@@ -96,7 +96,7 @@ export class InicioSesionComponent implements OnInit {
         this.authService.setToken(response.token);
         this.loginService.setAuthState(true);
         console.log('Token saved to local storage:', this.authService.getToken());
-        this.router.navigate(['/publicaciones']);
+        this.router.navigate(['/productos']);
       },
       error: err => {
         console.error('Error de inicio de sesión', err);
