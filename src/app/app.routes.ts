@@ -62,4 +62,9 @@ export const routes: Routes = [
     path: 'favoritos',
     loadComponent: () => import('./favoritos/favoritos.component').then((m) => m.FavoritosComponent),
   }
+  ,
+  {
+    path: 'crear-producto/:id',
+    loadComponent: () => import('./crear-producto/crear-producto.component').then((m) => m.CrearProductoComponent),
+  }
 ];

@@ -7,7 +7,7 @@
           <p class="image-preview-text">Previsualización</p>
         </ion-card>
       </ion-col>
-      <ion-col   class="url-input-container" >
+      <ion-col class="url-input-container">
         <ion-item>
           <ion-label class="custom-label" position="stacked">Foto del Producto</ion-label>
           <ion-input
@@ -20,8 +20,6 @@
       </ion-col>
     </ion-row>
 
-
-
     <ion-row class="custom-row">
       <ion-col>
         <ion-item>
@@ -29,65 +27,75 @@
           <ion-input
             type="text"
             placeholder="Nombre del Producto"
+            [(ngModel)]="producto.nombre"
             required>
           </ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row class="custom-row">
       <ion-col>
-    <ion-item>
-      <ion-label position="stacked" class="custom-label" style="margin-bottom: 10px">Categoría</ion-label>
-      <ion-select   name="ubicacion" placeholder="Selecciona una categoria">
-        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
-          {{ categoria }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked" class="custom-label" style="margin-bottom: 10px">Categoría</ion-label>
+          <ion-select name="categoria" placeholder="Selecciona una categoria" (ionChange)="onCategoriaChange($event)">
+            <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+              {{ categoria }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row class="custom-row">
       <ion-col>
         <ion-item>
           <ion-label class="custom-label" position="stacked">Descripción del Producto</ion-label>
           <ion-textarea
             placeholder="Descripción del Producto"
+            [(ngModel)]="producto.descripcion"
             rows="3"
             required>
           </ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row class="custom-row">
       <ion-col>
         <ion-item>
           <ion-label class="custom-label" position="stacked">Precio del Producto</ion-label>
-          <ion-textarea
+          <ion-input
+            type="number"
             placeholder="Precio del Producto"
+            [(ngModel)]="producto.precio"
             required>
-          </ion-textarea>
+          </ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row class="custom-row">
       <ion-col>
         <ion-item>
           <ion-label class="custom-label" position="stacked" style="margin-bottom:15px">Estado del Producto</ion-label>
           <div class="horizontal-button-container">
-            <ion-button class="outlined-button">Muy usado</ion-button>
-            <ion-button class="outlined-button">Usado</ion-button>
-            <ion-button class="outlined-button">Casi nuevo</ion-button>
-            <ion-button class="outlined-button">Nuevo</ion-button>
+            <ion-button class="outlined-button" (click)="onEstadoChange('Muy usado')">Muy usado</ion-button>
+            <ion-button class="outlined-button" (click)="onEstadoChange('Usado')">Usado</ion-button>
+            <ion-button class="outlined-button" (click)="onEstadoChange('Casi nuevo')">Casi nuevo</ion-button>
+            <ion-button class="outlined-button" (click)="onEstadoChange('Nuevo')">Nuevo</ion-button>
           </div>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row class="custom-row">
       <ion-col>
         <div class="large-button-container">
           <ion-button
             expand="block"
-            class="create-button">
+            class="create-button"
+            (click)="crearProducto()">
             Crear
           </ion-button>
         </div>
@@ -95,5 +103,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-
