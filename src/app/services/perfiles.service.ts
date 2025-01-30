@@ -22,6 +22,11 @@ export class PerfilesService {
     return this.httpClient.get<Perfil>(`/perfiles/buscar/${username}`, options);
   }
 
+  getPerfilById(id: number): Observable<Perfil> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil>(`/api/perfiles/${id}`, options);
+  }
+
   eliminarPerfil(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.delete<void>(`/perfiles/${id}`, options);

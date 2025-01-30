@@ -4,60 +4,63 @@
       <img src="../../assets/iconoperfil.png" />
     </ion-avatar>
 
-    <ion-title class="nombreusuario">Angel Andrada</ion-title>
-    <div class="estrellas">
+    <ion-title class="nombreusuario">{{ nombreUsuario }}</ion-title>
 
-      <button fill="clear" class="estrella-btn" id="estrella1" (click)="pulsada1()">
-        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 1}" name="star" size="large"></ion-icon>
+    <div class="estrellas">
+      <button fill="clear" class="estrella-btn" id="estrella1" (click)="abrirValoracion(1)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[1]}" name="star" size="large"></ion-icon>
       </button>
-      <button fill="clear" class="estrella-btn" id="estrella2" (click)="pulsada2()">
-        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 2}" name="star" size="large"></ion-icon>
+      <button fill="clear" class="estrella-btn" id="estrella2" (click)="abrirValoracion(2)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[2]}" name="star" size="large"></ion-icon>
       </button>
-      <button fill="clear" class="estrella-btn" id="estrella3" (click)="pulsada3()">
-        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 3}" name="star" size="large"></ion-icon>
+      <button fill="clear" class="estrella-btn" id="estrella3" (click)="abrirValoracion(3)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[3]}" name="star" size="large"></ion-icon>
       </button>
-      <button fill="clear" class="estrella-btn" id="estrella4" (click)="pulsada4()">
-        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 4}" name="star" size="large"></ion-icon>
+      <button fill="clear" class="estrella-btn" id="estrella4" (click)="abrirValoracion(4)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[4]}" name="star" size="large"></ion-icon>
       </button>
-      <button fill="clear" class="estrella-btn" id="estrella5" (click)="pulsada5()">
-        <ion-icon [ngClass]="{'selected-star': estrellaSeleccionada >= 5}" name="star" size="large"></ion-icon>
+      <button fill="clear" class="estrella-btn" id="estrella5" (click)="abrirValoracion(5)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[5]}" name="star" size="large"></ion-icon>
       </button>
     </div>
   </ion-toolbar>
 </ion-header>
 
 
+
+
+
 <ion-content class="chat-container">
-  <ion-grid>
-    <ion-row class="message-row received">
-      <ion-col class="message-content">
-        <div class="message-bubble">
-          Hola, ¿cómo estás?
-        </div>
-        <p class="message-time">10:45 AM</p>
-      </ion-col>
-    </ion-row>
+    <ion-grid>
+      <ion-row class="message-row received">
+        <ion-col class="message-content">
+          <div class="message-bubble">
+            Hola, ¿cómo estás?
+          </div>
+          <p class="message-time">10:45 AM</p>
+        </ion-col>
+      </ion-row>
 
-    <ion-row class="message-row sent">
-      <ion-col class="message-content">
-        <div class="message-bubble">
-          ¡Hola! Todo bien, ¿y tú?
-        </div>
-        <p class="message-time">10:46 AM</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+      <ion-row class="message-row sent">
+        <ion-col class="message-content">
+          <div class="message-bubble">
+            ¡Hola! Todo bien, ¿y tú?
+          </div>
+          <p class="message-time">10:46 AM</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
 
-<ion-toolbar style="background-color: #f0f0f0">
-  <div class="chat-input-container">
-    <div class="chat-input">
-      <input type="text" placeholder="Escribe un mensaje..." class="input-field" />
-      <ion-icon name="send" class="send-icon"></ion-icon>
+  <ion-toolbar style="background-color: #f0f0f0">
+    <div class="chat-input-container">
+      <div class="chat-input">
+        <input type="text" placeholder="Escribe un mensaje..." class="input-field" />
+        <ion-icon name="send" class="send-icon"></ion-icon>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-inferior-container">
-    <app-menu-inferior></app-menu-inferior>
-  </div>
-</ion-toolbar>
+    <div class="menu-inferior-container">
+      <app-menu-inferior></app-menu-inferior>
+    </div>
+  </ion-toolbar>

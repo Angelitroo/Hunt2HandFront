@@ -36,6 +36,18 @@
     </ion-row>
     <ion-row class="custom-row">
       <ion-col>
+    <ion-item>
+      <ion-label position="stacked" class="custom-label" style="margin-bottom: 10px">Categoría</ion-label>
+      <ion-select   name="ubicacion" placeholder="Selecciona una categoria">
+        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+          {{ categoria }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="custom-row">
+      <ion-col>
         <ion-item>
           <ion-label class="custom-label" position="stacked">Descripción del Producto</ion-label>
           <ion-textarea
@@ -84,5 +96,4 @@
   </ion-grid>
 </ion-content>
 
-  <app-menu-inferior></app-menu-inferior>
 
