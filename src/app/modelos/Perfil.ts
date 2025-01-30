@@ -5,4 +5,5 @@ export interface Perfil {
   ubicacion: string;
   imagen: string;
   baneado: boolean;
+  perfil: number;
 }

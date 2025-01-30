@@ -27,6 +27,12 @@ export class PerfilesService {
     return this.httpClient.get<Perfil>(`api/perfiles/${id}`, options);
   }
 
+  getPerfilById(id: number): Observable<Perfil> {
+    const options = this.authService.getAuthHeaders();
+    console.log(`GET /api/perfiles/${id}`, options);
+    return this.httpClient.get<Perfil>(`/api/perfiles/${id}`, options);
+  }
+
   eliminarPerfil(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.delete<void>(`api/perfiles/${id}`, options);
@@ -50,5 +56,10 @@ export class PerfilesService {
   getSeguidos(id: number): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.get<Perfil[]>(`api/perfiles/seguidos/${id}`, options);
+  }
+
+  buscarPorNombre(nombre: string): Observable<Perfil[]> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil[]>(`/api/perfiles/buscar/${nombre}`, options);
   }
 }

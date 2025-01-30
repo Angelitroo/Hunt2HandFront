@@ -27,8 +27,8 @@ export const routes: Routes = [
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
   {
-    path: 'publicaciones',
-    loadComponent: () => import('./publicaciones/publicaciones.component').then((m) => m.PublicacionesComponent),
+    path: 'productos',
+    loadComponent: () => import('./productos/productos.component').then((m) => m.ProductosComponent),
   },
   {
     path: 'menu-inferior',
@@ -39,7 +39,7 @@ export const routes: Routes = [
     loadComponent: () => import('./menu-inferior-admin/menu-inferior-admin.component').then((m) => m.MenuInferiorAdminComponent),
   },
   {
-    path: 'panel-admin-publicaciones',
+    path: 'panel-admin-productos',
     loadComponent: () => import('./panel-admin-publicaciones/panel-admin-publicaciones.component').then((m) => m.PanelAdminPublicacionesComponent),
   },
   {
@@ -53,5 +53,13 @@ export const routes: Routes = [
   {
     path: 'perfil-configuracion',
     loadComponent: () => import('./perfil-configuracion/perfil-configuracion.component').then((m) => m.PerfilConfiguracionComponent),
+  },
+  {
+    path: 'productos/:id',
+    loadComponent: () => import('./producto/producto.component').then((m) => m.ProductoComponent),
+  },
+  {
+    path: 'favoritos',
+    loadComponent: () => import('./favoritos/favoritos.component').then((m) => m.FavoritosComponent),
   }
 ];

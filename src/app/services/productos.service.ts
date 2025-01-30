@@ -17,6 +17,12 @@ export class ProductosService {
     return this.httpClient.get<Producto[]>('/api/productos/', options);
   }
 
+  getProductoByNombre(nombre: string): Observable<Producto> {
+    const options = this.authService.getAuthHeaders();
+    console.log(`GET /api/productos/buscar/${nombre}`, options);
+    return this.httpClient.get<Producto>(`/api/productos/buscar/${nombre}`, options);
+  }
+
   getProductoById(id: number): Observable<Producto> {
     const options = this.authService.getAuthHeaders();
     console.log(`GET /api/productos/${id}`, options);
@@ -35,7 +41,7 @@ export class ProductosService {
     return this.httpClient.put<Producto>(`/api/productos/${id}`, producto, options);
   }
 
-  crearProducto(producto: Producto): Observable<Producto> {
+  guardarProducto(producto: Producto): Observable<Producto> {
     const options = this.authService.getAuthHeaders();
     console.log('POST /api/productos', producto, options);
     return this.httpClient.post<Producto>('/api/productos', producto, options);
