@@ -9,6 +9,9 @@ import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
 import { NgIf } from "@angular/common";
+import {ProductosService} from "../services/productos.service";
+import { Producto } from '../modelos/Producto';
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-perfil',
@@ -19,6 +22,7 @@ import { NgIf } from "@angular/common";
     MenuInferiorComponent,
     RouterLink,
     NgIf,
+    CommonModule
   ],
   standalone: true
 })
@@ -28,8 +32,12 @@ export class PerfilComponent implements OnInit {
   perfil: Perfil | null = null;
   seguidores: Perfil[] = [];
   seguidos: Perfil[] = [];
+  productos: Producto[] = [];
 
-  constructor(private perfilesService: PerfilesService, private authService: AuthService) {
+
+
+  constructor(private perfilesService: PerfilesService, private authService: AuthService, private productosService: ProductosService,
+  ) {
     addIcons({
       'settings': settings,
       'heartOutline': heartOutline
@@ -38,6 +46,7 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     this.cargarPerfil();
+    this.cargarProductos();
   }
 
   private cargarPerfil() {
@@ -70,6 +79,18 @@ export class PerfilComponent implements OnInit {
     } else {
       console.log('No se encontró el perfil ID en el token');
     }
+  }
+
+  cargarProductos(): void {
+    const perfilId: number | undefined = this.authService.getPerfilIdFromToken()??undefined;
+    this.productosService.getProductosByPerfilId(perfilId).subscribe(
+      (productos) => {
+        this.productos = productos;
+      },
+      (error) => {
+        console.error('Error al cargar los productos del perfil', error);
+      }
+    );
   }
 
   onIonInfinite(event: InfiniteScrollCustomEvent) {
