@@ -23,11 +23,11 @@ export class ProductosService {
     return this.httpClient.get<Producto>(`/api/productos/buscar/${nombre}`, options);
   }
 
-  getProductoById(id: number): Observable<Producto> {
-    const options = this.authService.getAuthHeaders();
-    console.log(`GET /api/productos/${id}`, options);
-    return this.httpClient.get<Producto>(`/api/productos/${id}`, options);
-  }
+    getProductoById(id: number): Observable<Producto> {
+      const options = this.authService.getAuthHeaders();
+      console.log(`GET /api/productos/${id}`, options);
+      return this.httpClient.get<Producto>(`/api/productos/${id}`, options);
+    }
 
   eliminarProducto(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();

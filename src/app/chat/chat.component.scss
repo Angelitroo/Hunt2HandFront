@@ -1,29 +1,18 @@
-.avatar {
-  margin-left: 20px;
-  width: 55px;
-  height: 55px;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
+ion-avatar img {
+  width: 46px;
+  height: 46px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-.nombreusuario{
-  float: left;
-  color: #994B7C;
+.nombreusuario {
   font-size: 25px;
   font-weight: bold;
-  margin-top: 5px;
-  padding: 0;
-  margin-left: 15px;
-}
-.iconomensaje{
-  float: right;
-  margin-top: 10px;
-  margin-right: 10px;
   color: #994B7C;
+  margin-left: 10px;
+}
+
+ion-icon {
   font-size: 30px;
+  color: #994B7C;
 }

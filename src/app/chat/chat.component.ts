@@ -1,39 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ReseñaServiceService } from '../services/reseña-service.service';
-import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { IonicModule } from "@ionic/angular";
-import { NgClass } from "@angular/common";
-import { Perfil } from "../modelos/Perfil";
-import { PerfilesService } from "../services/perfiles.service";
-import { addIcons } from "ionicons";
-import { chatbubbleOutline } from "ionicons/icons";
-import { FormsModule } from "@angular/forms";
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import { ChatService } from '../services/chat.service';
+import { AuthService } from '../services/auth.service';
+import {Chat} from "../modelos/Chat";
+import {CommonModule} from "@angular/common";
+import {IonicModule} from "@ionic/angular";
+import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
+import {addIcons} from "ionicons";
+import {chatbubbleOutline} from "ionicons/icons";
 
 @Component({
   selector: 'app-chat',
+  standalone: true,
+  imports: [CommonModule, IonicModule, MenuInferiorComponent, RouterModule],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
-  standalone: true,
-  imports: [
-    MenuInferiorComponent,
-    IonicModule,
-    NgClass,
-    FormsModule
-  ]
 })
+
 export class ChatComponent implements OnInit {
+  idUsuario!: number;
+  chats: Chat[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private reseñaService: ReseñaServiceService,
-    private perfilService: PerfilesService
+    private authService: AuthService,
+    private chatService: ChatService
   ) {
     addIcons({
       'chatbubble-outline': chatbubbleOutline,
-    });
+    })
   }
 
   ngOnInit() {
+    this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
+    this.cargarChats();
   }
+
+  cargarChats() {
+    this.chatService.getChatById(this.idUsuario).subscribe(
+      (chats) => {
+        this.chats = chats;
+      },
+      (error) => {
+        console.error('Error cargando los chats:', error);
+      }
+    );
+  }
+
 }
