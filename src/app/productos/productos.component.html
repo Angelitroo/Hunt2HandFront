@@ -7,7 +7,7 @@
         <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
           <ion-card tappable (click)="verProducto(producto.id)">
             <ion-card-content class="ion-margin" >
-              <ion-img [src]="producto.imagen"/>
+              <ion-img [src]="'https://pedalmoto.com/blog/wp-content/uploads/2019/10/bicycle-daylight-forest-100582-min.jpg'"/>
               <ion-card-title class="price-container" style="margin-top: 10px">
                 {{ producto.precio + "€"}}
                 <ion-button fill="clear" class="ion-float-end" >

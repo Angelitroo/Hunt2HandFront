@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { NgForOf } from "@angular/common";
 import { Producto } from "../modelos/Producto";
 import { ProductosService } from '../services/productos.service';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-crear-producto',
@@ -15,14 +16,11 @@ import { ProductosService } from '../services/productos.service';
   imports: [
     IonicModule,
     FormsModule,
-    MenuInferiorComponent,
-    RouterLink,
     NgForOf
   ]
 })
 export class CrearProductoComponent implements OnInit {
   imagePath: string = '';
-  perfilId: number = 1;
 
   producto: Producto = {
     id: 0,
@@ -62,12 +60,15 @@ export class CrearProductoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productosService: ProductosService
+    private productosService: ProductosService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {}
 
   crearProducto(): void {
+    const perfilId: number | undefined = this.authService.getPerfilIdFromToken() ?? undefined;;
+    console.log('Perfil ID:', perfilId);
     const nuevoProducto: Partial<Producto> = {
       nombre: this.producto.nombre,
       categoria: this.producto.categoria,
@@ -76,20 +77,23 @@ export class CrearProductoComponent implements OnInit {
       estado: this.producto.estado,
       imagen: this.imagePath,
       vendido: false,
-      perfil: this.perfilId
     };
 
     console.log('Producto a crear:', JSON.stringify(nuevoProducto));
 
-    this.productosService.guardarProducto(this.perfilId, nuevoProducto).subscribe({
-      next: () => {
-        console.log('Producto creado exitosamente');
-        this.router.navigate(['/productos']);
-      },
-      error: err => {
-        console.error('Error al crear el producto', err);
-      }
-    });
+    if (perfilId !== undefined) {
+      this.productosService.guardarProducto(perfilId, nuevoProducto).subscribe({
+        next: () => {
+          console.log('Producto creado exitosamente');
+          this.router.navigate(['/productos']);
+        },
+        error: err => {
+          console.error('Error al crear el producto', err);
+        }
+      });
+    } else {
+      console.error('Perfil ID is undefined. Cannot create product.');
+    }
   }
 
 }
