@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { ProductosService } from "../services/productos.service";
 import { PerfilesService } from "../services/perfiles.service";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
@@ -14,7 +14,8 @@ import { NgIf } from "@angular/common";
   imports: [
     MenuInferiorComponent,
     IonicModule,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   standalone: true
 })

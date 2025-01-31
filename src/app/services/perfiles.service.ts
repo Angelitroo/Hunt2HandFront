@@ -24,13 +24,8 @@ export class PerfilesService {
 
   getPerfilById(id: number): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil>(`api/perfiles/${id}`, options);
-  }
-
-  getPerfilById(id: number): Observable<Perfil> {
-    const options = this.authService.getAuthHeaders();
     console.log(`GET /api/perfiles/${id}`, options);
-    return this.httpClient.get<Perfil>(`/api/perfiles/${id}`, options);
+    return this.httpClient.get<Perfil>(`api/perfiles/${id}`, options);
   }
 
   eliminarPerfil(id: number): Observable<void> {
