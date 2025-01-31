@@ -42,7 +42,7 @@ export class PerfilComponent implements OnInit {
 
   private cargarPerfil() {
     const perfilId = this.authService.getPerfilIdFromToken();
-    console.log('Perfil ID:', perfilId); // Log the profile ID
+    console.log('Perfil ID:', perfilId);
     if (perfilId) {
       this.perfilesService.getPerfilById(perfilId).subscribe({
         next: (data: Perfil) => {
