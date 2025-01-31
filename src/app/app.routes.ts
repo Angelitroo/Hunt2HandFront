@@ -71,5 +71,10 @@ export const routes: Routes = [
   {
     path: 'chat/:id_valorado/:id_valorador',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
-  }
+  },
+
+  {
+    path: 'dentro-chat/:id_valorado/:id_valorador',
+    loadComponent: () => import('./dentro-chat/dentro-chat.component').then((m) => m.DentroChatComponent),
+  },
 ];
