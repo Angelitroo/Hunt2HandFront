@@ -2,7 +2,7 @@
   <ion-list>
     <ion-item *ngFor="let chat of chats" [routerLink]="['/dentro-chat', chat.id]">
       <ion-avatar slot="start">
-        <img [src]="chat.imagen_receptor || '../../assets/iconoperfil.png'" />
+        <img [src]="chat.imagen_receptor" />
       </ion-avatar>
       <ion-title class="nombreusuario">{{ chat.nombre_receptor }}</ion-title>
       <ion-icon name="chatbubble-outline" slot="end"></ion-icon>

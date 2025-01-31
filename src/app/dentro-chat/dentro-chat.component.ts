@@ -7,7 +7,7 @@ import { NgClass } from "@angular/common";
 import { Perfil } from "../modelos/Perfil";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { star } from "ionicons/icons";
+import {send, star} from "ionicons/icons";
 
 @Component({
     selector: 'app-dentro-chat',
@@ -41,6 +41,7 @@ export class DentroChatComponent  implements OnInit {
   ) {
     addIcons({
       'star': star,
+      'send': send
     });
   }
 

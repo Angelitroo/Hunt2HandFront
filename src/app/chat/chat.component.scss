@@ -1,18 +1,25 @@
+ 
+
+ion-avatar {
+  width: 80px;
+  height: 80px;
+}
+
 ion-avatar img {
-  width: 46px;
-  height: 46px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
 }
 
 .nombreusuario {
-  font-size: 25px;
+  font-size: 28px;
   font-weight: bold;
   color: #994B7C;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 ion-icon {
-  font-size: 30px;
+  font-size: 35px;
   color: #994B7C;
 }
