@@ -29,10 +29,10 @@ export class ChatComponent implements OnInit {
     4: false,
     5: false
   };
-  idPerfilValorado: number = 0;
-  idPerfilValorador: number = 0;
+  idPerfilValorado: number = 2;
+  idPerfilValorador: number = 1;
   yaValorado: boolean = false;
-  nombreUsuario: string = 'Cargando...';
+  nombreUsuario: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -47,9 +47,10 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     this.idPerfilValorado = +this.route.snapshot.paramMap.get('id_valorado')!;
     this.idPerfilValorador = +this.route.snapshot.paramMap.get('id_valorador')!;
-
     const valorado = localStorage.getItem('yaValorado');
     const estrellaGuardada = localStorage.getItem('estrellaSeleccionada');
+
+
     if (valorado === 'true') {
       this.yaValorado = true;
     }
@@ -58,13 +59,14 @@ export class ChatComponent implements OnInit {
       this.establecerEstrellasSeleccionadas(this.estrellaSeleccionada);
     }
 
+
     this.perfilService.getPerfilById(this.idPerfilValorado).subscribe(
       (perfil: Perfil) => {
         this.nombreUsuario = perfil.nombre;
       },
       error => {
-        console.error('Error obteniendo el perfil:', error);
-        this.nombreUsuario = 'Usuario desconocido';
+        console.error('Error obteniendo el perfil', error);
+        this.nombreUsuario = 'Error obteniendo el perfil:';
       }
     );
   }

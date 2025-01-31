@@ -33,7 +33,7 @@ export class CrearProductoComponent implements OnInit {
     estado: '',
     imagen: '',
     vendido: false,
-    perfil: 1
+    perfil: 0
   };
 
   categorias: string[] = [
