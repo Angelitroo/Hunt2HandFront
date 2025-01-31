@@ -7,7 +7,8 @@ import { NgClass } from "@angular/common";
 import { Perfil } from "../modelos/Perfil";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { star } from "ionicons/icons";
+import { chatbubbleOutline } from "ionicons/icons";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-chat',
@@ -17,20 +18,22 @@ import { star } from "ionicons/icons";
   imports: [
     MenuInferiorComponent,
     IonicModule,
-    NgClass
+    NgClass,
+    FormsModule
   ]
 })
 export class ChatComponent implements OnInit {
 
-
   constructor(
+    private route: ActivatedRoute,
+    private reseñaService: ReseñaServiceService,
+    private perfilService: PerfilesService
   ) {
-
+    addIcons({
+      'chatbubble-outline': chatbubbleOutline,
+    });
   }
 
   ngOnInit() {
-      }
-
-
-
+  }
 }

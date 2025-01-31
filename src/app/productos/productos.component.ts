@@ -69,7 +69,7 @@ export class ProductosComponent implements OnInit {
   }
 
   verProducto(id: number) {
-    this.router.navigate(['/publicaciones', id]);
+    this.router.navigate(['/productos', id]);
   }
 
   onSearch(searchValue: string) {
