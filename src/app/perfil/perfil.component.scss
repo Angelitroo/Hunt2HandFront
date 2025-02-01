@@ -3,12 +3,6 @@
   align-items: stretch;
 }
 
-.avatar-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .avatar {
   width: 120px;
   height: 120px;
@@ -20,4 +14,54 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.avatar-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-text {
+  font-size: 1.4rem;
+}
+
+@media (min-width: 768px) {
+  .nombre {
+    font-size: 1.6rem;
+  }
+
+  ion-text {
+    font-size: 1.6rem;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nombre {
+    font-size: 4rem;
+  }
+
+  ion-text {
+    font-size: 1.8rem;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+
+  .avatar {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }

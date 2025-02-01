@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./buscador-menu/buscador-menu.component').then((m) => m.BuscadorMenuComponent),
   },
   {
+    path: 'buscador-menu-admin',
+    loadComponent: () => import('./buscador-menu-admin/buscador-menu-admin.component').then((m) => m.BuscadorMenuAdminComponent),
+  },
+  {
     path: 'perfil',
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },

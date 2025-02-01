@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from '@ionic/angular';
-import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { PanelAdminComponent } from "../panel-admin/panel-admin.component";
 import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior-admin.component";
 import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from "../services/perfiles.service";
 import { Router } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import {BuscadorMenuAdminComponent} from "../buscador-menu-admin/buscador-menu-admin.component";
 
 @Component({
   selector: 'app-panel-admin-perfiles',
@@ -14,10 +14,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./panel-admin-perfiles.component.scss'],
   imports: [
     IonicModule,
-    BuscadorMenuComponent,
     PanelAdminComponent,
     MenuInferiorAdminComponent,
-    CommonModule
+    CommonModule,
+    BuscadorMenuAdminComponent
   ],
   standalone: true
 })

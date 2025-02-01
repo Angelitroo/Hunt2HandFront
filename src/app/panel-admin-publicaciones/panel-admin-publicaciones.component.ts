@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
-import {BuscadorMenuComponent} from "../buscador-menu/buscador-menu.component";
 import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
 import {ProductosService} from "../services/productos.service";
 import {Producto} from "../modelos/Producto";
 import {CommonModule} from "@angular/common";
+import {BuscadorMenuAdminComponent} from "../buscador-menu-admin/buscador-menu-admin.component";
 
 @Component({
   selector: 'app-panel-admin-productos',
@@ -14,9 +14,9 @@ import {CommonModule} from "@angular/common";
   imports: [
     IonicModule,
     MenuInferiorAdminComponent,
-    BuscadorMenuComponent,
     PanelAdminComponent,
-    CommonModule
+    CommonModule,
+    BuscadorMenuAdminComponent
   ],
   standalone: true
 })
@@ -39,6 +39,17 @@ export class PanelAdminPublicacionesComponent  implements OnInit {
     });
   }
 
+  private getProductos() {
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error fetching productos', err);
+      }
+    });
+  }
+
   private generateItems() {
     const count = this.items.length + 1;
     for (let i = 0; i < 50; i++) {
@@ -51,5 +62,21 @@ export class PanelAdminPublicacionesComponent  implements OnInit {
     setTimeout(() => {
       event.target.complete();
     }, 500);
+  }
+
+  onSearch(searchValue: string) {
+    if (searchValue) {
+      this.productosService.getProductoByNombre(searchValue).subscribe({
+        next: (data) => {
+          this.productos = Array.isArray(data) ? data : [data];
+        },
+        error: (err) => {
+          console.error('Error fetching producto by nombre', err);
+          this.productos = [];
+        }
+      });
+    } else {
+      this.getProductos();
+    }
   }
 }
