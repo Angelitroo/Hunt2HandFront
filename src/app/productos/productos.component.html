@@ -28,10 +28,9 @@
                 <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
                 <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
                 <ion-buttons>
-                  <ion-button>
-                    <ion-icon class="outline-heart"></ion-icon>
+                  <ion-button class="like-button" (click)="meGusta($event, producto.id)">
+                    <ion-icon name="heart-outline"></ion-icon>
                   </ion-button>
-
                 </ion-buttons>
                 <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
               </div>
@@ -45,7 +44,6 @@
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
 
   <app-menu-inferior></app-menu-inferior>
 </ion-content>
