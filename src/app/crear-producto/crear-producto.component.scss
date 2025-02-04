@@ -41,6 +41,10 @@
 }
 
 ion-item {
+  border-radius: 20px;
+}
+
+ion-item {
   --border-color: #994B7C;
 }
 
@@ -87,4 +91,16 @@ ion-item {
   height: 60px;
   border: 1px solid #000;
   border-radius: 10px;
+}
+
+ion-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+}
+
+ion-grid {
+  width: 100%;
+  max-width: 500px; /* Ajusta el ancho del formulario según sea necesario */
 }

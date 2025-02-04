@@ -1,14 +1,16 @@
-<app-panel-admin></app-panel-admin>
-<app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
-
 <ion-content>
-  <ion-list>
+  <app-panel-admin></app-panel-admin>
+  <app-buscador-menu-admin (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu-admin>
+
+  <ion-list class="grid-container-admin">
     <ion-grid>
       <ion-row>
         <ion-col size="6" size-md="3" size-lg="3" *ngFor="let perfil of perfiles">
           <ion-card>
-            <ion-card-content class="ion-margin">
+            <ion-card-content>
+              <div>
                 <ion-img [src]="'https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'"/>
+              </div>
               <ion-card-subtitle style="font-size: 12px; margin-top: 10px">
                 <b>{{ perfil.nombre }} {{ perfil.apellido }}</b>
               </ion-card-subtitle>
@@ -28,6 +30,7 @@
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <app-menu-inferior-admin></app-menu-inferior-admin>
 </ion-content>
 
-<app-menu-inferior-admin></app-menu-inferior-admin>

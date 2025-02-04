@@ -9,7 +9,7 @@
       <ion-col size="8">
         <ion-row style="align-items: center;">
           <ion-col>
-            <ion-text><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
+            <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
           </ion-col>
           <ion-col size="auto">
             <ion-toolbar>
@@ -24,23 +24,23 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
+            <ion-text>{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="ion-margin-top">
           <ion-col>
-            <ion-text style="font-size: 12px">Seguidores</ion-text>
+            <ion-text>Seguidores</ion-text>
           </ion-col>
           <ion-col>
-            <ion-text style="font-size: 12px">Seguidos</ion-text>
+            <ion-text>Seguidos</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ seguidores.length }}</ion-text>
+            <ion-text>{{ seguidores.length }}</ion-text>
           </ion-col>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ seguidos.length }}</ion-text>
+            <ion-text>{{ seguidos.length }}</ion-text>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -70,21 +70,22 @@
 
   <hr/>
 
+
   <ion-list>
     <ion-grid>
       <ion-row>
-        <ion-col size="6" size-md="3" size-lg="3">
+        <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
           <ion-card>
             <ion-card-content class="ion-margin">
-              <ion-img src="https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"/>
+              <ion-img [src]="producto.imagen"></ion-img>
               <ion-card-title class="price-container" style="margin-top: 10px">
-                69€
+                {{ producto.precio }}€
                 <ion-button fill="clear" class="ion-float-end">
                   <ion-icon name="heart-outline" class="heart-icon"></ion-icon>
                 </ion-button>
               </ion-card-title>
               <ion-card-subtitle class="product-name">
-                <b>Nombre Producto</b>
+                <b>{{ producto.nombre }}</b>
               </ion-card-subtitle>
             </ion-card-content>
           </ion-card>
@@ -97,111 +98,5 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
+  <app-menu-inferior></app-menu-inferior>
 </ion-content>
-
-<app-menu-inferior></app-menu-inferior>
-
-
-
-<!--<ion-content>-->
-
-<!--  <ion-grid>-->
-<!--    <ion-row class="avatar-row">-->
-<!--      <ion-col size="4" class="ion-text-center avatar-col">-->
-<!--        <ion-avatar class="avatar">-->
-<!--          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />-->
-<!--        </ion-avatar>-->
-<!--      </ion-col>-->
-<!--      <ion-col size="8">-->
-<!--        <ion-row style="align-items: center;">-->
-<!--          <ion-col>-->
-<!--            <ion-text><b>Nombre Usuario</b></ion-text>-->
-<!--          </ion-col>-->
-<!--          <ion-col size="auto">-->
-<!--            <ion-toolbar>-->
-<!--              <ion-buttons slot="end">-->
-<!--                <ion-button [routerLink]="'/perfil-configuracion'">-->
-<!--                  <ion-icon slot="icon-only" name="settings"></ion-icon>-->
-<!--                </ion-button>-->
-<!--              </ion-buttons>-->
-<!--            </ion-toolbar>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--        <ion-row>-->
-<!--          <ion-col>-->
-<!--            <ion-text style="font-size: 12px">Ubicación</ion-text>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--        <ion-row class="ion-margin-top">-->
-<!--          <ion-col>-->
-<!--            <ion-text style="font-size: 12px">Seguidores</ion-text>-->
-<!--          </ion-col>-->
-<!--          <ion-col>-->
-<!--            <ion-text style="font-size: 12px">Seguidos</ion-text>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--        <ion-row>-->
-<!--          <ion-col>-->
-<!--            <ion-text style="font-size: 12px">0</ion-text>-->
-<!--          </ion-col>-->
-<!--          <ion-col>-->
-<!--            <ion-text style="font-size: 12px">0</ion-text>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--      </ion-col>-->
-<!--    </ion-row>-->
-<!--  </ion-grid>-->
-
-<!--  <hr/>-->
-
-<!--  <ion-grid>-->
-<!--    <ion-row>-->
-<!--      <ion-col class="ion-text-center">-->
-<!--        <h1>0</h1>-->
-<!--      </ion-col>-->
-<!--      <ion-col class="ion-text-center">-->
-<!--        <h1>0</h1>-->
-<!--      </ion-col>-->
-<!--    </ion-row>-->
-<!--    <ion-row>-->
-<!--      <ion-col class="ion-text-center">-->
-<!--        <h1>Ventas</h1>-->
-<!--      </ion-col>-->
-<!--      <ion-col class="ion-text-center">-->
-<!--        <h1>Reseñas</h1>-->
-<!--      </ion-col>-->
-<!--    </ion-row>-->
-<!--  </ion-grid>-->
-
-<!--  <hr/>-->
-
-<!--  <ion-list>-->
-<!--    <ion-grid>-->
-<!--      <ion-row>-->
-<!--        <ion-col size="6" size-md="3" size-lg="3">-->
-<!--          <ion-card>-->
-<!--            <ion-card-content class="ion-margin">-->
-<!--              <ion-img src="https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"/>-->
-<!--              <ion-card-title class="price-container" style="margin-top: 10px">-->
-<!--                69€-->
-<!--                <ion-button fill="clear" class="ion-float-end">-->
-<!--                  <ion-icon name="heart-outline" class="heart-icon"></ion-icon>-->
-<!--                </ion-button>-->
-<!--              </ion-card-title>-->
-<!--              <ion-card-subtitle class="product-name">-->
-<!--                <b>Nombre Producto</b>-->
-<!--              </ion-card-subtitle>-->
-<!--            </ion-card-content>-->
-<!--          </ion-card>-->
-<!--        </ion-col>-->
-<!--      </ion-row>-->
-<!--    </ion-grid>-->
-<!--  </ion-list>-->
-
-<!--  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">-->
-<!--    <ion-infinite-scroll-content></ion-infinite-scroll-content>-->
-<!--  </ion-infinite-scroll>-->
-
-<!--</ion-content>-->
-
-<!--<app-menu-inferior></app-menu-inferior>-->

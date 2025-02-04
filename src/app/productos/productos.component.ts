@@ -5,9 +5,12 @@ import { heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { ProductosService } from "../services/productos.service";
+import { PerfilesService } from "../services/perfiles.service";
 import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
+import {FavoritosService} from "../services/favoritos.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-productos',
@@ -24,11 +27,19 @@ import { Router } from "@angular/router";
 export class ProductosComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
+  perfiles: { [key: number]: any } = {};
 
-  constructor(private productosService: ProductosService, private router: Router) {
+  constructor(private productosService: ProductosService, private perfilesService: PerfilesService, private router: Router, private favoritosService: FavoritosService, private authService: AuthService) {
     addIcons({
       'heart-outline': heartOutline
     });
+  }
+
+  flipBack(event: Event) {
+    const cardInner = (event.currentTarget as HTMLElement).querySelector('.card-inner');
+    if (cardInner) {
+      cardInner.classList.toggle('flipped');
+    }
   }
 
   ngOnInit() {
@@ -36,11 +47,27 @@ export class ProductosComponent implements OnInit {
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
+        this.productos.forEach(producto => {
+          this.loadPerfil(producto.perfil);
+        });
       },
       error: (err) => {
         console.error('Error fetching productos', err);
       }
     });
+  }
+
+  loadPerfil(perfilId: number) {
+    if (!this.perfiles[perfilId]) {
+      this.perfilesService.getPerfilById(perfilId).subscribe({
+        next: (data) => {
+          this.perfiles[perfilId] = data;
+        },
+        error: (err) => {
+          console.error('Error fetching perfil by id', err);
+        }
+      });
+    }
   }
 
   private generateItems() {
@@ -68,8 +95,26 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  verProducto(id: number) {
+  verProducto(event: Event, id: number) {
+    event.stopPropagation();
     this.router.navigate(['/productos', id]);
+  }
+
+  meGusta(event: Event, idProducto: number) {
+    event.stopPropagation();
+    const idPerfil = this.authService.getPerfilIdFromToken();
+    if (idPerfil) {
+      this.favoritosService.anadirFavorito(idProducto).subscribe({
+        next: (data) => {
+          console.log('Producto añadido a favoritos', data);
+        },
+        error: (err) => {
+          console.error('Error añadiendo a favoritos', err);
+        }
+      });
+    } else {
+      console.error('No se pudo obtener el idPerfil del token');
+    }
   }
 
   onSearch(searchValue: string) {

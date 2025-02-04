@@ -30,9 +30,9 @@ export class ProductosService {
     }
 
   eliminarProducto(id: number): Observable<void> {
-    const options = this.authService.getAuthHeaders();
-    console.log(`DELETE /api/productos/${id}`, options);
-    return this.httpClient.delete<void>(`/api/productos/${id}`, options);
+    const token = this.authService.getAuthHeaders();
+    console.log(`DELETE /api/productos/${id}`, token);
+    return this.httpClient.delete<void>(`/api/productos/${id}`, token);
   }
 
   modificarProducto(id: number, producto: Producto): Observable<Producto> {
@@ -45,6 +45,11 @@ export class ProductosService {
     const options = this.authService.getAuthHeaders();
     console.log('POST /api/productos', producto, options);
     return this.httpClient.post<Producto>(`/api/productos/guardar/${id}`, producto, options);
+  }
+
+  getProductosByPerfilId(idPerfil?: number): Observable<Producto[]> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Producto[]>(`/api/productos/perfil/${idPerfil}`, options);
   }
 
 }

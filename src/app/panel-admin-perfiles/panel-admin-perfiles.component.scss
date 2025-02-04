@@ -1,0 +1,47 @@
+ion-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+div {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+ion-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+ion-subtitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  ion-card {
+    max-height: none;
+  }
+  div {
+    height: 250px;
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  ion-card {
+    max-height: none;
+  }
+  div {
+    height: 300px;
+    padding-top: 0;
+  }
+}
