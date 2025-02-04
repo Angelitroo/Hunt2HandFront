@@ -45,7 +45,7 @@ export class PerfilesService {
 
   actualizar(id: number, perfilActualizar: Partial<PerfilActualizar>): Observable<PerfilActualizar> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.put<PerfilActualizar>(`api/perfiles/actualizar/${id}`, perfilActualizar, options);
+    return this.httpClient.put<PerfilActualizar>(`api/auth/actualizar/${id}`, perfilActualizar, options);
   }
 
   crearPerfil(perfil: Perfil): Observable<Perfil> {

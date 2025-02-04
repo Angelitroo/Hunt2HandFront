@@ -18,8 +18,6 @@ import { FormsModule } from "@angular/forms";
   imports: [
     IonicModule,
     MenuInferiorComponent,
-    RouterLink,
-    NgIf,
     FormsModule,
   ]
 })
@@ -51,7 +49,7 @@ export class ModificarPerfilComponent implements OnInit {
     const perfilId = this.authService.getPerfilIdFromToken();
     console.log('Perfil ID:', perfilId);
 
-    if (perfilId) {
+    if (perfilId !== null) {
       this.perfilesService.getPerfilActualizadoById(perfilId).subscribe({
         next: (data: PerfilActualizar) => {
           if (data) {
@@ -61,6 +59,8 @@ export class ModificarPerfilComponent implements OnInit {
         },
         error: err => console.error("Error al obtener el perfil:", err)
       });
+    } else {
+      console.error("No se pudo obtener el ID del perfil del token.");
     }
   }
 
