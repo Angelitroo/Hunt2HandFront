@@ -16,7 +16,8 @@ import {AuthService} from "../services/auth.service";
   imports: [
     IonicModule,
     FormsModule,
-    NgForOf
+    NgForOf,
+    MenuInferiorComponent
   ]
 })
 export class CrearProductoComponent implements OnInit {

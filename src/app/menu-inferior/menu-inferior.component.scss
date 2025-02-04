@@ -1,4 +1,10 @@
-.color-app-hover ion-tab-button:hover ion-icon,
-.color-app-hover ion-tab-button:hover ion-text {
-  color: #994B7C;
+ion-tab-button ion-icon,
+ion-tab-button ion-text {
+  color: white;
+}
+
+ion-tabs, ion-tab-bar {
+  --background: #e6a1f1;
+  background: #e6a1f1;
+  box-shadow: #cd85e7 0px -1px 10px;
 }

@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Louis George Cafe';
+  src: url('/assets/fonts/Louis George Cafe.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ion-searchbar {
+  --background: transparent;
+  --border-radius: 50px;
+  --ion-font-family: 'Louis George Cafe';
+}
+
+ion-menu {
+  --background: none;
+  --box-shadow: none;
+  border: none;
+}
