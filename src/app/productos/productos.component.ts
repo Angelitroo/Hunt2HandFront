@@ -9,6 +9,8 @@ import { PerfilesService } from "../services/perfiles.service";
 import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
+import {FavoritosService} from "../services/favoritos.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-productos',
@@ -27,7 +29,7 @@ export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   perfiles: { [key: number]: any } = {};
 
-  constructor(private productosService: ProductosService, private perfilesService: PerfilesService, private router: Router) {
+  constructor(private productosService: ProductosService, private perfilesService: PerfilesService, private router: Router, private favoritosService: FavoritosService, private authService: AuthService) {
     addIcons({
       'heart-outline': heartOutline
     });
@@ -96,6 +98,23 @@ export class ProductosComponent implements OnInit {
   verProducto(event: Event, id: number) {
     event.stopPropagation();
     this.router.navigate(['/productos', id]);
+  }
+
+  meGusta(event: Event, idProducto: number) {
+    event.stopPropagation();
+    const idPerfil = this.authService.getPerfilIdFromToken();
+    if (idPerfil) {
+      this.favoritosService.anadirFavorito(idProducto).subscribe({
+        next: (data) => {
+          console.log('Producto añadido a favoritos', data);
+        },
+        error: (err) => {
+          console.error('Error añadiendo a favoritos', err);
+        }
+      });
+    } else {
+      console.error('No se pudo obtener el idPerfil del token');
+    }
   }
 
   onSearch(searchValue: string) {
