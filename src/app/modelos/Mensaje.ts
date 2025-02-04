@@ -4,5 +4,5 @@ export interface Mensaje {
   id_emisor: number;
   id_receptor: number;
   contenido: string;
-  fecha: string;
+  fecha: Date;
 }

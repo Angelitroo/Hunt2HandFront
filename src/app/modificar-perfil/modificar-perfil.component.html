@@ -2,47 +2,65 @@
   <ion-title style="font-size: 2rem; text-align: center; margin-bottom: 4%; margin-top: 4%">
     <b>Modificar Perfil</b>
   </ion-title>
+
   <ion-grid style="margin-top: 10vh; width: 90%;">
     <ion-row class="avatar-row">
       <ion-col size="12" class="ion-text-center">
         <ion-avatar class="avatar" style="margin: auto; margin-bottom: 5%">
-          <img alt="Silhouette of a person's head" [src]="avatarSrc" />
+          <img [src]="perfilActualizar.imagen || 'https://ruta-de-la-imagen-por-defecto.com/default.jpg'" alt="Imagen de perfil" />
         </ion-avatar>
         <ion-item>
-          <ion-label position="floating" style="text-align: center">URL Imagen</ion-label>
-          <ion-input></ion-input>
+          <ion-label position="floating">URL Imagen</ion-label>
+          <ion-input [(ngModel)]="perfilActualizar.imagen"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label position="floating">Nombre Usuario</ion-label>
-          <ion-input></ion-input>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input [(ngModel)]="perfilActualizar.nombre"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input [(ngModel)]="perfilActualizar.apellido"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
     <ion-row>
       <ion-col>
         <ion-item>
           <ion-label position="floating">Ubicación</ion-label>
-          <ion-input></ion-input>
+          <ion-input [(ngModel)]="perfilActualizar.ubicacion"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input></ion-input>
+          <ion-label position="floating">Nombre de Usuario</ion-label>
+          <ion-input [(ngModel)]="perfilActualizar.username"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
+
     <ion-row>
       <ion-col>
         <ion-item class="password-item">
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input [type]="passwordFieldType" [(ngModel)]="password"></ion-input>
+          <ion-input
+            [type]="passwordFieldType"
+            [(ngModel)]="perfilActualizar.password"
+            placeholder="Nueva contraseña (opcional)">
+          </ion-input>
           <ion-icon
             slot="end"
             [name]="passwordFieldType === 'password' ? 'eye' : 'eye-off'"
@@ -54,7 +72,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-button class="boton-guardar">
+  <ion-button class="boton-guardar" (click)="guardarCambios()">
     Guardar Cambios
   </ion-button>
 
