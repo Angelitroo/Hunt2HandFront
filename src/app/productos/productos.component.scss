@@ -56,10 +56,10 @@
   border-radius: 10px;
 }
 
-.price-container {
-  margin-top: 10px;
-  font-size: 1.2em;
-  color: #333;
+.product-name, .price-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .grid1 {
