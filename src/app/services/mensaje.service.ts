@@ -9,27 +9,29 @@ import { Mensaje } from '../modelos/Mensaje';
 })
 export class MensajeService {
 
-  private baseUrl = '/api/mensajes';
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   enviarMensaje(mensaje: Mensaje): Observable<Mensaje> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<Mensaje>(`${this.baseUrl}/enviar`, mensaje, options);
+    return this.httpClient.post<Mensaje>(`/api/mensaje/enviar`, mensaje, options);
   }
 
   obtenerMensajesPorChat(idChat: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.baseUrl}/chat/${idChat}`, options);
+    return this.httpClient.get<Mensaje[]>(`/api/mensaje/chat/${idChat}`, options);
   }
+
+
+
 
   obtenerMensajesEnviados(idUsuario: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.baseUrl}/enviados/${idUsuario}`, options);
+    return this.httpClient.get<Mensaje[]>(`/api/mensaje/enviados/${idUsuario}`, options);
   }
 
   obtenerMensajesRecibidos(idUsuario: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.baseUrl}/recibidos/${idUsuario}`, options);
+    return this.httpClient.get<Mensaje[]>(`/api/mensaje/recibidos/${idUsuario}`, options);
   }
 }
