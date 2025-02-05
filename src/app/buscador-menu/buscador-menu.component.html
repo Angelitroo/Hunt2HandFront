@@ -1,9 +1,11 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-menu-button></ion-menu-button>
-  </ion-buttons>
-  <ion-searchbar placeholder="Buscar" (ionInput)="onSearchChange($event)"></ion-searchbar>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-searchbar placeholder="Buscar" (ionInput)="onSearchChange($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-menu side="start" menuId="main-menu" contentId="main-content">
   <ion-header>

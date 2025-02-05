@@ -21,6 +21,10 @@ export class ProductosService {
     return this.httpClient.get<Producto>(`/api/productos/buscar/${nombre}`, options);
   }
 
+  getProductoByCategoria(categoria: string): Observable<Producto[]> {
+    return this.httpClient.get<Producto[]>(`/api/productos/categoria/${categoria}`);
+  }
+
   getProductoById(id: number): Observable<Producto> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.get<Producto>(`/api/productos/${id}`, options);

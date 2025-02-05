@@ -134,6 +134,17 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  getProductoByCategoria(categoria: string) {
+    this.productosService.getProductoByCategoria(categoria).subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error fetching productos by categoria', err);
+      }
+    });
+  }
+
   onSearch(searchValue: string) {
     if (searchValue) {
       this.productosService.getProductoByNombre(searchValue).subscribe({
