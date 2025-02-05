@@ -3,7 +3,7 @@ import { IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
 import { settings, heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { RouterLink } from "@angular/router";
+import { RouterLink, Router } from "@angular/router";
 import { PerfilActualizar } from '../modelos/PerfilActualizar';
 import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
@@ -34,7 +34,7 @@ export class ModificarPerfilComponent implements OnInit {
 
   passwordFieldType: string = 'password';
 
-  constructor(private perfilesService: PerfilesService, private authService: AuthService) {
+  constructor(private perfilesService: PerfilesService, private authService: AuthService, private router: Router) {
     addIcons({
       'settings': settings,
       'heartOutline': heartOutline
@@ -79,6 +79,7 @@ export class ModificarPerfilComponent implements OnInit {
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
           console.log('Perfil actualizado correctamente:', data);
+          this.router.navigate(['/perfil']);
         },
         error: err => console.error("Error al actualizar el perfil:", err)
       });
