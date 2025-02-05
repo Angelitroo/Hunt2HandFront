@@ -5,6 +5,9 @@ import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ReportesService } from "../services/reportes.service";
 import { Reportes } from '../modelos/Reportes';
+import {NgForOf} from "@angular/common";
+import {PerfilesService} from "../services/perfiles.service";
+import {Perfil} from "../modelos/Perfil";
 
 @Component({
   selector: 'app-panel-admin-reportes',
@@ -14,21 +17,49 @@ import { Reportes } from '../modelos/Reportes';
     PanelAdminComponent,
     IonicModule,
     MenuInferiorAdminComponent,
-    BuscadorMenuAdminComponent
+    BuscadorMenuAdminComponent,
+    NgForOf
   ],
   standalone: true
 })
 export class PanelAdminReportesComponent implements OnInit {
   items: string[] = [];
-  reportes: Reportes[] = []; // Cambiado a array
+  reportes: Reportes[] = [];
+  perfiles: { [key: string]: Perfil } = {};
 
-  constructor(private reporteService: ReportesService) { }
+  constructor(private reporteService: ReportesService, private perfilesService: PerfilesService) { }
 
   ngOnInit() {
     this.generateItems();
-    this.reporteService.getReportes().subscribe((data: Reportes[]) => { // Cambiado a array
-      this.reportes = data;
+    this.reporteService.getReportes().subscribe({
+      next: (data) => {
+        this.reportes = data;
+        this.reportes.forEach(reporte => {
+          if (reporte.reportado !== undefined) {
+            this.loadPerfil(reporte.reportado);
+          }
+          if (reporte.reportador !== undefined) {
+            this.loadPerfil(reporte.reportador);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching productos', err);
+      }
     });
+  }
+
+  loadPerfil(perfilId: number) {
+    if (!this.perfiles[perfilId]) {
+      this.perfilesService.getPerfilById(perfilId).subscribe({
+        next: (data) => {
+          this.perfiles[perfilId] = data;
+        },
+        error: (err) => {
+          console.error('Error fetching perfil by id', err);
+        }
+      });
+    }
   }
 
   private getReportes() {

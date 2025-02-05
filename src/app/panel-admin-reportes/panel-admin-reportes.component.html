@@ -9,16 +9,16 @@
           <ion-card>
             <ion-card-content class="ion-margin">
               <ion-card-subtitle style="font-size: 12px; margin-top: 10px">
-                <b>Reporte de cuenta: {{ reporte.reportado }} (email)</b>
+                <b>Reporte de cuenta: {{ perfiles[reporte.reportado].nombre}}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="font-size: 12px">
-                <b>Reportado por {{ reporte.reportador }}</b>
+                <b>Reportado por: {{ perfiles[reporte.reportador].nombre}}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="font-size: 12px">
-                <b>Fecha Reporte {{ reporte.fecha }}</b>
+                <b>Fecha Reporte: {{ reporte.fecha }}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="font-size: 12px">
-                <b>{{ reporte.motivo }}</b>
+                <b>Motivo: {{ reporte.motivo }}</b>
               </ion-card-subtitle>
             </ion-card-content>
           </ion-card>

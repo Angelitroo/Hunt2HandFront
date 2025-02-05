@@ -4,7 +4,7 @@
       <ion-row class="avatar-row">
         <ion-col size="6" class="ion-text-center avatar-col">
           <ion-avatar class="avatar" style="margin: 0 auto;">
-            <img [alt]="perfil.nombre" [src]="'https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'" />
+            <img [alt]="perfil.nombre" [src]="perfil.imagen" />
           </ion-avatar>
         </ion-col>
         <ion-col size="6">
@@ -25,7 +25,7 @@
 
   <ion-card class="product-card" *ngIf="producto">
     <ion-card-content class="ion-margin">
-      <ion-img [src]="'https://pedalmoto.com/blog/wp-content/uploads/2019/10/bicycle-daylight-forest-100582-min.jpg'"/>
+      <ion-img [src]="producto.imagen"/>
       <ion-card-title class="price-container" style="margin-top: 10px">
         {{ producto.precio + "€" }}
         <ion-button fill="clear" class="ion-float-end">
