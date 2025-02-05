@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import { heart, heartOutline } from "ionicons/icons";
+import { heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { ProductosService } from "../services/productos.service";
@@ -28,11 +28,16 @@ export class ProductosComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
   perfiles: { [key: number]: any } = {};
-  isFavorito: boolean = false;
+  favoritos: { [key: number]: boolean } = {};
 
-  constructor(private productosService: ProductosService, private perfilesService: PerfilesService, private router: Router, private favoritosService: FavoritosService, private authService: AuthService) {
+  constructor(
+    private productosService: ProductosService,
+    private perfilesService: PerfilesService,
+    private router: Router,
+    private favoritosService: FavoritosService,
+    private authService: AuthService
+  ) {
     addIcons({
-      'heart': heart,
       'heart-outline': heartOutline
     });
   }
@@ -46,11 +51,16 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit() {
     this.generateItems();
+    this.loadProductos();
+  }
+
+  private loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
         this.productos.forEach(producto => {
           this.loadPerfil(producto.perfil);
+          this.checkIfFavorito(producto.id);
         });
       },
       error: (err) => {
@@ -86,37 +96,41 @@ export class ProductosComponent implements OnInit {
     }, 500);
   }
 
-  private getProductos() {
-    this.productosService.getProductos().subscribe({
-      next: (data) => {
-        this.productos = data;
-      },
-      error: (err) => {
-        console.error('Error fetching productos', err);
-      }
-    });
-  }
-
   verProducto(event: Event, id: number) {
     event.stopPropagation();
     this.router.navigate(['/productos', id]);
   }
 
-  meGusta(event: Event, idProducto: number) {
+  checkIfFavorito(productoId: number) {
+    this.favoritosService.esFavorito(productoId).subscribe({
+      next: (isFavorito) => {
+        this.favoritos[productoId] = isFavorito;
+      },
+      error: (err) => {
+        console.error('Error checking favorito', err);
+        this.favoritos[productoId] = false;
+      }
+    });
+  }
+
+  toggleFavorito(event: Event, productoId: number) {
     event.stopPropagation();
-    const idPerfil = this.authService.getPerfilIdFromToken();
-    if (idPerfil) {
-      this.favoritosService.anadirFavorito(idProducto).subscribe({
-        next: (data) => {
-          console.log('Producto añadido a favoritos', data);
-          this.isFavorito = true;
+    if (this.favoritos[productoId]) {
+      this.favoritosService.eliminarFavorito(productoId).subscribe({
+        next: () => {
+          this.favoritos[productoId] = false;
+          console.log('Producto eliminado de favoritos');
         },
-        error: (err) => {
-          console.error('Error añadiendo a favoritos', err);
-        }
+        error: (err) => console.error('Error al eliminar de favoritos:', err)
       });
     } else {
-      console.error('No se pudo obtener el idPerfil del token');
+      this.favoritosService.anadirFavorito(productoId).subscribe({
+        next: () => {
+          this.favoritos[productoId] = true;
+          console.log('Producto añadido a favoritos');
+        },
+        error: (err) => console.error('Error al agregar a favoritos:', err)
+      });
     }
   }
 
@@ -132,7 +146,7 @@ export class ProductosComponent implements OnInit {
         }
       });
     } else {
-      this.getProductos();
+      this.loadProductos();
     }
   }
 }
