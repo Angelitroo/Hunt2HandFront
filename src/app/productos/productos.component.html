@@ -29,7 +29,7 @@
                 <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
                 <ion-buttons>
                   <ion-button class="like-button" (click)="meGusta($event, producto.id)">
-                    <ion-icon name="heart-outline"></ion-icon>
+                    <ion-icon [name]="isFavorito ? 'heart' : 'heart-outline'" class="heart-icon" [style.color]="isFavorito ? 'red' : 'transparent'"></ion-icon>
                   </ion-button>
                 </ion-buttons>
                 <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>

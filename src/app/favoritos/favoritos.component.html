@@ -1,25 +1,43 @@
 <ion-content>
   <app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
 
-  <ion-list class="grid-container">
+  <ion-list class="grid1">
     <ion-grid>
       <ion-row>
-        <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
-          <ion-card tappable (click)="verProducto(producto.id)">
-            <ion-card-content class="ion-margin" >
-              <ion-img [src]="'https://static.vecteezy.com/system/resources/previews/002/275/847/non_2x/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg'"/>
-              <ion-card-title class="price-container" style="margin-top: 10px">
-                {{ producto.precio + "€"}}
-                <ion-button fill="clear" class="ion-float-end" >
-                  <ion-icon name="heart-outline" class="heart-icon"></ion-icon>
-                </ion-button>
-              </ion-card-title>
-              <ion-card-subtitle class="product-name">
-                <b>{{ producto.nombre }}</b>
-              </ion-card-subtitle>
-              <ion-card-subtitle class="ion-text-end">{{ producto.descripcion }}</ion-card-subtitle>
-            </ion-card-content>
-          </ion-card>
+        <ion-col size="6" size-md="6" size-lg="3" *ngFor="let producto of productos">
+          <div class="card" (click)="flipBack($event)">
+            <div class="card-inner">
+              <div class="card-front">
+                <ion-img [src]="producto.imagen" class="product-image" />
+                <ion-row>
+                  <ion-col size="9">
+                    <ion-card-title class="product-name">
+                      <b>{{ producto.nombre }}</b>
+                    </ion-card-title>
+                  </ion-col>
+                  <ion-col size="3">
+                    <ion-card-title class="price-container">
+                      {{ producto.precio + "€" }}
+                    </ion-card-title>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <div class="card-back">
+                <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
+                <ion-buttons>
+                  <ion-button fill="clear" class="like-button" (click)="toggleFavorito($event, producto.id)">
+                    <ion-icon
+                      [name]="favoritos[producto.id] ? 'heart' : 'heart-outline'"
+                      [style.color]="favoritos[producto.id] ? 'red' : 'grey'">
+                    </ion-icon>
+                  </ion-button>
+                </ion-buttons>
+                <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
+              </div>
+            </div>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>

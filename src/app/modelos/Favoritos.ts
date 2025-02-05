@@ -1,5 +1,8 @@
-export class Favoritos{
-  id?:number;
-  id_usuario?:number;
-  id_producto?:number;
+import {Perfil} from "./Perfil";
+import {Producto} from "./Producto";
+
+export interface Favoritos {
+  id: number;
+  perfil: Perfil;
+  producto: Producto;
 }

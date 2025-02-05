@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import { heartOutline } from "ionicons/icons";
+import { heart, heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { ProductosService } from "../services/productos.service";
@@ -9,8 +9,8 @@ import { PerfilesService } from "../services/perfiles.service";
 import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
-import {FavoritosService} from "../services/favoritos.service";
-import {AuthService} from "../services/auth.service";
+import { FavoritosService } from "../services/favoritos.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'app-productos',
@@ -28,9 +28,11 @@ export class ProductosComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
   perfiles: { [key: number]: any } = {};
+  isFavorito: boolean = false;
 
   constructor(private productosService: ProductosService, private perfilesService: PerfilesService, private router: Router, private favoritosService: FavoritosService, private authService: AuthService) {
     addIcons({
+      'heart': heart,
       'heart-outline': heartOutline
     });
   }
@@ -107,6 +109,7 @@ export class ProductosComponent implements OnInit {
       this.favoritosService.anadirFavorito(idProducto).subscribe({
         next: (data) => {
           console.log('Producto añadido a favoritos', data);
+          this.isFavorito = true;
         },
         error: (err) => {
           console.error('Error añadiendo a favoritos', err);
