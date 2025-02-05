@@ -6,7 +6,9 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { NgForOf } from "@angular/common";
 import { Producto } from "../modelos/Producto";
 import { ProductosService } from '../services/productos.service';
-import {AuthService} from "../services/auth.service";
+import { AuthService } from "../services/auth.service";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -62,13 +64,15 @@ export class CrearProductoComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productosService: ProductosService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) { }
 
   ngOnInit() {}
 
   crearProducto(): void {
-    const perfilId: number | undefined = this.authService.getPerfilIdFromToken() ?? undefined;;
+    const perfilId: number | undefined = this.authService.getPerfilIdFromToken() ?? undefined;
     console.log('Perfil ID:', perfilId);
     const nuevoProducto: Partial<Producto> = {
       nombre: this.producto.nombre,
@@ -80,21 +84,18 @@ export class CrearProductoComponent implements OnInit {
       vendido: false,
     };
 
-    console.log('Producto a crear:', JSON.stringify(nuevoProducto));
-
     if (perfilId !== undefined) {
       this.productosService.guardarProducto(perfilId, nuevoProducto).subscribe({
         next: () => {
-          console.log('Producto creado exitosamente');
           this.router.navigate(['/productos']);
+          this.toastOkService.presentToast('Producto creado con éxito', 3000);
         },
         error: err => {
-          console.error('Error al crear el producto', err);
+          this.toastErrorService.presentToast('Error al crear el producto', 3000);
         }
       });
     } else {
-      console.error('Perfil ID is undefined. Cannot create product.');
+      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
-
 }

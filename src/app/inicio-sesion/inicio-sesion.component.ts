@@ -1,3 +1,4 @@
+// src/app/inicio-sesion/inicio-sesion.component.ts
 import { Component, OnInit } from '@angular/core';
 import { IonicModule, NavController, Platform } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";
@@ -10,7 +11,9 @@ import { NgIf } from "@angular/common";
 import { CommonModule } from "@angular/common";
 import { AuthService } from '../services/auth.service';
 import { Registro } from '../modelos/Registro';
-import {LoginService} from "../services/login.service";
+import { LoginService } from "../services/login.service";
+import { ToastOkService } from "../services/toast-ok.service";
+import { ToastErrorService } from "../services/toast-error.service";
 
 @Component({
   selector: 'app-iniciosesion',
@@ -53,7 +56,9 @@ export class InicioSesionComponent implements OnInit {
     private router: Router,
     private loginService: LoginService,
     private authService: AuthService,
-    private platform: Platform
+    private platform: Platform,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'arrowBack': arrowBack,
@@ -86,18 +91,15 @@ export class InicioSesionComponent implements OnInit {
       password: this.password
     };
 
-    console.log('Datos de login:', loginData);
-
     this.loginService.login(loginData).subscribe({
       next: response => {
-        console.log('Login successful, received token:', response.token);
         this.authService.setToken(response.token);
         this.loginService.setAuthState(true);
-        console.log('Token saved to local storage:', this.authService.getToken());
+        this.toastOkService.presentToast('Sesión iniciada con éxito', 3000, 'ok');
         this.router.navigate(['/productos']);
       },
       error: err => {
-        console.error('Error de inicio de sesión', err);
+        this.toastErrorService.presentToast('Contraseña o usuario incorrecto', 3000, 'error');
       }
     });
   }
@@ -112,14 +114,13 @@ export class InicioSesionComponent implements OnInit {
       rol: this.role
     };
 
-    console.log('Registro completado', JSON.stringify(registro));
-
     this.loginService.register(registro).subscribe({
       next: () => {
+        this.toastOkService.presentToast('Registro exitoso', 3000, 'ok');
         this.cambioRegistro();
       },
       error: err => {
-        console.error('Error al registrar', err);
+        this.toastErrorService.presentToast('Error al registrarse', 3000, 'error');
       }
     });
   }

@@ -10,6 +10,8 @@ import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component"
 import { NgForOf } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { FavoritosService } from "../services/favoritos.service";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-favoritos',
@@ -31,7 +33,9 @@ export class FavoritosComponent implements OnInit {
     private authService: AuthService,
     private productosService: ProductosService,
     private router: Router,
-    private favoritosService: FavoritosService
+    private favoritosService: FavoritosService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'heart-outline': heartOutline
@@ -60,15 +64,16 @@ export class FavoritosComponent implements OnInit {
         next: (favoritos) => {
           this.productos = favoritos.map(favorito => favorito.producto);
           this.productos.forEach(producto => {
-            this.favoritos[producto.id] = true;  // Asumimos que todos los productos iniciales están en favoritos
+            this.favoritos[producto.id] = true;
           });
+          this.toastOkService.presentToast('Favoritos cargados con éxito', 3000);
         },
-        error: (err) => {
-          console.error('Error fetching favoritos', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar los favoritos', 3000);
         }
       });
     } else {
-      console.error('No se pudo obtener el idPerfil del token');
+      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
@@ -79,15 +84,21 @@ export class FavoritosComponent implements OnInit {
         next: () => {
           this.favoritos[productoId] = false;
           this.loadFavoritos(); // Reload the favorites after removing a product
+          this.toastOkService.presentToast('Favorito eliminado con éxito', 3000);
         },
-        error: (err) => console.error('Error al eliminar de favoritos:', err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al eliminar el favorito', 3000);
+        }
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = true;
+          this.toastOkService.presentToast('Favorito añadido con éxito', 3000);
         },
-        error: (err) => console.error('Error al agregar a favoritos:', err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al añadir el favorito', 3000);
+        }
       });
     }
   }
@@ -102,9 +113,10 @@ export class FavoritosComponent implements OnInit {
       this.productosService.getProductoByNombre(searchValue).subscribe({
         next: (data) => {
           this.productos = Array.isArray(data) ? data : [data];
+          this.toastOkService.presentToast('Búsqueda realizada con éxito', 3000);
         },
-        error: (err) => {
-          console.error('Error fetching producto by nombre', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al buscar el producto', 3000);
           this.productos = [];
         }
       });

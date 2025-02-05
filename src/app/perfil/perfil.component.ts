@@ -1,4 +1,3 @@
-// src/app/perfil/perfil.component.ts
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
@@ -9,9 +8,11 @@ import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
 import { NgIf } from "@angular/common";
-import {ProductosService} from "../services/productos.service";
+import { ProductosService } from "../services/productos.service";
 import { Producto } from '../modelos/Producto';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from "@angular/common";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-perfil',
@@ -34,9 +35,12 @@ export class PerfilComponent implements OnInit {
   seguidos: Perfil[] = [];
   productos: Producto[] = [];
 
-
-
-  constructor(private perfilesService: PerfilesService, private authService: AuthService, private productosService: ProductosService,
+  constructor(
+    private perfilesService: PerfilesService,
+    private authService: AuthService,
+    private productosService: ProductosService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'settings': settings,
@@ -57,38 +61,48 @@ export class PerfilComponent implements OnInit {
         next: (data: Perfil) => {
           this.perfil = data;
           console.log('Perfil:', this.perfil);
+          this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
         },
-        error: err => console.error("Error al obtener el perfil:", err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
+        }
       });
 
       this.perfilesService.getSeguidores(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidores = data;
           console.log('Seguidores:', this.seguidores);
+          this.toastOkService.presentToast('Seguidores cargados con éxito', 3000);
         },
-        error: err => console.error("Error al obtener seguidores:", err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar los seguidores', 3000);
+        }
       });
 
       this.perfilesService.getSeguidos(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidos = data;
           console.log('Seguidos:', this.seguidos);
+          this.toastOkService.presentToast('Seguidos cargados con éxito', 3000);
         },
-        error: err => console.error("Error al obtener seguidos:", err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar los seguidos', 3000);
+        }
       });
     } else {
-      console.log('No se encontró el perfil ID en el token');
+      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
   cargarProductos(): void {
-    const perfilId: number | undefined = this.authService.getPerfilIdFromToken()??undefined;
+    const perfilId: number | undefined = this.authService.getPerfilIdFromToken() ?? undefined;
     this.productosService.getProductosByPerfilId(perfilId).subscribe(
       (productos) => {
         this.productos = productos;
+        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      (error) => {
-        console.error('Error al cargar los productos del perfil', error);
+      () => {
+        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
       }
     );
   }

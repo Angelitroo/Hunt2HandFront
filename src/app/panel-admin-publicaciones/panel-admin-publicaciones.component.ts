@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
-import {MenuInferiorAdminComponent} from "../menu-inferior-admin/menu-inferior-admin.component";
-import {PanelAdminComponent} from "../panel-admin/panel-admin.component";
-import {ProductosService} from "../services/productos.service";
-import {Producto} from "../modelos/Producto";
-import {CommonModule} from "@angular/common";
-import {BuscadorMenuAdminComponent} from "../buscador-menu-admin/buscador-menu-admin.component";
+import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
+import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior-admin.component";
+import { PanelAdminComponent } from "../panel-admin/panel-admin.component";
+import { ProductosService } from "../services/productos.service";
+import { Producto } from "../modelos/Producto";
+import { CommonModule } from "@angular/common";
+import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-panel-admin-productos',
@@ -20,21 +22,25 @@ import {BuscadorMenuAdminComponent} from "../buscador-menu-admin/buscador-menu-a
   ],
   standalone: true
 })
-export class PanelAdminPublicacionesComponent  implements OnInit {
+export class PanelAdminPublicacionesComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
 
-
-  constructor(private productosService: ProductosService) {}
+  constructor(
+    private productosService: ProductosService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) {}
 
   ngOnInit() {
     this.generateItems();
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
+        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
       }
     });
   }
@@ -43,9 +49,10 @@ export class PanelAdminPublicacionesComponent  implements OnInit {
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
+        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
       }
     });
   }
@@ -70,8 +77,8 @@ export class PanelAdminPublicacionesComponent  implements OnInit {
         next: (data) => {
           this.productos = Array.isArray(data) ? data : [data];
         },
-        error: (err) => {
-          console.error('Error fetching producto by nombre', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al buscar el producto', 3000);
           this.productos = [];
         }
       });

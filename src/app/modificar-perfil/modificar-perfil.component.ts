@@ -9,6 +9,8 @@ import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
 import { NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-modificar-perfil',
@@ -34,7 +36,13 @@ export class ModificarPerfilComponent implements OnInit {
 
   passwordFieldType: string = 'password';
 
-  constructor(private perfilesService: PerfilesService, private authService: AuthService, private router: Router) {
+  constructor(
+    private perfilesService: PerfilesService,
+    private authService: AuthService,
+    private router: Router,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) {
     addIcons({
       'settings': settings,
       'heartOutline': heartOutline
@@ -47,20 +55,21 @@ export class ModificarPerfilComponent implements OnInit {
 
   private cargarPerfil() {
     const perfilId = this.authService.getPerfilIdFromToken();
-    console.log('Perfil ID:', perfilId);
 
     if (perfilId !== null) {
       this.perfilesService.getPerfilActualizadoById(perfilId).subscribe({
         next: (data: PerfilActualizar) => {
           if (data) {
             this.perfilActualizar = { ...data, password: '' };
-            console.log('Perfil cargado:', this.perfilActualizar);
+            this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
           }
         },
-        error: err => console.error("Error al obtener el perfil:", err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
+        }
       });
     } else {
-      console.error("No se pudo obtener el ID del perfil del token.");
+      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
@@ -78,10 +87,12 @@ export class ModificarPerfilComponent implements OnInit {
 
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
-          console.log('Perfil actualizado correctamente:', data);
           this.router.navigate(['/perfil']);
+          this.toastOkService.presentToast('Perfil actualizado con éxito', 3000);
         },
-        error: err => console.error("Error al actualizar el perfil:", err)
+        error: () => {
+          this.toastErrorService.presentToast('Error al actualizar el perfil', 3000);
+        }
       });
     }
   }

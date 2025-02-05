@@ -5,9 +5,11 @@ import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ReportesService } from "../services/reportes.service";
 import { Reportes } from '../modelos/Reportes';
-import {NgForOf} from "@angular/common";
-import {PerfilesService} from "../services/perfiles.service";
-import {Perfil} from "../modelos/Perfil";
+import { NgForOf } from "@angular/common";
+import { PerfilesService } from "../services/perfiles.service";
+import { Perfil } from "../modelos/Perfil";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-panel-admin-reportes',
@@ -27,7 +29,12 @@ export class PanelAdminReportesComponent implements OnInit {
   reportes: Reportes[] = [];
   perfiles: { [key: string]: Perfil } = {};
 
-  constructor(private reporteService: ReportesService, private perfilesService: PerfilesService) { }
+  constructor(
+    private reporteService: ReportesService,
+    private perfilesService: PerfilesService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) { }
 
   ngOnInit() {
     this.generateItems();
@@ -43,8 +50,8 @@ export class PanelAdminReportesComponent implements OnInit {
           }
         });
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al cargar los reportes', 3000);
       }
     });
   }
@@ -54,9 +61,10 @@ export class PanelAdminReportesComponent implements OnInit {
       this.perfilesService.getPerfilById(perfilId).subscribe({
         next: (data) => {
           this.perfiles[perfilId] = data;
+          this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
         },
-        error: (err) => {
-          console.error('Error fetching perfil by id', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
         }
       });
     }
@@ -67,8 +75,8 @@ export class PanelAdminReportesComponent implements OnInit {
       next: (data) => {
         this.reportes = data;
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al cargar los reportes', 3000);
       }
     });
   }
@@ -93,8 +101,8 @@ export class PanelAdminReportesComponent implements OnInit {
         next: (data) => {
           this.reportes = Array.isArray(data) ? data : [data];
         },
-        error: (err) => {
-          console.error('Error fetching producto by nombre', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al buscar el reporte', 3000);
           this.reportes = [];
         }
       });

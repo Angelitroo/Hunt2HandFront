@@ -45,7 +45,7 @@ export class FavoritosService {
           console.log('Respuesta de la API:', response);
         }),
         catchError(error => {
-          console.error('Error al eliminar de favoritos:', error);
+          console.error(error);
           return throwError(() => new Error('Error al eliminar de favoritos'));
         })
       );
@@ -62,7 +62,7 @@ export class FavoritosService {
   }
 
   private handleError(error: any) {
-    console.error('An error occurred', error);
+    console.error(error);
     return throwError(error.message || 'Server error');
   }
 }

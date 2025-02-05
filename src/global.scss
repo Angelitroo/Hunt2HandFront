@@ -43,6 +43,23 @@
   font-style: normal;
 }
 
+.error {
+  --background: #ff0000;
+  --color: #000;
+  --border-radius: 80px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.ok {
+  --background: #3eff00;
+  --color: #000;
+  border-radius: 80px;
+  font-size: 16px;
+  text-align: center;
+}
+
+
 .color-app {
   --background: #994B7C;
 }

@@ -10,7 +10,8 @@ import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
-import { AuthService } from "../services/auth.service";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from "../services/toast-error.service";
 
 @Component({
   selector: 'app-productos',
@@ -35,7 +36,8 @@ export class ProductosComponent implements OnInit {
     private perfilesService: PerfilesService,
     private router: Router,
     private favoritosService: FavoritosService,
-    private authService: AuthService
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'heart-outline': heartOutline
@@ -62,9 +64,10 @@ export class ProductosComponent implements OnInit {
           this.loadPerfil(producto.perfil);
           this.checkIfFavorito(producto.id);
         });
+        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al obtener productos', 3000);
       }
     });
   }
@@ -75,8 +78,8 @@ export class ProductosComponent implements OnInit {
         next: (data) => {
           this.perfiles[perfilId] = data;
         },
-        error: (err) => {
-          console.error('Error fetching perfil by id', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al obtener perfil por ID', 3000);
         }
       });
     }
@@ -106,8 +109,8 @@ export class ProductosComponent implements OnInit {
       next: (isFavorito) => {
         this.favoritos[productoId] = isFavorito;
       },
-      error: (err) => {
-        console.error('Error checking favorito', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al verificar favorito', 3000);
         this.favoritos[productoId] = false;
       }
     });
@@ -119,17 +122,17 @@ export class ProductosComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = false;
-          console.log('Producto eliminado de favoritos');
+          this.toastOkService.presentToast('Producto eliminado de favoritos', 3000);
         },
-        error: (err) => console.error('Error al eliminar de favoritos:', err)
+        error: () => this.toastErrorService.presentToast('Error al eliminar de favoritos', 3000)
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = true;
-          console.log('Producto añadido a favoritos');
+          this.toastOkService.presentToast('Producto añadido a favoritos', 3000);
         },
-        error: (err) => console.error('Error al agregar a favoritos:', err)
+        error: () => this.toastErrorService.presentToast('Error al agregar a favoritos', 3000)
       });
     }
   }
@@ -139,8 +142,8 @@ export class ProductosComponent implements OnInit {
       next: (data) => {
         this.productos = data;
       },
-      error: (err) => {
-        console.error('Error fetching productos by categoria', err);
+      error: () => {
+        this.toastErrorService.presentToast('Error al obtener productos por categoría', 3000);
       }
     });
   }
@@ -151,8 +154,8 @@ export class ProductosComponent implements OnInit {
         next: (data) => {
           this.productos = Array.isArray(data) ? data : [data];
         },
-        error: (err) => {
-          console.error('Error fetching producto by nombre', err);
+        error: () => {
+          this.toastErrorService.presentToast('Error al obtener producto por nombre', 3000);
           this.productos = [];
         }
       });
