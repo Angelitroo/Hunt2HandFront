@@ -9,12 +9,12 @@
       <ion-col size="8">
         <ion-row style="align-items: center;">
           <ion-col>
-            <ion-text><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
+            <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
           </ion-col>
           <ion-col size="auto">
             <ion-toolbar>
               <ion-buttons slot="end">
-                <ion-button [routerLink]="'/perfil-configuracion'">
+                <ion-button [routerLink]="'/modificar-perfil'">
                   <ion-icon slot="icon-only" name="settings"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -23,23 +23,23 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
+            <ion-text>{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="ion-margin-top">
           <ion-col>
-            <ion-text style="font-size: 12px">Seguidores</ion-text>
+            <ion-text>Seguidores</ion-text>
           </ion-col>
           <ion-col>
-            <ion-text style="font-size: 12px">Seguidos</ion-text>
+            <ion-text>Seguidos</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ seguidores.length }}</ion-text>
+            <ion-text>{{ seguidores.length }}</ion-text>
           </ion-col>
           <ion-col>
-            <ion-text style="font-size: 12px">{{ seguidos.length }}</ion-text>
+            <ion-text>{{ seguidos.length }}</ion-text>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -96,7 +96,6 @@
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <app-menu-inferior></app-menu-inferior>
 </ion-content>
-
-<app-menu-inferior></app-menu-inferior>
-

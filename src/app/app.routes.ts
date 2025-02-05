@@ -55,10 +55,6 @@ export const routes: Routes = [
     loadComponent: () => import('./panel-admin-reportes/panel-admin-reportes.component').then((m) => m.PanelAdminReportesComponent),
   },
   {
-    path: 'perfil-configuracion',
-    loadComponent: () => import('./perfil-configuracion/perfil-configuracion.component').then((m) => m.PerfilConfiguracionComponent),
-  },
-  {
     path: 'productos/:id',
     loadComponent: () => import('./producto/producto.component').then((m) => m.ProductoComponent),
   },
@@ -73,7 +69,17 @@ export const routes: Routes = [
   },
 
   {
-    path: 'chat/:id_valorado/:id_valorador',
+    path: 'chat',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
-  }
+  },
+
+  {
+    path: 'dentro-chat/:id_chat',
+    loadComponent: () => import('./dentro-chat/dentro-chat.component').then((m) => m.DentroChatComponent),
+  },
+
+  {
+    path: 'modificar-perfil',
+    loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),
+  },
 ];

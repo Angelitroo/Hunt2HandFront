@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Perfil } from '../modelos/Perfil';
 import { AuthService } from './auth.service';
+import {PerfilActualizar} from "../modelos/PerfilActualizar";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,16 @@ export class PerfilesService {
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.put<Perfil>(`api/perfiles/${id}`, perfil, options);
+  }
+
+  getPerfilActualizadoById(id: number): Observable<PerfilActualizar> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<PerfilActualizar>(`api/perfiles/actualizado/${id}`, options);
+  }
+
+  actualizar(id: number, perfilActualizar: Partial<PerfilActualizar>): Observable<PerfilActualizar> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.put<PerfilActualizar>(`api/auth/actualizar/${id}`, perfilActualizar, options);
   }
 
   crearPerfil(perfil: Perfil): Observable<Perfil> {

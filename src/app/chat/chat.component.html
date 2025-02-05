@@ -1,66 +1,13 @@
-<ion-header>
-  <ion-toolbar style="cursor: pointer;">
-    <ion-avatar slot="start" class="navbar-avatar">
-      <img src="../../assets/iconoperfil.png" />
-    </ion-avatar>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let chat of chats" [routerLink]="['/dentro-chat', chat.id]">
+      <ion-avatar slot="start">
+        <img [src]="chat.imagen_receptor" />
+      </ion-avatar>
+      <ion-title class="nombreusuario">{{ chat.nombre_receptor }}</ion-title>
+      <ion-icon name="chatbubble-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
 
-    <ion-title class="nombreusuario">{{ nombreUsuario }}</ion-title>
-
-    <div class="estrellas">
-      <button fill="clear" class="estrella-btn" id="estrella1" (click)="abrirValoracion(1)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[1]}" name="star" size="large"></ion-icon>
-      </button>
-      <button fill="clear" class="estrella-btn" id="estrella2" (click)="abrirValoracion(2)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[2]}" name="star" size="large"></ion-icon>
-      </button>
-      <button fill="clear" class="estrella-btn" id="estrella3" (click)="abrirValoracion(3)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[3]}" name="star" size="large"></ion-icon>
-      </button>
-      <button fill="clear" class="estrella-btn" id="estrella4" (click)="abrirValoracion(4)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[4]}" name="star" size="large"></ion-icon>
-      </button>
-      <button fill="clear" class="estrella-btn" id="estrella5" (click)="abrirValoracion(5)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[5]}" name="star" size="large"></ion-icon>
-      </button>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
-
-
-
-
-<ion-content class="chat-container">
-    <ion-grid>
-      <ion-row class="message-row received">
-        <ion-col class="message-content">
-          <div class="message-bubble">
-            Hola, ¿cómo estás?
-          </div>
-          <p class="message-time">10:45 AM</p>
-        </ion-col>
-      </ion-row>
-
-      <ion-row class="message-row sent">
-        <ion-col class="message-content">
-          <div class="message-bubble">
-            ¡Hola! Todo bien, ¿y tú?
-          </div>
-          <p class="message-time">10:46 AM</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
-
-  <ion-toolbar style="background-color: #f0f0f0">
-    <div class="chat-input-container">
-      <div class="chat-input">
-        <input type="text" placeholder="Escribe un mensaje..." class="input-field" />
-        <ion-icon name="send" class="send-icon"></ion-icon>
-      </div>
-    </div>
-
-    <div class="menu-inferior-container">
-      <app-menu-inferior></app-menu-inferior>
-    </div>
-  </ion-toolbar>
+<app-menu-inferior></app-menu-inferior>
