@@ -109,6 +109,7 @@ export class FavoritosComponent implements OnInit {
     }
   }
 
+
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     setTimeout(() => {
       event.target.complete();
