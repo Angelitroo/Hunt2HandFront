@@ -1,6 +1,6 @@
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let chat of chats" [routerLink]="['/dentro-chat', chat.id]">
+    <ion-item *ngFor="let chat of chats" [routerLink]="['/dentro-chat', chat.id, chat.id_receptor]">
       <ion-avatar slot="start">
         <img [src]="chat.imagen_receptor" />
       </ion-avatar>
