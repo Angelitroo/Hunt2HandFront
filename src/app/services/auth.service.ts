@@ -1,6 +1,7 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
@@ -48,5 +49,15 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  recuperarContrasena(email: string): Observable<any> {
+    const options = this.getAuthHeaders();
+    return this.httpClient.post(`api/auth/recuperar-contrasena`, { email }, options);
+  }
+
+  restablecerContrasena(token: string, newPassword: string): Observable<any> {
+    const options = this.getAuthHeaders();
+    return this.httpClient.post(`api/auth/restablecer-contrasena`, { token, newPassword }, options);
   }
 }

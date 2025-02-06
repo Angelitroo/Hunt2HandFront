@@ -29,6 +29,7 @@ export class ModificarPerfilComponent implements OnInit {
     nombre: '',
     apellido: '',
     ubicacion: '',
+    email: '',
     username: '',
     imagen: '',
     password: ''
