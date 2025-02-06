@@ -1,3 +1,4 @@
+// src/app/perfil/perfil.component.ts
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
@@ -11,6 +12,8 @@ import { NgIf } from "@angular/common";
 import { ProductosService } from "../services/productos.service";
 import { Producto } from '../modelos/Producto';
 import { CommonModule } from "@angular/common";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-perfil',
@@ -25,6 +28,7 @@ import { CommonModule } from "@angular/common";
   ],
   standalone: true
 })
+
 export class PerfilComponent implements OnInit {
   items: string[] = [];
   perfil: Perfil | null = null;
@@ -37,7 +41,10 @@ export class PerfilComponent implements OnInit {
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private productosService: ProductosService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+
   ) {
     addIcons({
       'settings': settings,
@@ -67,28 +74,20 @@ export class PerfilComponent implements OnInit {
       this.perfilesService.getPerfilById(perfilId).subscribe({
         next: (data: Perfil) => {
           this.perfil = data;
-          console.log('Perfil:', this.perfil);
         },
-        error: err => console.error("Error al obtener el perfil:", err)
       });
 
       this.perfilesService.getSeguidores(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidores = data;
-          console.log('Seguidores:', this.seguidores);
         },
-        error: err => console.error("Error al obtener seguidores:", err)
       });
 
       this.perfilesService.getSeguidos(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidos = data;
-          console.log('Seguidos:', this.seguidos);
         },
-        error: err => console.error("Error al obtener seguidos:", err)
       });
-    } else {
-      console.log('No se encontró el perfil ID en el token');
     }
   }
 
@@ -98,9 +97,6 @@ export class PerfilComponent implements OnInit {
       (productos) => {
         this.productos = productos;
       },
-      (error) => {
-        console.error('Error al cargar los productos del perfil', error);
-      }
     );
   }
 

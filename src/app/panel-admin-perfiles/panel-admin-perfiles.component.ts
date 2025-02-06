@@ -6,7 +6,9 @@ import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from "../services/perfiles.service";
 import { Router } from "@angular/router";
 import { CommonModule } from '@angular/common';
-import {BuscadorMenuAdminComponent} from "../buscador-menu-admin/buscador-menu-admin.component";
+import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-panel-admin-perfiles',
@@ -27,57 +29,79 @@ export class PanelAdminPerfilesComponent implements OnInit {
   perfiles: Perfil[] = [];
   username?: string;
 
-  constructor(private perfilesService: PerfilesService, private router: Router) {}
+  constructor(
+    private perfilesService: PerfilesService,
+    private router: Router,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) {}
 
   ngOnInit() {
     this.generateItems();
-    this.perfilesService.getPerfiles().subscribe(
-      (data: Perfil[]) => {
-        console.log('Perfiles cargados:', data);
+    this.perfilesService.getPerfiles().subscribe({
+      next: (data: Perfil[]) => {
         this.perfiles = data;
       },
-      (error) => console.error('Error al cargar perfiles:', error)
-    );
+    });
   }
 
   private getPerfiles() {
-    this.perfilesService.getPerfiles().subscribe(
-      (data: Perfil[]) => {
-        console.log('Perfiles cargados:', data);
+    this.perfilesService.getPerfiles().subscribe({
+      next: (data: Perfil[]) => {
         this.perfiles = data;
       },
-      (error) => console.error('Error al cargar perfiles:', error)
-    );
+    });
   }
+
   buscarPerfil() {
     if (this.username) {
-      this.perfilesService.getPerfilByUsername(this.username).subscribe((perfil: Perfil) => {
-        this.perfiles = [perfil];
-      });
+      this.perfilesService.getPerfilByUsername(this.username).subscribe(
+        (perfil: Perfil) => {
+          this.perfiles = [perfil];
+        },
+      );
     }
   }
 
   eliminarPerfil(id: number | undefined) {
     if (id !== undefined) {
-      this.perfilesService.eliminarPerfil(id).subscribe(() => {
-        this.perfiles = this.perfiles.filter(perfil => perfil.id !== id);
-      });
+      this.perfilesService.eliminarPerfil(id).subscribe(
+        () => {
+          this.perfiles = this.perfiles.filter(perfil => perfil.id !== id);
+          this.toastOkService.presentToast('Perfil eliminado con éxito', 2000);
+        },
+        (error) => {
+          this.toastErrorService.presentToast('Error al eliminar el perfil', 2000);
+        }
+      );
     }
   }
 
-  crearPerfily(perfil: Perfil) {
-    this.perfilesService.crearPerfil(perfil).subscribe((nuevoPerfil: Perfil) => {
-      this.perfiles.push(nuevoPerfil);
-    });
+  crearPerfil(perfil: Perfil) {
+    this.perfilesService.crearPerfil(perfil).subscribe(
+      (nuevoPerfil: Perfil) => {
+        this.perfiles.push(nuevoPerfil);
+        this.toastOkService.presentToast('Perfil creado con éxito', 2000);
+      },
+      (error) => {
+        this.toastErrorService.presentToast('Error al crear el perfil', 2000);
+      }
+    );
   }
 
   modificarPerfil(id: number, perfil: Perfil) {
-    this.perfilesService.modificarPerfil(id, perfil).subscribe((perfilActualizado: Perfil) => {
-      const index = this.perfiles.findIndex(p => p.id === id);
-      if (index !== -1) {
-        this.perfiles[index] = perfilActualizado;
+    this.perfilesService.modificarPerfil(id, perfil).subscribe(
+      (perfilActualizado: Perfil) => {
+        const index = this.perfiles.findIndex(p => p.id === id);
+        if (index !== -1) {
+          this.perfiles[index] = perfilActualizado;
+          this.toastOkService.presentToast('Perfil modificado con éxito', 2000);
+        }
+      },
+      (error) => {
+        this.toastErrorService.presentToast('Error al modificar el perfil', 2000);
       }
-    });
+    );
   }
 
   private generateItems() {
@@ -101,7 +125,6 @@ export class PanelAdminPerfilesComponent implements OnInit {
           this.perfiles = data;
         },
         error: (err) => {
-          console.error('Error fetching perfiles by nombre', err);
           this.perfiles = [];
         }
       });

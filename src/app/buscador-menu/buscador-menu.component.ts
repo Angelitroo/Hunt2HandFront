@@ -1,6 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {Router} from "@angular/router";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { IonicModule } from "@ionic/angular";
+import { Router } from "@angular/router";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-buscador-menu',
@@ -14,13 +16,22 @@ import {Router} from "@angular/router";
 export class BuscadorMenuComponent implements OnInit {
   @Output() searchEvent = new EventEmitter<{ searchValue: any, url: any }>();
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) { }
 
   ngOnInit() {}
 
   onSearchChange(event: any) {
-    const searchValue = event.target.value;
-    const url = this.router.url;
-    this.searchEvent.emit({ searchValue, url });
+    try {
+      const searchValue = event.target.value;
+      const url = this.router.url;
+      this.searchEvent.emit({ searchValue, url });
+      this.toastOkService.presentToast('Búsqueda realizada con éxito', 3000);
+    } catch (error) {
+      this.toastErrorService.presentToast('Error al realizar la búsqueda', 3000);
+    }
   }
 }

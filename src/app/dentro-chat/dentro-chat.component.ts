@@ -7,20 +7,22 @@ import { NgClass } from "@angular/common";
 import { Perfil } from "../modelos/Perfil";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import {send, star} from "ionicons/icons";
+import { send, star } from "ionicons/icons";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
-    selector: 'app-dentro-chat',
-    templateUrl: './dentro-chat.component.html',
-    styleUrls: ['./dentro-chat.component.scss'],
-    standalone: true,
+  selector: 'app-dentro-chat',
+  templateUrl: './dentro-chat.component.html',
+  styleUrls: ['./dentro-chat.component.scss'],
+  standalone: true,
   imports: [
     IonicModule,
     MenuInferiorComponent,
     NgClass
   ]
 })
-export class DentroChatComponent  implements OnInit {
+export class DentroChatComponent implements OnInit {
   estrellaSeleccionada: number = 0;
   estrellasSeleccionadas: { [key: number]: boolean } = {
     1: false,
@@ -37,7 +39,9 @@ export class DentroChatComponent  implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private reseñaService: ReseñaServiceService,
-    private perfilService: PerfilesService
+    private perfilService: PerfilesService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'star': star,
@@ -51,7 +55,6 @@ export class DentroChatComponent  implements OnInit {
     const valorado = localStorage.getItem('yaValorado');
     const estrellaGuardada = localStorage.getItem('estrellaSeleccionada');
 
-
     if (valorado === 'true') {
       this.yaValorado = true;
     }
@@ -60,15 +63,10 @@ export class DentroChatComponent  implements OnInit {
       this.establecerEstrellasSeleccionadas(this.estrellaSeleccionada);
     }
 
-
     this.perfilService.getPerfilById(this.idPerfilValorado).subscribe(
       (perfil: Perfil) => {
         this.nombreUsuario = perfil.nombre;
       },
-      error => {
-        console.error('Error obteniendo el perfil', error);
-        this.nombreUsuario = 'Error obteniendo el perfil:';
-      }
     );
   }
 
@@ -102,9 +100,10 @@ export class DentroChatComponent  implements OnInit {
     };
 
     this.reseñaService.crearReseña(nuevaReseña, this.idPerfilValorador, this.idPerfilValorado)
-      .subscribe(() => {
-        console.log(`Valoración confirmada: ${this.estrellaSeleccionada} estrella(s)`);
-        this.yaValorado = true;
+      .subscribe({
+        next: () => {
+          this.yaValorado = true;
+        },
       });
   }
 }

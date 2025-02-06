@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductosService } from "../services/productos.service";
 import { PerfilesService } from "../services/perfiles.service";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { IonicModule } from "@ionic/angular";
 import { NgIf } from "@angular/common";
-import {AuthService} from "../services/auth.service";
-import {CommonModule} from "@angular/common";
-import {FavoritosService} from "../services/favoritos.service";
+import { AuthService } from "../services/auth.service";
+import { CommonModule } from "@angular/common";
+import { FavoritosService } from "../services/favoritos.service";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-producto',
@@ -17,7 +19,6 @@ import {FavoritosService} from "../services/favoritos.service";
     MenuInferiorComponent,
     IonicModule,
     NgIf,
-    RouterLink,
     CommonModule
   ],
   standalone: true
@@ -33,9 +34,10 @@ export class ProductoComponent implements OnInit {
     private favoritosService: FavoritosService,
     private productosService: ProductosService,
     private perfilService: PerfilesService,
-    private route: ActivatedRoute
-  ) {
-  }
+    private route: ActivatedRoute,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
+  ) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -45,9 +47,6 @@ export class ProductoComponent implements OnInit {
         this.loadPerfil(data.perfil);
         this.checkIfFavorito(data.id);
       },
-      error: (err) => {
-        console.error('Error fetching producto by id', err);
-      }
     });
   }
 
@@ -56,9 +55,6 @@ export class ProductoComponent implements OnInit {
       next: (data) => {
         this.perfil = data;
       },
-      error: (err) => {
-        console.error('Error fetching perfil by id', err);
-      }
     });
   }
 
@@ -68,17 +64,13 @@ export class ProductoComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.isFavorito = false;
-          console.log('Producto eliminado de favoritos');
         },
-        error: err => console.error('Error al eliminar de favoritos:', err)
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.isFavorito = true;
-          console.log('Producto agregado a favoritos');
         },
-        error: err => console.error('Error al agregar a favoritos:', err)
       });
     }
   }
@@ -88,9 +80,6 @@ export class ProductoComponent implements OnInit {
       next: (isFavorito) => {
         this.isFavorito = isFavorito;
       },
-      error: (err) => {
-        console.error('Error checking if producto is favorito', err);
-      }
     });
   }
 }

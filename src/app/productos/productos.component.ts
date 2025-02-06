@@ -10,7 +10,8 @@ import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
-import { AuthService } from "../services/auth.service";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from "../services/toast-error.service";
 
 @Component({
   selector: 'app-productos',
@@ -35,7 +36,8 @@ export class ProductosComponent implements OnInit {
     private perfilesService: PerfilesService,
     private router: Router,
     private favoritosService: FavoritosService,
-    private authService: AuthService
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'heart-outline': heartOutline
@@ -63,9 +65,6 @@ export class ProductosComponent implements OnInit {
           this.checkIfFavorito(producto.id);
         });
       },
-      error: (err) => {
-        console.error('Error fetching productos', err);
-      }
     });
   }
 
@@ -75,9 +74,6 @@ export class ProductosComponent implements OnInit {
         next: (data) => {
           this.perfiles[perfilId] = data;
         },
-        error: (err) => {
-          console.error('Error fetching perfil by id', err);
-        }
       });
     }
   }
@@ -106,10 +102,6 @@ export class ProductosComponent implements OnInit {
       next: (isFavorito) => {
         this.favoritos[productoId] = isFavorito;
       },
-      error: (err) => {
-        console.error('Error checking favorito', err);
-        this.favoritos[productoId] = false;
-      }
     });
   }
 
@@ -119,19 +111,23 @@ export class ProductosComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = false;
-          console.log('Producto eliminado de favoritos');
         },
-        error: (err) => console.error('Error al eliminar de favoritos:', err)
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = true;
-          console.log('Producto añadido a favoritos');
         },
-        error: (err) => console.error('Error al agregar a favoritos:', err)
       });
     }
+  }
+
+  getProductoByCategoria(categoria: string) {
+    this.productosService.getProductoByCategoria(categoria).subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+    });
   }
 
   onSearch(searchValue: string) {
@@ -140,8 +136,7 @@ export class ProductosComponent implements OnInit {
         next: (data) => {
           this.productos = Array.isArray(data) ? data : [data];
         },
-        error: (err) => {
-          console.error('Error fetching producto by nombre', err);
+        error: () => {
           this.productos = [];
         }
       });

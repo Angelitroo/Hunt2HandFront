@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterModule} from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { AuthService } from '../services/auth.service';
-import {Chat} from "../modelos/Chat";
-import {CommonModule} from "@angular/common";
-import {IonicModule} from "@ionic/angular";
-import {MenuInferiorComponent} from "../menu-inferior/menu-inferior.component";
-import {addIcons} from "ionicons";
-import {chatbubbleOutline} from "ionicons/icons";
+import { Chat } from "../modelos/Chat";
+import { CommonModule } from "@angular/common";
+import { IonicModule } from "@ionic/angular";
+import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
+import { addIcons } from "ionicons";
+import { chatbubbleOutline } from "ionicons/icons";
+import { ToastOkService } from '../services/toast-ok.service';
+import { ToastErrorService } from '../services/toast-error.service';
 
 @Component({
   selector: 'app-chat',
@@ -24,7 +26,9 @@ export class ChatComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private toastOkService: ToastOkService,
+    private toastErrorService: ToastErrorService
   ) {
     addIcons({
       'chatbubble-outline': chatbubbleOutline,
@@ -41,10 +45,6 @@ export class ChatComponent implements OnInit {
       (chats) => {
         this.chats = chats;
       },
-      (error) => {
-        console.error('Error cargando los chats:', error);
-      }
     );
   }
-
 }
