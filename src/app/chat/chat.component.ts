@@ -45,6 +45,7 @@ export class ChatComponent implements OnInit {
         console.error('Error cargando los chats:', error);
       }
     );
+    this
   }
 
 }

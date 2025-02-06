@@ -3,108 +3,123 @@ import { ActivatedRoute } from '@angular/router';
 import { ReseñaServiceService } from '../services/reseña-service.service';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { IonicModule } from "@ionic/angular";
-import { NgClass } from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { Perfil } from "../modelos/Perfil";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import {send, star} from "ionicons/icons";
+import { send, star } from "ionicons/icons";
+import { MensajeService } from "../services/mensaje.service";
+import { Mensaje } from "../modelos/Mensaje";
+import {FormsModule} from "@angular/forms";
+import {AuthService} from "../services/auth.service";
+import {interval, Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-dentro-chat',
-    templateUrl: './dentro-chat.component.html',
-    styleUrls: ['./dentro-chat.component.scss'],
-    standalone: true,
+  selector: 'app-dentro-chat',
+  templateUrl: './dentro-chat.component.html',
+  styleUrls: ['./dentro-chat.component.scss'],
+  standalone: true,
   imports: [
     IonicModule,
     MenuInferiorComponent,
-    NgClass
+    NgClass,
+    FormsModule,
+    DatePipe,
+    NgForOf,
+    NgIf
   ]
 })
-export class DentroChatComponent  implements OnInit {
-  estrellaSeleccionada: number = 0;
-  estrellasSeleccionadas: { [key: number]: boolean } = {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false
-  };
-  idPerfilValorado: number = 2;
-  idPerfilValorador: number = 1;
-  yaValorado: boolean = false;
+export class DentroChatComponent implements OnInit {
+
   nombreUsuario: string = '';
+  idChat: number = 0;
+  idEmisor: number = 0;
+  idReceptor: number = 0;
+  mensajes: Mensaje[] = [];
+  nuevoMensaje: string = '';
+  imagenReceptor: string = '';
+  imagenEmisor: string = '';
+
+
+
+  private chatSubscription!: Subscription
 
   constructor(
     private route: ActivatedRoute,
-    private reseñaService: ReseñaServiceService,
-    private perfilService: PerfilesService
+    private perfilService: PerfilesService,
+    private mensajeService: MensajeService,
+    private authService: AuthService,
+
   ) {
-    addIcons({
-      'star': star,
-      'send': send
-    });
+    addIcons({'send': send });
   }
 
   ngOnInit() {
-    this.idPerfilValorado = +this.route.snapshot.paramMap.get('id_valorado')!;
-    this.idPerfilValorador = +this.route.snapshot.paramMap.get('id_valorador')!;
-    const valorado = localStorage.getItem('yaValorado');
-    const estrellaGuardada = localStorage.getItem('estrellaSeleccionada');
+    this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
+    this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
+    this.idReceptor = +this.route.snapshot.paramMap.get('id_receptor')!;
 
+    console.log('ID Emisor:', this.idEmisor);
+    console.log('ID Chat:', this.idChat);
+    console.log('ID Receptor:', this.idReceptor);
 
-    if (valorado === 'true') {
-      this.yaValorado = true;
-    }
-    if (estrellaGuardada) {
-      this.estrellaSeleccionada = +estrellaGuardada;
-      this.establecerEstrellasSeleccionadas(this.estrellaSeleccionada);
+    if (!this.idReceptor) {
+      console.error('Error: idReceptor es 0 o undefined.');
     }
 
+    this.cargarPerfil();
+    this.cargarMensajes();
+  }
 
-    this.perfilService.getPerfilById(this.idPerfilValorado).subscribe(
-      (perfil: Perfil) => {
+
+  cargarPerfil() {
+    this.perfilService.getPerfilById(this.idReceptor).subscribe({
+      next: (perfil) => {
         this.nombreUsuario = perfil.nombre;
+        this.imagenReceptor = perfil.imagen;
       },
-      error => {
-        console.error('Error obteniendo el perfil', error);
-        this.nombreUsuario = 'Error obteniendo el perfil:';
+      error: (e) => {
+        console.error('Error cargando perfil receptor:', e);
       }
+    });
+    this.perfilService.getPerfilById(this.idEmisor).subscribe({
+      next: (perfil) => {
+        this.imagenEmisor = perfil.imagen;
+      },
+      error: (e) => {
+        console.error('Error cargando perfil emisor:', e);
+      }
+    });
+  }
+
+
+  cargarMensajes() {
+    this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe(
+      mensajes => this.mensajes = mensajes,
+      error => console.error('Error obteniendo mensajes', error)
     );
   }
 
-  abrirValoracion(numero: number) {
-    if (this.yaValorado) return;
+  enviarMensaje() {
+    if (!this.nuevoMensaje.trim()) return;
 
-    const confirmacion = confirm(`¿Valorar con ${numero} estrella${numero > 1 ? 's' : ''}?`);
-    if (confirmacion) {
-      this.estrellaSeleccionada = numero;
-      this.establecerEstrellasSeleccionadas(numero);
-      this.confirmarValoracion();
-      this.yaValorado = true;
-
-      localStorage.setItem('yaValorado', 'true');
-      localStorage.setItem('estrellaSeleccionada', `${this.estrellaSeleccionada}`);
-    }
-  }
-
-  establecerEstrellasSeleccionadas(numero: number) {
-    for (let i = 1; i <= 5; i++) {
-      this.estrellasSeleccionadas[i] = i <= numero;
-    }
-  }
-
-  confirmarValoracion() {
-    const nuevaReseña = {
+    const mensaje: Mensaje = {
       id: 0,
-      valoracion: this.estrellaSeleccionada,
-      id_perfilvalorado: this.idPerfilValorado,
-      id_perfilvalorador: this.idPerfilValorador
+      idChat: this.idChat,
+      idEmisor: this.idEmisor,
+      idReceptor: this.idReceptor,
+      contenido: this.nuevoMensaje,
+      fecha: new Date().toISOString()
     };
 
-    this.reseñaService.crearReseña(nuevaReseña, this.idPerfilValorador, this.idPerfilValorado)
-      .subscribe(() => {
-        console.log(`Valoración confirmada: ${this.estrellaSeleccionada} estrella(s)`);
-        this.yaValorado = true;
-      });
+    this.mensajeService.enviarMensaje(mensaje).subscribe(
+      mensajeEnviado => {
+        this.mensajes.push(mensajeEnviado);
+        this.nuevoMensaje = '';
+      },
+      error => console.error('Error enviando mensaje', error)
+    );
   }
+
+  protected readonly sessionStorage = sessionStorage;
 }
