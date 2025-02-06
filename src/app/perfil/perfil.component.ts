@@ -3,7 +3,7 @@ import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
 import { settings, heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { RouterLink } from "@angular/router";
+import { RouterLink, ActivatedRoute } from "@angular/router";
 import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
@@ -34,13 +34,16 @@ export class PerfilComponent implements OnInit {
   seguidores: Perfil[] = [];
   seguidos: Perfil[] = [];
   productos: Producto[] = [];
+  showSettingsButton: boolean = true;
 
   constructor(
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private productosService: ProductosService,
+    private route: ActivatedRoute,
     private toastOkService: ToastOkService,
     private toastErrorService: ToastErrorService
+
   ) {
     addIcons({
       'settings': settings,
@@ -49,12 +52,22 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarPerfil();
+    this.route.paramMap.subscribe(params => {
+      const perfilId = params.get('id');
+      if (perfilId) {
+        this.showSettingsButton = false;
+        this.cargarPerfil(parseInt(perfilId, 10));
+      } else {
+        this.cargarPerfil();
+      }
+    });
     this.cargarProductos();
   }
 
-  private cargarPerfil() {
-    const perfilId = this.authService.getPerfilIdFromToken();
+  private cargarPerfil(perfilId?: number | null) {
+    if (!perfilId) {
+      perfilId = this.authService.getPerfilIdFromToken();
+    }
     console.log('Perfil ID:', perfilId);
     if (perfilId) {
       this.perfilesService.getPerfilById(perfilId).subscribe({

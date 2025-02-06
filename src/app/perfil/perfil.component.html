@@ -11,7 +11,7 @@
           <ion-col>
             <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
           </ion-col>
-          <ion-col size="auto">
+          <ion-col size="auto" *ngIf="showSettingsButton">
             <ion-toolbar>
               <ion-buttons slot="end">
                 <ion-button [routerLink]="'/modificar-perfil'">
@@ -68,7 +68,6 @@
   </ion-grid>
 
   <hr/>
-
 
   <ion-list>
     <ion-grid>

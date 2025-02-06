@@ -19,7 +19,8 @@ import { ToastErrorService } from '../services/toast-error.service';
     MenuInferiorComponent,
     IonicModule,
     NgIf,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   standalone: true
 })

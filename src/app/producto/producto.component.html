@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-card tappable class="profile-card" *ngIf="perfil">
+  <ion-card tappable class="profile-card" *ngIf="perfil" [routerLink]="['/perfil', perfil.id]">
     <ion-grid>
       <ion-row class="avatar-row">
         <ion-col size="6" class="ion-text-center avatar-col">

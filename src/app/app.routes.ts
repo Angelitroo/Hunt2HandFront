@@ -25,11 +25,7 @@ export const routes: Routes = [
   {
     path: 'buscador-menu-admin',
     loadComponent: () => import('./buscador-menu-admin/buscador-menu-admin.component').then((m) => m.BuscadorMenuAdminComponent),
-  },
-  {
-    path: 'perfil',
-    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
-  },
+  } ,
   {
     path: 'productos',
     loadComponent: () => import('./productos/productos.component').then((m) => m.ProductosComponent),
@@ -81,5 +77,14 @@ export const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),
+  },
+
+  {
+    path: 'perfil',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
+  },
+  {
+    path: 'perfil/:id',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
 ];
