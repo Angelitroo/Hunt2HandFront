@@ -60,13 +60,4 @@ export class ChatComponent implements OnInit {
       });
     }
   }
-
-  cargarChats() {
-    this.chatService.getChatById(this.idUsuario).subscribe(
-      (chats) => {
-        this.chats = chats;
-      },
-    );
-    this
-  }
 }
