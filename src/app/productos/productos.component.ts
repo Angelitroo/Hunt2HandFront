@@ -64,11 +64,7 @@ export class ProductosComponent implements OnInit {
           this.loadPerfil(producto.perfil);
           this.checkIfFavorito(producto.id);
         });
-        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al obtener productos', 3000);
-      }
     });
   }
 
@@ -78,9 +74,6 @@ export class ProductosComponent implements OnInit {
         next: (data) => {
           this.perfiles[perfilId] = data;
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al obtener perfil por ID', 3000);
-        }
       });
     }
   }
@@ -109,10 +102,6 @@ export class ProductosComponent implements OnInit {
       next: (isFavorito) => {
         this.favoritos[productoId] = isFavorito;
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al verificar favorito', 3000);
-        this.favoritos[productoId] = false;
-      }
     });
   }
 
@@ -122,17 +111,13 @@ export class ProductosComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = false;
-          this.toastOkService.presentToast('Producto eliminado de favoritos', 3000);
         },
-        error: () => this.toastErrorService.presentToast('Error al eliminar de favoritos', 3000)
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = true;
-          this.toastOkService.presentToast('Producto añadido a favoritos', 3000);
         },
-        error: () => this.toastErrorService.presentToast('Error al agregar a favoritos', 3000)
       });
     }
   }
@@ -142,9 +127,6 @@ export class ProductosComponent implements OnInit {
       next: (data) => {
         this.productos = data;
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al obtener productos por categoría', 3000);
-      }
     });
   }
 
@@ -155,7 +137,6 @@ export class ProductosComponent implements OnInit {
           this.productos = Array.isArray(data) ? data : [data];
         },
         error: () => {
-          this.toastErrorService.presentToast('Error al obtener producto por nombre', 3000);
           this.productos = [];
         }
       });

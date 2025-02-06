@@ -41,11 +41,7 @@ export class PanelAdminPerfilesComponent implements OnInit {
     this.perfilesService.getPerfiles().subscribe({
       next: (data: Perfil[]) => {
         this.perfiles = data;
-        this.toastOkService.presentToast('Perfiles cargados con éxito', 3000);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los perfiles', 3000);
-      }
     });
   }
 
@@ -53,11 +49,7 @@ export class PanelAdminPerfilesComponent implements OnInit {
     this.perfilesService.getPerfiles().subscribe({
       next: (data: Perfil[]) => {
         this.perfiles = data;
-        this.toastOkService.presentToast('Perfiles cargados con éxito', 3000);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los perfiles', 3000);
-      }
     });
   }
 
@@ -66,11 +58,7 @@ export class PanelAdminPerfilesComponent implements OnInit {
       this.perfilesService.getPerfilByUsername(this.username).subscribe(
         (perfil: Perfil) => {
           this.perfiles = [perfil];
-          this.toastOkService.presentToast('Perfil encontrado con éxito', 3000);
         },
-        (error) => {
-          this.toastErrorService.presentToast('Error al buscar el perfil', 3000);
-        }
       );
     }
   }
@@ -80,10 +68,10 @@ export class PanelAdminPerfilesComponent implements OnInit {
       this.perfilesService.eliminarPerfil(id).subscribe(
         () => {
           this.perfiles = this.perfiles.filter(perfil => perfil.id !== id);
-          this.toastOkService.presentToast('Perfil eliminado con éxito', 3000);
+          this.toastOkService.presentToast('Perfil eliminado con éxito', 2000);
         },
         (error) => {
-          this.toastErrorService.presentToast('Error al eliminar el perfil', 3000);
+          this.toastErrorService.presentToast('Error al eliminar el perfil', 2000);
         }
       );
     }
@@ -93,10 +81,10 @@ export class PanelAdminPerfilesComponent implements OnInit {
     this.perfilesService.crearPerfil(perfil).subscribe(
       (nuevoPerfil: Perfil) => {
         this.perfiles.push(nuevoPerfil);
-        this.toastOkService.presentToast('Perfil creado con éxito', 3000);
+        this.toastOkService.presentToast('Perfil creado con éxito', 2000);
       },
       (error) => {
-        this.toastErrorService.presentToast('Error al crear el perfil', 3000);
+        this.toastErrorService.presentToast('Error al crear el perfil', 2000);
       }
     );
   }
@@ -107,11 +95,11 @@ export class PanelAdminPerfilesComponent implements OnInit {
         const index = this.perfiles.findIndex(p => p.id === id);
         if (index !== -1) {
           this.perfiles[index] = perfilActualizado;
-          this.toastOkService.presentToast('Perfil modificado con éxito', 3000);
+          this.toastOkService.presentToast('Perfil modificado con éxito', 2000);
         }
       },
       (error) => {
-        this.toastErrorService.presentToast('Error al modificar el perfil', 3000);
+        this.toastErrorService.presentToast('Error al modificar el perfil', 2000);
       }
     );
   }
@@ -135,10 +123,8 @@ export class PanelAdminPerfilesComponent implements OnInit {
       this.perfilesService.buscarPorNombre(searchValue).subscribe({
         next: (data) => {
           this.perfiles = data;
-          this.toastOkService.presentToast('Búsqueda realizada con éxito', 3000);
         },
         error: (err) => {
-          this.toastErrorService.presentToast('Error al buscar el perfil', 3000);
           this.perfiles = [];
         }
       });

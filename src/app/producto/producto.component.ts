@@ -47,9 +47,6 @@ export class ProductoComponent implements OnInit {
         this.loadPerfil(data.perfil);
         this.checkIfFavorito(data.id);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar el producto', 3000);
-      }
     });
   }
 
@@ -58,9 +55,6 @@ export class ProductoComponent implements OnInit {
       next: (data) => {
         this.perfil = data;
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
-      }
     });
   }
 
@@ -70,21 +64,13 @@ export class ProductoComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.isFavorito = false;
-          this.toastOkService.presentToast('Producto eliminado de favoritos', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al eliminar el producto de favoritos', 3000);
-        }
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.isFavorito = true;
-          this.toastOkService.presentToast('Producto agregado a favoritos', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al agregar el producto a favoritos', 3000);
-        }
       });
     }
   }
@@ -94,9 +80,6 @@ export class ProductoComponent implements OnInit {
       next: (isFavorito) => {
         this.isFavorito = isFavorito;
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al verificar si el producto es favorito', 3000);
-      }
     });
   }
 }

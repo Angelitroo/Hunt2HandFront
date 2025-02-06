@@ -44,11 +44,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getChatById(this.idUsuario).subscribe(
       (chats) => {
         this.chats = chats;
-        this.toastOkService.presentToast('Chats cargados con éxito', 3000);
       },
-      (error) => {
-        this.toastErrorService.presentToast('Error al cargar los chats', 3000);
-      }
     );
   }
 }

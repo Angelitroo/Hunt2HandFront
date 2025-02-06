@@ -37,11 +37,7 @@ export class PanelAdminPublicacionesComponent implements OnInit {
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
-        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
-      }
     });
   }
 
@@ -49,11 +45,7 @@ export class PanelAdminPublicacionesComponent implements OnInit {
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
-        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
-      }
     });
   }
 
@@ -78,7 +70,6 @@ export class PanelAdminPublicacionesComponent implements OnInit {
           this.productos = Array.isArray(data) ? data : [data];
         },
         error: () => {
-          this.toastErrorService.presentToast('Error al buscar el producto', 3000);
           this.productos = [];
         }
       });

@@ -66,14 +66,8 @@ export class FavoritosComponent implements OnInit {
           this.productos.forEach(producto => {
             this.favoritos[producto.id] = true;
           });
-          this.toastOkService.presentToast('Favoritos cargados con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar los favoritos', 3000);
-        }
       });
-    } else {
-      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
@@ -83,22 +77,14 @@ export class FavoritosComponent implements OnInit {
       this.favoritosService.eliminarFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = false;
-          this.loadFavoritos(); // Reload the favorites after removing a product
-          this.toastOkService.presentToast('Favorito eliminado con éxito', 3000);
+          this.loadFavoritos();
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al eliminar el favorito', 3000);
-        }
       });
     } else {
       this.favoritosService.anadirFavorito(productoId).subscribe({
         next: () => {
           this.favoritos[productoId] = true;
-          this.toastOkService.presentToast('Favorito añadido con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al añadir el favorito', 3000);
-        }
       });
     }
   }
@@ -113,10 +99,8 @@ export class FavoritosComponent implements OnInit {
       this.productosService.getProductoByNombre(searchValue).subscribe({
         next: (data) => {
           this.productos = Array.isArray(data) ? data : [data];
-          this.toastOkService.presentToast('Búsqueda realizada con éxito', 3000);
         },
         error: () => {
-          this.toastErrorService.presentToast('Error al buscar el producto', 3000);
           this.productos = [];
         }
       });

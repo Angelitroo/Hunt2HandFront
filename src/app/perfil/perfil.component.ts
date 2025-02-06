@@ -60,37 +60,20 @@ export class PerfilComponent implements OnInit {
       this.perfilesService.getPerfilById(perfilId).subscribe({
         next: (data: Perfil) => {
           this.perfil = data;
-          console.log('Perfil:', this.perfil);
-          this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
-        }
       });
 
       this.perfilesService.getSeguidores(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidores = data;
-          console.log('Seguidores:', this.seguidores);
-          this.toastOkService.presentToast('Seguidores cargados con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar los seguidores', 3000);
-        }
       });
 
       this.perfilesService.getSeguidos(perfilId).subscribe({
         next: (data: Perfil[]) => {
           this.seguidos = data;
-          console.log('Seguidos:', this.seguidos);
-          this.toastOkService.presentToast('Seguidos cargados con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar los seguidos', 3000);
-        }
       });
-    } else {
-      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
@@ -99,11 +82,7 @@ export class PerfilComponent implements OnInit {
     this.productosService.getProductosByPerfilId(perfilId).subscribe(
       (productos) => {
         this.productos = productos;
-        this.toastOkService.presentToast('Productos cargados con éxito', 3000);
       },
-      () => {
-        this.toastErrorService.presentToast('Error al cargar los productos', 3000);
-      }
     );
   }
 

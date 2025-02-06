@@ -50,9 +50,6 @@ export class PanelAdminReportesComponent implements OnInit {
           }
         });
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los reportes', 3000);
-      }
     });
   }
 
@@ -61,11 +58,7 @@ export class PanelAdminReportesComponent implements OnInit {
       this.perfilesService.getPerfilById(perfilId).subscribe({
         next: (data) => {
           this.perfiles[perfilId] = data;
-          this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
-        }
       });
     }
   }
@@ -75,9 +68,6 @@ export class PanelAdminReportesComponent implements OnInit {
       next: (data) => {
         this.reportes = data;
       },
-      error: () => {
-        this.toastErrorService.presentToast('Error al cargar los reportes', 3000);
-      }
     });
   }
 
@@ -101,10 +91,6 @@ export class PanelAdminReportesComponent implements OnInit {
         next: (data) => {
           this.reportes = Array.isArray(data) ? data : [data];
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al buscar el reporte', 3000);
-          this.reportes = [];
-        }
       });
     } else {
       this.getReportes();

@@ -94,8 +94,6 @@ export class CrearProductoComponent implements OnInit {
           this.toastErrorService.presentToast('Error al crear el producto', 3000);
         }
       });
-    } else {
-      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 }

@@ -95,11 +95,11 @@ export class InicioSesionComponent implements OnInit {
       next: response => {
         this.authService.setToken(response.token);
         this.loginService.setAuthState(true);
-        this.toastOkService.presentToast('Sesión iniciada con éxito', 3000, 'ok');
+        this.toastOkService.presentToast('Sesión iniciada con éxito', 2000, 'ok');
         this.router.navigate(['/productos']);
       },
       error: err => {
-        this.toastErrorService.presentToast('Contraseña o usuario incorrecto', 3000, 'error');
+        this.toastErrorService.presentToast('Contraseña o usuario incorrecto', 2000, 'error');
       }
     });
   }

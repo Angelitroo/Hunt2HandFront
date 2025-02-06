@@ -61,15 +61,9 @@ export class ModificarPerfilComponent implements OnInit {
         next: (data: PerfilActualizar) => {
           if (data) {
             this.perfilActualizar = { ...data, password: '' };
-            this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
           }
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al cargar el perfil', 3000);
-        }
       });
-    } else {
-      this.toastErrorService.presentToast('Error al obtener el ID del perfil', 3000);
     }
   }
 
@@ -88,10 +82,10 @@ export class ModificarPerfilComponent implements OnInit {
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
           this.router.navigate(['/perfil']);
-          this.toastOkService.presentToast('Perfil actualizado con éxito', 3000);
+          this.toastOkService.presentToast('Perfil actualizado con éxito', 2000);
         },
         error: () => {
-          this.toastErrorService.presentToast('Error al actualizar el perfil', 3000);
+          this.toastErrorService.presentToast('Error al actualizar el perfil', 2000);
         }
       });
     }

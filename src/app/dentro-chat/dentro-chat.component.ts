@@ -66,11 +66,7 @@ export class DentroChatComponent implements OnInit {
     this.perfilService.getPerfilById(this.idPerfilValorado).subscribe(
       (perfil: Perfil) => {
         this.nombreUsuario = perfil.nombre;
-        this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
       },
-      error => {
-        this.toastErrorService.presentToast('Error obteniendo el perfil', 3000);
-      }
     );
   }
 
@@ -106,12 +102,8 @@ export class DentroChatComponent implements OnInit {
     this.reseñaService.crearReseña(nuevaReseña, this.idPerfilValorador, this.idPerfilValorado)
       .subscribe({
         next: () => {
-          this.toastOkService.presentToast('Valoración confirmada', 3000);
           this.yaValorado = true;
         },
-        error: () => {
-          this.toastErrorService.presentToast('Error al confirmar la valoración', 3000);
-        }
       });
   }
 }
