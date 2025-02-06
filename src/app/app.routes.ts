@@ -31,6 +31,10 @@ export const routes: Routes = [
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
   {
+    path: 'perfil/:id',
+    loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
+  },
+  {
     path: 'productos',
     loadComponent: () => import('./productos/productos.component').then((m) => m.ProductosComponent),
   },
@@ -81,5 +85,5 @@ export const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),
-  },
+  }
 ];
