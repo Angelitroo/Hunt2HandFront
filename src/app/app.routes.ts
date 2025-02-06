@@ -74,7 +74,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'dentro-chat/:id_chat',
+    path: 'dentro-chat/:id_chat/:id_receptor',
     loadComponent: () => import('./dentro-chat/dentro-chat.component').then((m) => m.DentroChatComponent),
   },
 

@@ -46,5 +46,6 @@ export class ChatComponent implements OnInit {
         this.chats = chats;
       },
     );
+    this
   }
 }

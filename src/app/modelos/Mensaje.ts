@@ -1,8 +1,8 @@
 export interface Mensaje {
   id: number;
-  id_chat: number;
-  id_emisor: number;
-  id_receptor: number;
+  idChat: number;
+  idEmisor: number;
+  idReceptor: number;
   contenido: string;
-  fecha: Date;
+  fecha: string;
 }
