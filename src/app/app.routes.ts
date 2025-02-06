@@ -85,5 +85,5 @@ export const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),
-  }
+  },
 ];

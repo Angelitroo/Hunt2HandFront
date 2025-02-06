@@ -31,12 +31,17 @@ import {interval, Subscription} from "rxjs";
 })
 export class DentroChatComponent implements OnInit {
 
-  nombreUsuario: string = '';
+
   idChat: number = 0;
   idEmisor: number = 0;
   idReceptor: number = 0;
+
+  perfiles: { [key: number]: any } = {};
+
   mensajes: Mensaje[] = [];
   nuevoMensaje: string = '';
+
+  nombreReceptor: string = '';
   imagenReceptor: string = '';
   imagenEmisor: string = '';
 
@@ -57,47 +62,39 @@ export class DentroChatComponent implements OnInit {
   ngOnInit() {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
-    this.idReceptor = +this.route.snapshot.paramMap.get('id_receptor')!;
 
-    console.log('ID Emisor:', this.idEmisor);
-    console.log('ID Chat:', this.idChat);
-    console.log('ID Receptor:', this.idReceptor);
+
 
     if (!this.idReceptor) {
       console.error('Error: idReceptor es 0 o undefined.');
     }
 
-    this.cargarPerfil();
-    this.cargarMensajes();
+    this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
+      next: (data) => {
+        this.mensajes = data;
+        this.mensajes.forEach(mensaje => {
+          const idReceptor = mensaje.idReceptor === this.idEmisor ? mensaje.idEmisor : mensaje.idEmisor;
+          this.loadPerfil(idReceptor);
+
+          console.log('ID Receptor:', idReceptor);
+        });
+        console.log('ID Emisor:', this.idEmisor);
+        console.log('ID Chat:', this.idChat);
+      },
+    });
+
   }
 
-
-  cargarPerfil() {
-    this.perfilService.getPerfilById(this.idReceptor).subscribe({
-      next: (perfil) => {
-        this.nombreUsuario = perfil.nombre;
-        this.imagenReceptor = perfil.imagen;
-      },
-      error: (e) => {
-        console.error('Error cargando perfil receptor:', e);
-      }
-    });
-    this.perfilService.getPerfilById(this.idEmisor).subscribe({
-      next: (perfil) => {
-        this.imagenEmisor = perfil.imagen;
-      },
-      error: (e) => {
-        console.error('Error cargando perfil emisor:', e);
-      }
-    });
-  }
-
-
-  cargarMensajes() {
-    this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe(
-      mensajes => this.mensajes = mensajes,
-      error => console.error('Error obteniendo mensajes', error)
-    );
+  loadPerfil(perfilId: number) {
+    if (!this.perfiles[perfilId]) {
+      this.perfilService.getPerfilById(perfilId).subscribe({
+        next: (data) => {
+          this.perfiles[perfilId] = data;
+          this.nombreReceptor = data.nombre;
+          this.imagenReceptor = data.imagen;
+        },
+      });
+    }
   }
 
   enviarMensaje() {
