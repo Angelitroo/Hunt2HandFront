@@ -10,6 +10,7 @@ import { addIcons } from "ionicons";
 import { chatbubbleOutline } from "ionicons/icons";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {PerfilesService} from "../services/perfiles.service";
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +22,7 @@ import { ToastErrorService } from '../services/toast-error.service';
 
 export class ChatComponent implements OnInit {
   idUsuario!: number;
+  perfiles: { [key: number]: any } = {};
   chats: Chat[] = [];
 
   constructor(
@@ -28,7 +30,8 @@ export class ChatComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
+    private toastErrorService: ToastErrorService,
+    private perfilService: PerfilesService
   ) {
     addIcons({
       'chatbubble-outline': chatbubbleOutline,
@@ -37,7 +40,25 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
-    this.cargarChats();
+    this.chatService.getChatById(this.idUsuario).subscribe({
+      next: (data) => {
+        this.chats = data;
+        this.chats.forEach(chat => {
+          const perfilId = chat.id_creador === this.idUsuario ? chat.id_receptor : chat.id_creador;
+          this.loadPerfil(perfilId);
+        });
+      },
+    });
+  }
+
+  loadPerfil(perfilId: number) {
+    if (!this.perfiles[perfilId]) {
+      this.perfilService.getPerfilById(perfilId).subscribe({
+        next: (data) => {
+          this.perfiles[perfilId] = data;
+        },
+      });
+    }
   }
 
   cargarChats() {
