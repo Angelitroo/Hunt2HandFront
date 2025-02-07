@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReseñaServiceService } from '../services/reseña-service.service';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { IonicModule } from "@ionic/angular";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import { Perfil } from "../modelos/Perfil";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { send, star } from "ionicons/icons";
+import { send } from "ionicons/icons";
 import { MensajeService } from "../services/mensaje.service";
 import { Mensaje } from "../modelos/Mensaje";
 import {FormsModule} from "@angular/forms";
@@ -22,7 +20,6 @@ import {interval, Subscription} from "rxjs";
   imports: [
     IonicModule,
     MenuInferiorComponent,
-    NgClass,
     FormsModule,
     DatePipe,
     NgForOf,
@@ -63,27 +60,36 @@ export class DentroChatComponent implements OnInit {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
 
-
-
-    if (!this.idReceptor) {
-      console.error('Error: idReceptor es 0 o undefined.');
-    }
-
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
         this.mensajes = data;
-        this.mensajes.forEach(mensaje => {
-          const idReceptor = mensaje.idReceptor === this.idEmisor ? mensaje.idEmisor : mensaje.idEmisor;
-          this.loadPerfil(idReceptor);
+        if (this.mensajes.length > 0) {
+          // Determinar el idReceptor a partir de los mensajes
+          this.idReceptor = this.mensajes[0].idEmisor === this.idEmisor
+            ? this.mensajes[0].idReceptor
+            : this.mensajes[0].idEmisor;
+        }
 
-          console.log('ID Receptor:', idReceptor);
-        });
-        console.log('ID Emisor:', this.idEmisor);
-        console.log('ID Chat:', this.idChat);
+        if (!this.idReceptor) {
+          console.error('Error: idReceptor es 0 o undefined.');
+          return;
+        }
+
+        this.loadPerfil(this.idReceptor);
+        console.log('ID Receptor:', this.idReceptor);
       },
+      error: (error) => {
+        if (error.status === 404) {
+          console.error('Resource not found: ', error.message);
+          // Optionally, provide feedback to the user
+          alert('The requested chat could not be found.');
+        } else {
+          console.error('Error fetching messages: ', error);
+        }
+      }
     });
-
   }
+
 
   loadPerfil(perfilId: number) {
     if (!this.perfiles[perfilId]) {

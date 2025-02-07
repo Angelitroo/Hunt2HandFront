@@ -22,9 +22,6 @@ export class MensajeService {
     return this.httpClient.get<Mensaje[]>(`/api/mensaje/chat/${idChat}`, options);
   }
 
-
-
-
   obtenerMensajesEnviados(idUsuario: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.get<Mensaje[]>(`/api/mensaje/enviados/${idUsuario}`, options);

@@ -29,6 +29,7 @@ export class ProductoComponent implements OnInit {
   producto: any;
   perfil: any;
   isFavorito: boolean = true;
+  perfilId: number | null = null;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +42,7 @@ export class ProductoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.perfilId = this.authService.getPerfilIdFromToken();
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.productosService.getProductoById(id).subscribe({
       next: (data) => {

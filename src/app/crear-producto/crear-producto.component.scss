@@ -16,6 +16,14 @@
 
 }
 
+.centrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+}
+
 .preview-container img {
   object-fit: cover;
   height: 100%;

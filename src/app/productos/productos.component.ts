@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from "../services/toast-error.service";
+import { AuthService } from '../services/auth.service'; // Import AuthService
 
 @Component({
   selector: 'app-productos',
@@ -30,18 +31,24 @@ export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   perfiles: { [key: number]: any } = {};
   favoritos: { [key: number]: boolean } = {};
+  perfilId: number | null = null;
 
   constructor(
     private productosService: ProductosService,
     private perfilesService: PerfilesService,
     private router: Router,
     private favoritosService: FavoritosService,
-    private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
+    private authService: AuthService // Inject AuthService
   ) {
     addIcons({
       'heart-outline': heartOutline
     });
+  }
+
+  ngOnInit() {
+    this.perfilId = this.authService.getPerfilIdFromToken();
+    this.generateItems();
+    this.loadProductos();
   }
 
   flipBack(event: Event) {
@@ -51,15 +58,10 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.generateItems();
-    this.loadProductos();
-  }
-
   private loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (data) => {
-        this.productos = data;
+        this.productos = data.filter(producto => producto.perfil !== this.perfilId); // Filter out products from the logged-in user
         this.productos.forEach(producto => {
           this.loadPerfil(producto.perfil);
           this.checkIfFavorito(producto.id);

@@ -28,7 +28,7 @@
       <ion-img [src]="producto.imagen"/>
       <ion-card-title class="price-container" style="margin-top: 10px">
         {{ producto.precio + "€" }}
-        <ion-button fill="clear" class="ion-float-end" (click)="toggleFavorito($event, producto.id)">
+        <ion-button *ngIf="producto.perfil !== perfilId" fill="clear" class="ion-float-end" (click)="toggleFavorito($event, producto.id)">
           <ion-icon [name]="isFavorito ? 'heart' : 'heart-outline'" class="heart-icon" [style.color]="isFavorito ? 'red' : 'grey'"></ion-icon>
         </ion-button>
       </ion-card-title>
