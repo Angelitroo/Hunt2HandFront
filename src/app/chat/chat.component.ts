@@ -46,6 +46,7 @@ export class ChatComponent implements OnInit {
         this.chats.forEach(chat => {
           const perfilId = chat.id_creador === this.idUsuario ? chat.id_receptor : chat.id_creador;
           this.loadPerfil(perfilId);
+          console.log("perfil receptor: ", perfilId);
         });
       },
     });
