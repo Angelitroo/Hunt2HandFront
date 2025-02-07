@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReseñaServiceService } from '../services/reseña-service.service';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { IonicModule } from "@ionic/angular";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import { Perfil } from "../modelos/Perfil";
+import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { send, star } from "ionicons/icons";
+import { send } from "ionicons/icons";
 import { MensajeService } from "../services/mensaje.service";
 import { Mensaje } from "../modelos/Mensaje";
-import {FormsModule} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
-import {interval, Subscription} from "rxjs";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../services/auth.service";
+import { Chat } from "../modelos/Chat";
+import { ChatService } from "../services/chat.service";
 
 @Component({
   selector: 'app-dentro-chat',
@@ -30,31 +29,23 @@ import {interval, Subscription} from "rxjs";
   ]
 })
 export class DentroChatComponent implements OnInit {
-
-
   idChat: number = 0;
   idEmisor: number = 0;
   idReceptor: number = 0;
 
   perfiles: { [key: number]: any } = {};
-
   mensajes: Mensaje[] = [];
   nuevoMensaje: string = '';
-
   nombreReceptor: string = '';
   imagenReceptor: string = '';
   imagenEmisor: string = '';
-
-
-
-  private chatSubscription!: Subscription
 
   constructor(
     private route: ActivatedRoute,
     private perfilService: PerfilesService,
     private mensajeService: MensajeService,
     private authService: AuthService,
-
+    private chatService: ChatService
   ) {
     addIcons({'send': send });
   }
@@ -63,36 +54,29 @@ export class DentroChatComponent implements OnInit {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
 
+    this.chatService.getDetallesChat(this.idChat).subscribe({
+      next: (chat: Chat) => {
+        this.idReceptor = chat.id_creador === this.idEmisor ? chat.id_receptor : chat.id_creador;
+        this.loadPerfilReceptor(this.idReceptor);
+      },
+      error: (err) => console.error('Error al obtener el chat:', err)
+    });
+
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
         this.mensajes = data;
-
-        if (this.mensajes.length > 0) {
-          // Tomamos el primer mensaje para determinar el otro usuario en el chat
-          const primerMensaje = this.mensajes[0];
-          this.idReceptor = primerMensaje.idEmisor === this.idEmisor ? primerMensaje.idReceptor : primerMensaje.idEmisor;
-        }
-
-        if (!this.idReceptor) {
-          console.error('Error: idReceptor sigue siendo 0 o undefined.');
-        } else {
-          this.loadPerfilReceptor(this.idReceptor);
-          console.log('ID Receptor:', this.idReceptor);
-        }
-
-        console.log('ID Emisor:', this.idEmisor);
-        console.log('ID Chat:', this.idChat);
       },
       error: (err) => console.error('Error al obtener los mensajes:', err)
     });
+
     this.loadPerfilEmisor(this.idEmisor);
   }
 
-  loadPerfilEmisor(idEmidor: number) {
-    if (!this.perfiles[idEmidor]) {
-      this.perfilService.getPerfilById(idEmidor).subscribe({
+  loadPerfilEmisor(idEmisor: number) {
+    if (!this.perfiles[idEmisor]) {
+      this.perfilService.getPerfilById(idEmisor).subscribe({
         next: (data) => {
-          this.perfiles[idEmidor] = data;
+          this.perfiles[idEmisor] = data;
           this.imagenEmisor = data.imagen;
         },
       });
@@ -136,7 +120,4 @@ export class DentroChatComponent implements OnInit {
       error => console.error('Error enviando mensaje', error)
     );
   }
-
-
-  protected readonly sessionStorage = sessionStorage;
 }
