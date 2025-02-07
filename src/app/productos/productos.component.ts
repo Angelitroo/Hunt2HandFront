@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from "../services/toast-error.service";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-productos',
@@ -25,19 +26,43 @@ import { ToastErrorService } from "../services/toast-error.service";
   ],
   standalone: true
 })
+
 export class ProductosComponent implements OnInit {
   items: string[] = [];
+  idUsuario: number = 0;
   productos: Producto[] = [];
   perfiles: { [key: number]: any } = {};
   favoritos: { [key: number]: boolean } = {};
+  categorias: string[] = [
+    'Vehiculos',
+    'Ropa',
+    'Electrodomesticos',
+    'Tecnologia',
+    'Deportes',
+    'Hogar',
+    'Jardineria',
+    'Mascotas',
+    'Otros',
+    'Juguetes',
+    'Libros',
+    'Muebles',
+    'Belleza',
+    'Salud',
+    'Herramientas',
+    'Musica',
+    'Arte',
+    'Coleccionables',
+    'Bebes',
+    'Alimentos y bebidas'
+  ];
+  productosPorCategoria: { [key: string]: Producto[] } = {};
 
   constructor(
     private productosService: ProductosService,
     private perfilesService: PerfilesService,
+    private authService: AuthService,
     private router: Router,
-    private favoritosService: FavoritosService,
-    private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
+    private favoritosService: FavoritosService
   ) {
     addIcons({
       'heart-outline': heartOutline
@@ -52,8 +77,10 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.generateItems();
-    this.loadProductos();
+    this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
+    this.categorias.forEach(categoria => {
+      this.getProductoByCategoria(categoria);
+    });
   }
 
   private loadProductos() {
@@ -123,10 +150,22 @@ export class ProductosComponent implements OnInit {
   }
 
   getProductoByCategoria(categoria: string) {
+    if (!categoria) {
+      this.productosPorCategoria[categoria] = [];
+      return;
+    }
+
     this.productosService.getProductoByCategoria(categoria).subscribe({
       next: (data) => {
-        this.productos = data;
+        this.productosPorCategoria[categoria] = (data || []).filter(producto => producto.perfil !== this.idUsuario);
+        this.productosPorCategoria[categoria].forEach(producto => {
+          this.loadPerfil(producto.perfil);
+          this.checkIfFavorito(producto.id);
+        });
       },
+      error: () => {
+        this.productosPorCategoria[categoria] = [];
+      }
     });
   }
 

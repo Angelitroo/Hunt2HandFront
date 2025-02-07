@@ -38,13 +38,13 @@ export class CrearProductoComponent implements OnInit {
   };
 
   categorias: string[] = [
-    'Vehículos',
+    'Vehiculos',
     'Ropa',
-    'Electrodomésticos',
-    'Tecnología',
+    'Electrodomesticos',
+    'Tecnologia',
     'Deportes',
     'Hogar',
-    'Jardinería',
+    'Jardineria',
     'Mascotas',
     'Otros',
     'Juguetes',
@@ -53,10 +53,10 @@ export class CrearProductoComponent implements OnInit {
     'Belleza',
     'Salud',
     'Herramientas',
-    'Música',
+    'Musica',
     'Arte',
     'Coleccionables',
-    'Bebés',
+    'Bebes',
     'Alimentos y bebidas'
   ];
 

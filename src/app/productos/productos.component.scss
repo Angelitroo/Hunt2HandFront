@@ -1,3 +1,26 @@
+.slides-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  margin-right: 10px;
+}
+
+.chip {
+  display: inline-block;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 16px;
+}
+
+.label {
+  font-size: 14px;
+}
+
 .card-container {
   display: flex;
   flex-wrap: wrap;

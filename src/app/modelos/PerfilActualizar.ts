@@ -4,6 +4,7 @@ export interface PerfilActualizar {
   apellido: string;
   ubicacion: string;
   imagen: string;
+  email: string
   username: string;
   password: string;
 }

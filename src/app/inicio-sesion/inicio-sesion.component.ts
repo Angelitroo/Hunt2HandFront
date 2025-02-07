@@ -37,6 +37,7 @@ export class InicioSesionComponent implements OnInit {
   nombre: string = '';
   apellido: string = '';
   ubicacion: string = '';
+  email: string = '';
   username: string = '';
   password: string = '';
   role: string = '1';
@@ -109,6 +110,7 @@ export class InicioSesionComponent implements OnInit {
       nombre: this.nombre,
       apellido: this.apellido,
       ubicacion: this.ubicacion,
+      email: this.email,
       username: this.username,
       password: this.password,
       rol: this.role

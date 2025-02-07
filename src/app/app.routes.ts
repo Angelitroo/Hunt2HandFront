@@ -85,5 +85,13 @@ export const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),
-  }
+  },
+  {
+    path: 'recuperar-contrasena',
+    loadComponent: () => import('./recuperar-contrasena/recuperar-contrasena.component').then((m) => m.RecuperarContrasenaComponent),
+  },
+  {
+    path: 'restablecer-contrasena',
+    loadComponent: () => import('./restablecer-contrasena/restablecer-contrasena.component').then((m) => m.RestablecerContrasenaComponent),
+  },
 ];
