@@ -63,29 +63,43 @@ export class DentroChatComponent implements OnInit {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
 
-
-
-    if (!this.idReceptor) {
-      console.error('Error: idReceptor es 0 o undefined.');
-    }
-
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
         this.mensajes = data;
-        this.mensajes.forEach(mensaje => {
-          const idReceptor = mensaje.idReceptor === this.idEmisor ? mensaje.idEmisor : mensaje.idEmisor;
-          this.loadPerfil(idReceptor);
 
-          console.log('ID Receptor:', idReceptor);
-        });
+        if (this.mensajes.length > 0) {
+          // Tomamos el primer mensaje para determinar el otro usuario en el chat
+          const primerMensaje = this.mensajes[0];
+          this.idReceptor = primerMensaje.idEmisor === this.idEmisor ? primerMensaje.idReceptor : primerMensaje.idEmisor;
+        }
+
+        if (!this.idReceptor) {
+          console.error('Error: idReceptor sigue siendo 0 o undefined.');
+        } else {
+          this.loadPerfilReceptor(this.idReceptor);
+          console.log('ID Receptor:', this.idReceptor);
+        }
+
         console.log('ID Emisor:', this.idEmisor);
         console.log('ID Chat:', this.idChat);
       },
+      error: (err) => console.error('Error al obtener los mensajes:', err)
     });
-
+    this.loadPerfilEmisor(this.idEmisor);
   }
 
-  loadPerfil(perfilId: number) {
+  loadPerfilEmisor(idEmidor: number) {
+    if (!this.perfiles[idEmidor]) {
+      this.perfilService.getPerfilById(idEmidor).subscribe({
+        next: (data) => {
+          this.perfiles[idEmidor] = data;
+          this.imagenEmisor = data.imagen;
+        },
+      });
+    }
+  }
+
+  loadPerfilReceptor(perfilId: number) {
     if (!this.perfiles[perfilId]) {
       this.perfilService.getPerfilById(perfilId).subscribe({
         next: (data) => {
@@ -99,6 +113,11 @@ export class DentroChatComponent implements OnInit {
 
   enviarMensaje() {
     if (!this.nuevoMensaje.trim()) return;
+
+    if (!this.idReceptor) {
+      console.error('Error: No se puede enviar el mensaje porque idReceptor no está definido.');
+      return;
+    }
 
     const mensaje: Mensaje = {
       id: 0,
@@ -117,6 +136,7 @@ export class DentroChatComponent implements OnInit {
       error => console.error('Error enviando mensaje', error)
     );
   }
+
 
   protected readonly sessionStorage = sessionStorage;
 }

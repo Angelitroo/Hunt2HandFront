@@ -11,21 +11,21 @@
   <ion-grid>
     <ion-item lines="none" *ngFor="let mensaje of mensajes">
 
-      <ion-avatar slot="start" *ngIf="mensaje.idEmisor === idEmisor">
-        <!-- Usar la imagen del receptor o una imagen por defecto -->
-        <ion-img [src]="imagenReceptor || '../../assets/iconoperfil.png'"></ion-img>
+      <!-- EMISOR -->
+      <ion-avatar slot="end" *ngIf="mensaje.idEmisor === idEmisor">
+        <ion-img [src]="imagenEmisor || '../../assets/iconoperfil.png'"></ion-img>
       </ion-avatar>
-      <ion-label class="message-bubble sent" *ngIf="mensaje.idEmisor === idEmisor">
+      <ion-label  class="message-bubble received" slot="end" *ngIf="mensaje.idEmisor === idEmisor">
         {{ mensaje.contenido }}
         <br>
         <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
       </ion-label>
 
-      <ion-avatar slot="end" *ngIf="mensaje.idEmisor !== idEmisor">
-        <!-- Usar la imagen del receptor o una imagen por defecto -->
-        <ion-img [src]="imagenEmisor || '../../assets/iconoperfil.png'"></ion-img>
+      <!-- RECEPTOR -->
+      <ion-avatar slot="start" *ngIf="mensaje.idEmisor !== idEmisor">
+        <ion-img [src]="imagenReceptor   || '../../assets/iconoperfil.png'"></ion-img>
       </ion-avatar>
-      <ion-label class="message-bubble received" slot="end" *ngIf="mensaje.idEmisor !== idEmisor">
+      <ion-label class="message-bubble sent"  *ngIf="mensaje.idEmisor !== idEmisor">
         {{ mensaje.contenido }}
         <br>
         <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
