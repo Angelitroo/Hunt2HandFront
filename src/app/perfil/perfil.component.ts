@@ -41,9 +41,6 @@ export class PerfilComponent implements OnInit {
   perfilId: number | null = null;
 
 
-
-
-
   constructor(
     private perfilesService: PerfilesService,
     private authService: AuthService,
