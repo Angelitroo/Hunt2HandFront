@@ -3,7 +3,7 @@ import { IonicModule } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { NgForOf } from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { Producto } from "../modelos/Producto";
 import { ProductosService } from '../services/productos.service';
 import { AuthService } from "../services/auth.service";
@@ -19,11 +19,14 @@ import { ToastErrorService } from '../services/toast-error.service';
     IonicModule,
     FormsModule,
     NgForOf,
-    MenuInferiorComponent
+    MenuInferiorComponent,
+    NgIf
   ]
 })
 export class CrearProductoComponent implements OnInit {
   imagePath: string = '';
+  modoEditar: boolean = false;
+
 
   producto: Producto = {
     id: 0,
@@ -69,7 +72,27 @@ export class CrearProductoComponent implements OnInit {
     private toastErrorService: ToastErrorService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const productId = params['id'];
+      if (productId) {
+        this.modoEditar = true;
+        this.loadProductDetails(productId);
+      }
+    });
+  }
+
+  loadProductDetails(id: number): void {
+    this.productosService.getProductoById(id).subscribe({
+      next: (producto) => {
+        this.producto = producto;
+        this.imagePath = producto.imagen;
+      },
+      error: (err) => {
+        this.toastErrorService.presentToast('Error al cargar el producto', 3000);
+      }
+    });
+  }
 
   crearProducto(): void {
     const perfilId: number | undefined = this.authService.getPerfilIdFromToken() ?? undefined;
@@ -96,4 +119,21 @@ export class CrearProductoComponent implements OnInit {
       });
     }
   }
+
+  modificarProducto(): void {
+    if (this.producto.id) {
+      this.productosService.modificarProducto(this.producto.id, this.producto).subscribe({
+        next: () => {
+          this.router.navigate(['/perfil']);
+          this.toastOkService.presentToast('Producto modificado con éxito', 3000);
+        },
+        error: err => {
+          this.toastErrorService.presentToast('Error al modificar el producto', 3000);
+        }
+      });
+    } else {
+      this.toastErrorService.presentToast('ID de producto no encontrado', 3000);
+    }
+  }
+
 }

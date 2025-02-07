@@ -35,8 +35,8 @@ export class FavoritosService {
   eliminarFavorito(productoId: number) {
     const idPerfil = this.authService.getPerfilIdFromToken();
     const options = {
-      ...this.authService.getAuthHeaders(), // Incluye los encabezados de autenticación
-      responseType: 'text' as 'json' // Asegura que la respuesta sea interpretada como texto
+      ...this.authService.getAuthHeaders(),
+      responseType: 'text' as 'json'
     };
 
     return this.http.delete(`/api/perfiles/favoritos/eliminar/${idPerfil}/${productoId}`, options)

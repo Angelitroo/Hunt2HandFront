@@ -44,24 +44,32 @@
         </ion-row>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="perfil?.id !== perfilId">
+      <ion-col class="centrar">
+        <div *ngIf="perfil" class="centrar">
+          <ion-button *ngIf="!esSeguidor && !showSettingsButton" (click)="seguir()">Seguir</ion-button>
+          <ion-button *ngIf="esSeguidor && !showSettingsButton" (click)="dejarDeSeguir()">Dejar de seguir</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
   <hr/>
 
   <ion-grid>
     <ion-row>
-      <ion-col class="ion-text-center">
+      <ion-col class="centrar">
         <h1>0</h1>
       </ion-col>
-      <ion-col class="ion-text-center">
+      <ion-col class="centrar">
         <h1>0</h1>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="ion-text-center">
+      <ion-col class="centrar">
         <h1>Ventas</h1>
       </ion-col>
-      <ion-col class="ion-text-center">
+      <ion-col class="centrar">
         <h1>Reseñas</h1>
       </ion-col>
     </ion-row>
@@ -73,20 +81,44 @@
     <ion-grid>
       <ion-row>
         <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
-          <ion-card>
-            <ion-card-content class="ion-margin">
-              <ion-img [src]="producto.imagen"></ion-img>
-              <ion-card-title class="price-container" style="margin-top: 10px">
-                {{ producto.precio }}€
-                <ion-button fill="clear" class="ion-float-end">
-                  <ion-icon name="heart-outline" class="heart-icon"></ion-icon>
-                </ion-button>
-              </ion-card-title>
-              <ion-card-subtitle class="product-name">
-                <b>{{ producto.nombre }}</b>
-              </ion-card-subtitle>
-            </ion-card-content>
-          </ion-card>
+          <div class="card" (click)="flipBack($event)">
+            <div class="card-inner">
+              <div class="card-front">
+                <ion-img [src]="producto.imagen" class="product-image" />
+                <ion-row>
+                  <ion-col size="9">
+                    <ion-card-title class="product-name">
+                      <b>{{ producto.nombre }}</b>
+                    </ion-card-title>
+                  </ion-col>
+                  <ion-col size="3">
+                    <ion-card-title class="price-container">
+                      {{ producto.precio + "€" }}
+                    </ion-card-title>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <div class="card-back">
+                <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
+                <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
+                <ion-row>
+                  <ion-col>
+                    <ion-button *ngIf="showSettingsButton" [routerLink]="['/crear-producto', producto.id]" fill="clear" class="like-button">
+                      <ion-icon name="create"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button *ngIf="showSettingsButton" fill="clear" class="like-button" (click)="confirmarBorrado(producto.id)">
+                      <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+                <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
+              </div>
+            </div>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -91,14 +91,20 @@
 
     <ion-row class="custom-row">
       <ion-col>
-        <div class="large-button-container">
-          <ion-button
-            expand="block"
-            class="create-button"
-            (click)="crearProducto()">
-            Crear
-          </ion-button>
-        </div>
+        <ion-button
+          *ngIf="!modoEditar"
+          expand="block"
+          class="create-button"
+          (click)="crearProducto()">
+          Crear
+        </ion-button>
+        <ion-button
+          *ngIf="modoEditar"
+          expand="block"
+          class="create-button centrar"
+          (click)="modificarProducto()">
+          Guardar cambios
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

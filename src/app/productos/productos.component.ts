@@ -56,17 +56,26 @@ export class ProductosComponent implements OnInit {
     'Alimentos y bebidas'
   ];
   productosPorCategoria: { [key: string]: Producto[] } = {};
+  perfilId: number | null = null;
 
   constructor(
     private productosService: ProductosService,
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private router: Router,
+    private favoritosService: FavoritosService,
+    private authService: AuthService // Inject AuthService
     private favoritosService: FavoritosService
   ) {
     addIcons({
       'heart-outline': heartOutline
     });
+  }
+
+  ngOnInit() {
+    this.perfilId = this.authService.getPerfilIdFromToken();
+    this.generateItems();
+    this.loadProductos();
   }
 
   flipBack(event: Event) {
@@ -86,7 +95,7 @@ export class ProductosComponent implements OnInit {
   private loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (data) => {
-        this.productos = data;
+        this.productos = data.filter(producto => producto.perfil !== this.perfilId); // Filter out products from the logged-in user
         this.productos.forEach(producto => {
           this.loadPerfil(producto.perfil);
           this.checkIfFavorito(producto.id);

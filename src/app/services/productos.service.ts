@@ -32,13 +32,13 @@ export class ProductosService {
   }
 
   eliminarProducto(id: number): Observable<void> {
-    const token = this.authService.getAuthHeaders();
-    return this.httpClient.delete<void>(`/api/productos/${id}`, token);
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.delete<void>(`/api/productos/eliminar/${id}`, options);
   }
 
   modificarProducto(id: number, producto: Producto): Observable<Producto> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.put<Producto>(`/api/productos/${id}`, producto, options);
+    return this.httpClient.put<Producto>(`/api/productos/actualizar/${id}`, producto, options);
   }
 
   guardarProducto(id: number, producto: Partial<Producto>): Observable<Producto> {

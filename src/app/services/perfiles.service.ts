@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Perfil } from '../modelos/Perfil';
 import { AuthService } from './auth.service';
 import {PerfilActualizar} from "../modelos/PerfilActualizar";
+import { SeguirDTO } from '../modelos/SeguirDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,25 @@ export class PerfilesService {
   crearPerfil(perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.post<Perfil>('api/perfiles/', perfil, options);
+  }
+
+  seguirPerfil(seguirDTO: SeguirDTO): Observable<Perfil> {
+    const options = this.authService.getAuthHeaders();
+    console.log('POST /api/perfiles/seguir', seguirDTO, options);
+    return this.httpClient.post<Perfil>('/api/perfiles/seguir', seguirDTO, options);
+  }
+
+  dejarDeSeguirPerfil(seguirDTO: SeguirDTO): Observable<string> {
+    const options = {
+      ...this.authService.getAuthHeaders(),
+      responseType: 'text' as 'json'
+    }
+    return this.httpClient.post<string>('/api/perfiles/dejar-seguir', seguirDTO, options);
+  }
+
+  esSeguidor(seguirDTO: SeguirDTO): Observable<boolean> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.post<boolean>('/api/perfiles/es-seguidor', seguirDTO, options);
   }
 
   getSeguidores(id: number): Observable<Perfil[]> {
