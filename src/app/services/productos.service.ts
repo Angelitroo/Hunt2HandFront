@@ -23,7 +23,7 @@ export class ProductosService {
 
   getProductoByCategoria(categoria: string): Observable<Producto[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Producto[]>(`/api/productos/categoria/${categoria}`, options);
+    return this.httpClient.get<Producto[]>(`/api/productos//categoria/${categoria}`, options);
   }
 
   getProductoById(id: number): Observable<Producto> {

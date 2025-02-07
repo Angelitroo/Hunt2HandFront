@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from "../services/toast-error.service";
-import {AuthService} from "../services/auth.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: 'app-productos',
@@ -63,8 +63,6 @@ export class ProductosComponent implements OnInit {
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private router: Router,
-    private favoritosService: FavoritosService,
-    private authService: AuthService // Inject AuthService
     private favoritosService: FavoritosService
   ) {
     addIcons({
@@ -76,6 +74,10 @@ export class ProductosComponent implements OnInit {
     this.perfilId = this.authService.getPerfilIdFromToken();
     this.generateItems();
     this.loadProductos();
+    this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
+    this.categorias.forEach(categoria => {
+      this.getProductoByCategoria(categoria);
+    });
   }
 
   flipBack(event: Event) {
@@ -83,13 +85,6 @@ export class ProductosComponent implements OnInit {
     if (cardInner) {
       cardInner.classList.toggle('flipped');
     }
-  }
-
-  ngOnInit() {
-    this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
-    this.categorias.forEach(categoria => {
-      this.getProductoByCategoria(categoria);
-    });
   }
 
   private loadProductos() {
