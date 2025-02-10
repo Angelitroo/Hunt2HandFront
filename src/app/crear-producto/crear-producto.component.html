@@ -105,6 +105,13 @@
           (click)="modificarProducto()">
           Guardar cambios
         </ion-button>
+        <ion-button
+          *ngIf="modoEditarAdmin"
+          expand="block"
+          class="create-button centrar"
+          (click)="modificarProductoAdmin()">
+          Guardar cambios
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

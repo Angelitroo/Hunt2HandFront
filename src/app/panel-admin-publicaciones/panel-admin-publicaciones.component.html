@@ -26,6 +26,14 @@
               <ion-card-subtitle style="font-size: 12px">
                 <b>{{ producto.vendido ? 'Vendido' : 'Disponible' }}</b>
               </ion-card-subtitle>
+              <ion-card-subtitle style="justify-content: center">
+                <ion-button *ngIf="modoEditarAdmin" [routerLink]="['/crear-producto', producto.id]">
+                  <ion-icon name="create"></ion-icon>
+                </ion-button>
+                <ion-button (click)="confirmarBorrado(producto.id)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-card-subtitle>
             </ion-card-content>
           </ion-card>
         </ion-col>

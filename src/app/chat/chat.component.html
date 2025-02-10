@@ -1,6 +1,6 @@
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let chat of chats" [routerLink]="['/dentro-chat', chat.id, chat.id_receptor]">
+    <ion-item *ngFor="let chat of chats" (click)="cargarChat($event, chat.id)">
       <ion-avatar slot="start">
         <ion-img [src]="perfiles[chat.id_creador === idUsuario ? chat.id_receptor : chat.id_creador]?.imagen" />
       </ion-avatar>

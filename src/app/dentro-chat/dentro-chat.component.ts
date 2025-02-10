@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { ReseñaServiceService } from '../services/reseña-service.service';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { IonicModule } from "@ionic/angular";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { Perfil } from "../modelos/Perfil";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
 import { send, star } from "ionicons/icons";
 import { MensajeService } from "../services/mensaje.service";
 import { Mensaje } from "../modelos/Mensaje";
-import {FormsModule} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
-import {interval, Subscription} from "rxjs";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../services/auth.service";
+import { interval, Subscription } from "rxjs";
 
 @Component({
   selector: 'app-dentro-chat',
@@ -31,7 +31,6 @@ import {interval, Subscription} from "rxjs";
 })
 export class DentroChatComponent implements OnInit {
 
-
   idChat: number = 0;
   idEmisor: number = 0;
   idReceptor: number = 0;
@@ -42,10 +41,9 @@ export class DentroChatComponent implements OnInit {
   nuevoMensaje: string = '';
 
   nombreReceptor: string = '';
+  apellidoReceptor: string = '';
   imagenReceptor: string = '';
   imagenEmisor: string = '';
-
-
 
   private chatSubscription!: Subscription
 
@@ -54,31 +52,25 @@ export class DentroChatComponent implements OnInit {
     private perfilService: PerfilesService,
     private mensajeService: MensajeService,
     private authService: AuthService,
-
   ) {
-    addIcons({'send': send });
+    addIcons({ 'send': send });
   }
 
   ngOnInit() {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
+    this.idReceptor = +this.route.snapshot.paramMap.get('id_receptor')!;
+
+    if (!this.idReceptor) {
+      console.error('Error: idReceptor sigue siendo 0 o undefined.');
+    } else {
+      this.loadPerfilReceptor(this.idReceptor);
+      console.log('ID Receptor:', this.idReceptor);
+    }
 
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
         this.mensajes = data;
-
-        if (this.mensajes.length > 0) {
-          // Tomamos el primer mensaje para determinar el otro usuario en el chat
-          const primerMensaje = this.mensajes[0];
-          this.idReceptor = primerMensaje.idEmisor === this.idEmisor ? primerMensaje.idReceptor : primerMensaje.idEmisor;
-        }
-
-        if (!this.idReceptor) {
-          console.error('Error: idReceptor sigue siendo 0 o undefined.');
-        } else {
-          this.loadPerfilReceptor(this.idReceptor);
-          console.log('ID Receptor:', this.idReceptor);
-        }
 
         console.log('ID Emisor:', this.idEmisor);
         console.log('ID Chat:', this.idChat);
@@ -88,24 +80,25 @@ export class DentroChatComponent implements OnInit {
     this.loadPerfilEmisor(this.idEmisor);
   }
 
-  loadPerfilEmisor(idEmidor: number) {
-    if (!this.perfiles[idEmidor]) {
-      this.perfilService.getPerfilById(idEmidor).subscribe({
-        next: (data) => {
-          this.perfiles[idEmidor] = data;
-          this.imagenEmisor = data.imagen;
-        },
-      });
-    }
-  }
-
   loadPerfilReceptor(perfilId: number) {
     if (!this.perfiles[perfilId]) {
       this.perfilService.getPerfilById(perfilId).subscribe({
         next: (data) => {
           this.perfiles[perfilId] = data;
           this.nombreReceptor = data.nombre;
+          this.apellidoReceptor = data.apellido;
           this.imagenReceptor = data.imagen;
+        },
+      });
+    }
+  }
+
+  loadPerfilEmisor(idEmidor: number) {
+    if (!this.perfiles[idEmidor]) {
+      this.perfilService.getPerfilById(idEmidor).subscribe({
+        next: (data) => {
+          this.perfiles[idEmidor] = data;
+          this.imagenEmisor = data.imagen;
         },
       });
     }
@@ -136,7 +129,6 @@ export class DentroChatComponent implements OnInit {
       error => console.error('Error enviando mensaje', error)
     );
   }
-
 
   protected readonly sessionStorage = sessionStorage;
 }

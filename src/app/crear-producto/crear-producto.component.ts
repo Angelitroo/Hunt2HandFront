@@ -26,7 +26,7 @@ import { ToastErrorService } from '../services/toast-error.service';
 export class CrearProductoComponent implements OnInit {
   imagePath: string = '';
   modoEditar: boolean = false;
-
+  modoEditarAdmin: boolean = false;
 
   producto: Producto = {
     id: 0,
@@ -69,7 +69,7 @@ export class CrearProductoComponent implements OnInit {
     private productosService: ProductosService,
     private authService: AuthService,
     private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
+    private toastErrorService: ToastErrorService,
   ) { }
 
   ngOnInit() {
@@ -136,4 +136,19 @@ export class CrearProductoComponent implements OnInit {
     }
   }
 
+  modificarProductoAdmin(): void {
+    if (this.producto.id) {
+      this.productosService.modificarProducto(this.producto.id, this.producto).subscribe({
+        next: () => {
+          this.router.navigate(['/panel-admin-productos']);
+          this.toastOkService.presentToast('Producto modificado con éxito', 3000);
+        },
+        error: err => {
+          this.toastErrorService.presentToast('Error al modificar el producto', 3000);
+        }
+      });
+    } else {
+      this.toastErrorService.presentToast('ID de producto no encontrado', 3000);
+    }
+  }
 }

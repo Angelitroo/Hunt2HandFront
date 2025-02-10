@@ -20,6 +20,14 @@
               <ion-card-subtitle style="font-size: 12px">
                 <b>{{ perfil.baneado ? 'Baneado' : 'Activo' }}</b>
               </ion-card-subtitle>
+              <ion-card-subtitle style="justify-content: center">
+                <ion-button *ngIf="modoEditarAdmin" [routerLink]="['/modificar-perfil', perfil.id]">
+                  <ion-icon name="create"></ion-icon>
+                </ion-button>
+                <ion-button (click)="confirmarBorrado(perfil.id)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-card-subtitle>
             </ion-card-content>
           </ion-card>
         </ion-col>

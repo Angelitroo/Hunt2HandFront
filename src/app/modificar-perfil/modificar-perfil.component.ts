@@ -21,9 +21,12 @@ import { ToastErrorService } from '../services/toast-error.service';
     IonicModule,
     MenuInferiorComponent,
     FormsModule,
+    NgIf,
   ]
 })
 export class ModificarPerfilComponent implements OnInit {
+  modoEditarAdmin: boolean = false;
+
   perfilActualizar: PerfilActualizar = {
     id: 0,
     nombre: '',
@@ -76,6 +79,26 @@ export class ModificarPerfilComponent implements OnInit {
   guardarCambios() {
     if (this.perfilActualizar) {
       const perfilActualizado: Partial<PerfilActualizar> = { ...this.perfilActualizar };
+
+      if (!perfilActualizado.password?.trim()) {
+        delete perfilActualizado.password;
+      }
+
+      this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
+        next: (data: PerfilActualizar) => {
+          this.router.navigate(['/perfil']);
+          this.toastOkService.presentToast('Perfil actualizado con éxito', 2000);
+        },
+        error: () => {
+          this.toastErrorService.presentToast('Error al actualizar el perfil', 2000);
+        }
+      });
+    }
+  }
+
+  modificarPerfilAdmin(): void {
+    if (this.perfilActualizar) {
+      const perfilActualizado: Partial<PerfilActualizar> = {...this.perfilActualizar};
 
       if (!perfilActualizado.password?.trim()) {
         delete perfilActualizado.password;

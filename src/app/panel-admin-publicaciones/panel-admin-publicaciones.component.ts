@@ -8,6 +8,9 @@ import { CommonModule } from "@angular/common";
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {RouterLink} from "@angular/router";
+import {addIcons} from "ionicons";
+import {trash, create} from "ionicons/icons";
 
 @Component({
   selector: 'app-panel-admin-productos',
@@ -18,27 +21,41 @@ import { ToastErrorService } from '../services/toast-error.service';
     MenuInferiorAdminComponent,
     PanelAdminComponent,
     CommonModule,
-    BuscadorMenuAdminComponent
+    BuscadorMenuAdminComponent,
+    RouterLink,
+
   ],
   standalone: true
 })
 export class PanelAdminPublicacionesComponent implements OnInit {
   items: string[] = [];
   productos: Producto[] = [];
+  modoEditarAdmin: boolean = false;
 
   constructor(
     private productosService: ProductosService,
     private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
-  ) {}
+    private toastErrorService: ToastErrorService,
+
+  ) {
+    addIcons({
+      'trash': trash,
+      'create': create
+    });
+  }
 
   ngOnInit() {
     this.generateItems();
+    this.modoEditarAdmin = this.esAdmin();
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
       },
     });
+  }
+
+  esAdmin(): boolean {
+    return true;
   }
 
   private getProductos() {
@@ -75,6 +92,25 @@ export class PanelAdminPublicacionesComponent implements OnInit {
       });
     } else {
       this.getProductos();
+    }
+  }
+
+  confirmarBorrado(productId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      this.productosService.eliminarProducto(productId).subscribe({
+        next: () => {
+          this.productos = this.productos.filter(producto => producto.id !== productId);
+          console.log('Producto eliminado con éxito');
+        },
+        error: err => {
+          if (err.status === 200) {
+            this.productos = this.productos.filter(producto => producto.id !== productId);
+            console.log('Producto eliminado con éxito');
+          } else {
+            console.error('Error al eliminar el producto:', err);
+          }
+        }
+      });
     }
   }
 }

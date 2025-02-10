@@ -85,5 +85,13 @@
     Guardar Cambios
   </ion-button>
 
+  <ion-button
+    *ngIf="modoEditarAdmin"
+    expand="block"
+    class="create-button centrar"
+    (click)="modificarPerfilAdmin()">
+    Guardar cambios
+  </ion-button>
+
   <app-menu-inferior></app-menu-inferior>
 </ion-content>

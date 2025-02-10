@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { AuthService } from '../services/auth.service';
 import { Chat } from "../modelos/Chat";
@@ -31,7 +31,8 @@ export class ChatComponent implements OnInit {
     private chatService: ChatService,
     private toastOkService: ToastOkService,
     private toastErrorService: ToastErrorService,
-    private perfilService: PerfilesService
+    private perfilService: PerfilesService,
+    private router: Router
   ) {
     addIcons({
       'chatbubble-outline': chatbubbleOutline,
@@ -60,5 +61,10 @@ export class ChatComponent implements OnInit {
         },
       });
     }
+  }
+
+  cargarChat(event: Event, chatId: number) {
+    event.stopPropagation();
+    this.router.navigate(['/dentro-chat', chatId, this.idUsuario]);
   }
 }

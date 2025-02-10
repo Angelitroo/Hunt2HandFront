@@ -31,7 +31,7 @@ export class PerfilesService {
 
   eliminarPerfil(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.delete<void>(`api/perfiles/${id}`, options);
+    return this.httpClient.delete<void>(`api/perfiles/eliminar/${id}`, options);
   }
 
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {

@@ -4,11 +4,13 @@ import { PanelAdminComponent } from "../panel-admin/panel-admin.component";
 import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior-admin.component";
 import { Perfil } from '../modelos/Perfil';
 import { PerfilesService } from "../services/perfiles.service";
-import { Router } from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {addIcons} from "ionicons";
+import {create, trash} from "ionicons/icons";
 
 @Component({
   selector: 'app-panel-admin-perfiles',
@@ -19,7 +21,8 @@ import { ToastErrorService } from '../services/toast-error.service';
     PanelAdminComponent,
     MenuInferiorAdminComponent,
     CommonModule,
-    BuscadorMenuAdminComponent
+    BuscadorMenuAdminComponent,
+    RouterLink
   ],
   standalone: true
 })
@@ -28,21 +31,32 @@ export class PanelAdminPerfilesComponent implements OnInit {
   items: string[] = [];
   perfiles: Perfil[] = [];
   username?: string;
+  modoEditarAdmin: boolean = false;
 
   constructor(
     private perfilesService: PerfilesService,
     private router: Router,
     private toastOkService: ToastOkService,
     private toastErrorService: ToastErrorService
-  ) {}
+  ) {
+    addIcons({
+      'trash': trash,
+      'create': create
+    });
+  }
 
   ngOnInit() {
     this.generateItems();
+    this.modoEditarAdmin = this.esAdmin();
     this.perfilesService.getPerfiles().subscribe({
       next: (data: Perfil[]) => {
         this.perfiles = data;
       },
     });
+  }
+
+  esAdmin(): boolean {
+    return true;
   }
 
   private getPerfiles() {
@@ -51,57 +65,6 @@ export class PanelAdminPerfilesComponent implements OnInit {
         this.perfiles = data;
       },
     });
-  }
-
-  buscarPerfil() {
-    if (this.username) {
-      this.perfilesService.getPerfilByUsername(this.username).subscribe(
-        (perfil: Perfil) => {
-          this.perfiles = [perfil];
-        },
-      );
-    }
-  }
-
-  eliminarPerfil(id: number | undefined) {
-    if (id !== undefined) {
-      this.perfilesService.eliminarPerfil(id).subscribe(
-        () => {
-          this.perfiles = this.perfiles.filter(perfil => perfil.id !== id);
-          this.toastOkService.presentToast('Perfil eliminado con éxito', 2000);
-        },
-        (error) => {
-          this.toastErrorService.presentToast('Error al eliminar el perfil', 2000);
-        }
-      );
-    }
-  }
-
-  crearPerfil(perfil: Perfil) {
-    this.perfilesService.crearPerfil(perfil).subscribe(
-      (nuevoPerfil: Perfil) => {
-        this.perfiles.push(nuevoPerfil);
-        this.toastOkService.presentToast('Perfil creado con éxito', 2000);
-      },
-      (error) => {
-        this.toastErrorService.presentToast('Error al crear el perfil', 2000);
-      }
-    );
-  }
-
-  modificarPerfil(id: number, perfil: Perfil) {
-    this.perfilesService.modificarPerfil(id, perfil).subscribe(
-      (perfilActualizado: Perfil) => {
-        const index = this.perfiles.findIndex(p => p.id === id);
-        if (index !== -1) {
-          this.perfiles[index] = perfilActualizado;
-          this.toastOkService.presentToast('Perfil modificado con éxito', 2000);
-        }
-      },
-      (error) => {
-        this.toastErrorService.presentToast('Error al modificar el perfil', 2000);
-      }
-    );
   }
 
   private generateItems() {
@@ -130,6 +93,25 @@ export class PanelAdminPerfilesComponent implements OnInit {
       });
     } else {
       this.getPerfiles();
+    }
+  }
+
+  confirmarBorrado(perfilId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar este perfil?')) {
+      this.perfilesService.eliminarPerfil(perfilId).subscribe({
+        next: () => {
+          this.perfiles = this.perfiles.filter(perfil => perfil.id !== perfilId);
+          console.log('Producto eliminado con éxito');
+        },
+        error: err => {
+          if (err.status === 200) {
+            this.perfiles = this.perfiles.filter(perfil => perfil.id !== perfilId);
+            console.log('Producto eliminado con éxito');
+          } else {
+            console.error('Error al eliminar el producto:', err);
+          }
+        }
+      });
     }
   }
 }
