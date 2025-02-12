@@ -63,8 +63,7 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  cargarChat(event: Event, chatId: number) {
-    event.stopPropagation();
-    this.router.navigate(['/dentro-chat', chatId, this.idUsuario]);
+  cargarChat(idChat: number) {
+    this.router.navigate(['/dentro-chat', idChat]);
   }
 }

@@ -7,11 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="chat-container">
+<ion-content class="chat-container" #content>
   <ion-grid>
     <ion-item lines="none" *ngFor="let mensaje of mensajes">
 
-      <!-- EMISOR -->
       <ion-avatar slot="end" *ngIf="mensaje.idEmisor === idEmisor">
         <ion-img [src]="imagenEmisor || '../../assets/iconoperfil.png'"></ion-img>
       </ion-avatar>
@@ -21,7 +20,6 @@
         <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
       </ion-label>
 
-      <!-- RECEPTOR -->
       <ion-avatar slot="start" *ngIf="mensaje.idEmisor !== idEmisor">
         <ion-img [src]="imagenReceptor   || '../../assets/iconoperfil.png'"></ion-img>
       </ion-avatar>

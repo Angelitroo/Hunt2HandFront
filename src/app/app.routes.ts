@@ -79,12 +79,10 @@ export const routes: Routes = [
     path: 'chat',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
   },
-
   {
-    path: 'dentro-chat/:id_chat/:id_receptor',
+    path: 'dentro-chat/:id_chat',
     loadComponent: () => import('./dentro-chat/dentro-chat.component').then((m) => m.DentroChatComponent),
   },
-
   {
     path: 'modificar-perfil',
     loadComponent: () => import('./modificar-perfil/modificar-perfil.component').then((m) => m.ModificarPerfilComponent),

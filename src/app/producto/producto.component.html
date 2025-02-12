@@ -1,27 +1,30 @@
 <ion-content>
-  <ion-card tappable class="profile-card" *ngIf="perfil" [routerLink]="['/perfil', perfil.id]">
-    <ion-grid>
-      <ion-row class="avatar-row">
-        <ion-col size="6" class="ion-text-center avatar-col">
-          <ion-avatar class="avatar" style="margin: 0 auto;">
-            <img [alt]="perfil.nombre" [src]="perfil.imagen" />
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="6">
-          <ion-row style="align-items: center;">
-            <ion-col>
-              <ion-text><b>{{ perfil.nombre }}</b></ion-text>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-text style="font-size: 12px">{{ perfil.ubicacion }}</ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+<ion-card tappable class="profile-card">
+  <ion-grid>
+    <ion-row class="avatar-row" style="display: flex; align-items: center;" *ngIf="perfil" [routerLink]="['/perfil', perfil.id]">
+      <ion-col size="5" class="ion-text-center avatar-col">
+        <ion-avatar class="avatar" style="margin: 0 auto">
+          <img [alt]="perfil.nombre" [src]="perfil.imagen"/>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="5">
+        <ion-row style="align-items: center;">
+          <ion-col>
+            <ion-text><b>{{ perfil.nombre }}</b></ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-text style="font-size: 12px">{{ perfil.ubicacion }}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col [routerLink]="['/dentro-chat', perfil.id]" size="2" class="ion-text-end">
+        <ion-icon name="chatboxes" style="margin: 15px; font-size: 45px" (click)="crearChat()"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>
 
   <ion-card class="product-card" *ngIf="producto">
     <ion-card-content class="ion-margin">

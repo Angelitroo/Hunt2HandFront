@@ -12,7 +12,6 @@ export class ChatService {
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
-
   crearChat(chat: Partial<Chat>): Observable<Chat> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.post<Chat>(`/api/chat/crear`, chat, options);
@@ -23,10 +22,14 @@ export class ChatService {
     return this.httpClient.get<Chat[]>(`/api/chat/${idUsuario}`, options);
   }
 
-
   getDetallesChat(idChat: number): Observable<Chat> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.get<Chat>(`/api/chat/detalles/${idChat}`, options);
+  }
+
+  obtenerReceptorPorChat(idChat: number): Observable<number> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<number>(`/api/chat/receptor/${idChat}`, options);
   }
 
 

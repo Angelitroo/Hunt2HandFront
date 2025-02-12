@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import { heartOutline } from "ionicons/icons";
+import {chatbox, heartOutline} from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { ProductosService } from "../services/productos.service";
@@ -10,8 +10,6 @@ import { Producto } from "../modelos/Producto";
 import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
-import { ToastOkService } from '../services/toast-ok.service';
-import { ToastErrorService } from "../services/toast-error.service";
 import { AuthService } from "../services/auth.service";
 
 @Component({

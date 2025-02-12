@@ -40,6 +40,7 @@ export class InicioSesionComponent implements OnInit {
   email: string = '';
   username: string = '';
   password: string = '';
+  imagen: string = '';
   role: string = '1';
   provincias: string[] = [
     'Álava', 'Albacete', 'Alicante', 'Almería', 'Asturias', 'Ávila', 'Badajoz',
@@ -111,6 +112,7 @@ export class InicioSesionComponent implements OnInit {
       apellido: this.apellido,
       ubicacion: this.ubicacion,
       email: this.email,
+      imagen: this.imagen,
       username: this.username,
       password: this.password,
       rol: this.role

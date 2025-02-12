@@ -56,6 +56,11 @@
         </ion-item>
 
         <ion-item>
+          <ion-label position="floating">URL de la imagen</ion-label>
+          <ion-input type="text" [(ngModel)]="imagen" name="imagenUrl" required></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="floating" style="margin-bottom: 20px">Ubicación</ion-label>
           <ion-select [(ngModel)]="ubicacion" name="ubicacion" placeholder="Selecciona una provincia">
             <ion-select-option *ngFor="let provincia of provincias" [value]="provincia">

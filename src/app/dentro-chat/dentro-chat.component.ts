@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReseñaServiceService } from '../services/reseña-service.service';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { IonicModule } from "@ionic/angular";
-import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { Perfil } from "../modelos/Perfil";
+import {IonContent, IonicModule } from "@ionic/angular";
+import { DatePipe, NgForOf, NgIf } from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { send, star } from "ionicons/icons";
+import { send } from "ionicons/icons";
 import { MensajeService } from "../services/mensaje.service";
 import { Mensaje } from "../modelos/Mensaje";
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../services/auth.service";
-import { interval, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
+import {ChatService} from "../services/chat.service";
 
 @Component({
   selector: 'app-dentro-chat',
@@ -22,7 +21,6 @@ import { interval, Subscription } from "rxjs";
   imports: [
     IonicModule,
     MenuInferiorComponent,
-    NgClass,
     FormsModule,
     DatePipe,
     NgForOf,
@@ -30,6 +28,7 @@ import { interval, Subscription } from "rxjs";
   ]
 })
 export class DentroChatComponent implements OnInit {
+  @ViewChild(IonContent, { static: false }) content!: IonContent;
 
   idChat: number = 0;
   idEmisor: number = 0;
@@ -44,6 +43,10 @@ export class DentroChatComponent implements OnInit {
   apellidoReceptor: string = '';
   imagenReceptor: string = '';
   imagenEmisor: string = '';
+  private intervalId!: any;
+  private lastMessageId: number = 0;
+
+
 
   private chatSubscription!: Subscription
 
@@ -51,6 +54,7 @@ export class DentroChatComponent implements OnInit {
     private route: ActivatedRoute,
     private perfilService: PerfilesService,
     private mensajeService: MensajeService,
+    private chatService: ChatService,
     private authService: AuthService,
   ) {
     addIcons({ 'send': send });
@@ -59,25 +63,37 @@ export class DentroChatComponent implements OnInit {
   ngOnInit() {
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
-    this.idReceptor = +this.route.snapshot.paramMap.get('id_receptor')!;
 
-    if (!this.idReceptor) {
-      console.error('Error: idReceptor sigue siendo 0 o undefined.');
-    } else {
-      this.loadPerfilReceptor(this.idReceptor);
-      console.log('ID Receptor:', this.idReceptor);
-    }
+    this.chatService.getDetallesChat(this.idChat).subscribe({
+      next: (detallesChat) => {
+        this.idReceptor = detallesChat.id_receptor;
+        this.loadPerfilReceptor(this.idReceptor);
+        this.loadPerfilEmisor(this.idEmisor);
+        this.loadMensajes();
 
+        this.intervalId = setInterval(() => {
+          this.loadMensajes();
+        }, 10);
+
+      },
+      error: (err) => console.error('Error al obtener los detalles del chat:', err)
+    });
+  }
+
+  loadMensajes() {
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
-        this.mensajes = data;
-
-        console.log('ID Emisor:', this.idEmisor);
-        console.log('ID Chat:', this.idChat);
+        if (data.length > 0) {
+          const newMessages = data.filter(mensaje => mensaje.id > this.lastMessageId);
+          if (newMessages.length > 0) {
+            this.mensajes.push(...newMessages);
+            this.lastMessageId = newMessages[newMessages.length - 1].id;
+            this.scrollToBottom();
+          }
+        }
       },
       error: (err) => console.error('Error al obtener los mensajes:', err)
     });
-    this.loadPerfilEmisor(this.idEmisor);
   }
 
   loadPerfilReceptor(perfilId: number) {
@@ -89,6 +105,7 @@ export class DentroChatComponent implements OnInit {
           this.apellidoReceptor = data.apellido;
           this.imagenReceptor = data.imagen;
         },
+        error: (err) => console.error('Error al obtener el perfil del receptor:', err)
       });
     }
   }
@@ -128,6 +145,12 @@ export class DentroChatComponent implements OnInit {
       },
       error => console.error('Error enviando mensaje', error)
     );
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+    }, 100);
   }
 
   protected readonly sessionStorage = sessionStorage;

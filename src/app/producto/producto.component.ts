@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { ProductosService } from "../services/productos.service";
 import { PerfilesService } from "../services/perfiles.service";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
@@ -8,8 +8,10 @@ import { NgIf } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { CommonModule } from "@angular/common";
 import { FavoritosService } from "../services/favoritos.service";
-import { ToastOkService } from '../services/toast-ok.service';
-import { ToastErrorService } from '../services/toast-error.service';
+import {addIcons} from "ionicons";
+import {chatbox, heartOutline} from "ionicons/icons";
+import {ChatService} from "../services/chat.service";
+import {Chat} from "../modelos/Chat";
 
 @Component({
   selector: 'app-producto',
@@ -37,9 +39,13 @@ export class ProductoComponent implements OnInit {
     private productosService: ProductosService,
     private perfilService: PerfilesService,
     private route: ActivatedRoute,
-    private toastOkService: ToastOkService,
-    private toastErrorService: ToastErrorService
-  ) {}
+    private router: Router,
+    private chatService: ChatService
+  ) {
+    addIcons({
+      'chatboxes': chatbox
+    });
+  }
 
   ngOnInit() {
     this.perfilId = this.authService.getPerfilIdFromToken();
@@ -83,6 +89,29 @@ export class ProductoComponent implements OnInit {
       next: (isFavorito) => {
         this.isFavorito = isFavorito;
       },
+    });
+  }
+
+  crearChat(): void {
+    const perfilId = this.authService.getPerfilIdFromToken();
+    if (perfilId === null) {
+      console.error('Perfil ID is null');
+      return;
+    }
+
+    const chat: Partial<Chat> = {
+      id_creador: perfilId,
+      id_receptor: this.perfil.id
+    };
+
+    this.chatService.crearChat(chat).subscribe({
+      next: (newChat) => {
+        console.log('Chat created:', newChat);
+        this.router.navigate(['/dentro-chat', newChat.id]); // Navegar a la página del chat
+      },
+      error: (err) => {
+        console.error('Error creating chat:', err);
+      }
     });
   }
 }

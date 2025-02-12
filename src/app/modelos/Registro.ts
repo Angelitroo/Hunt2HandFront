@@ -6,6 +6,7 @@ export class Registro{
   email?: string;
   username?: string;
   password?: string;
+  imagen?: string;
   rol?: string;
 
 }
