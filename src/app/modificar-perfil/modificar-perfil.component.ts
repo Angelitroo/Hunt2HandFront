@@ -3,7 +3,7 @@ import { IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
 import { settings, heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { RouterLink, Router } from "@angular/router";
+import {RouterLink, Router, ActivatedRoute} from "@angular/router";
 import { PerfilActualizar } from '../modelos/PerfilActualizar';
 import { PerfilesService } from '../services/perfiles.service';
 import { AuthService } from "../services/auth.service";
@@ -25,6 +25,7 @@ import { ToastErrorService } from '../services/toast-error.service';
   ]
 })
 export class ModificarPerfilComponent implements OnInit {
+  modoEditar: boolean = false;
   modoEditarAdmin: boolean = false;
 
   perfilActualizar: PerfilActualizar = {
@@ -44,6 +45,7 @@ export class ModificarPerfilComponent implements OnInit {
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private toastOkService: ToastOkService,
     private toastErrorService: ToastErrorService
   ) {
@@ -54,10 +56,25 @@ export class ModificarPerfilComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarPerfil();
+    this.route.params.subscribe(params => {
+      const perfilId = +params['id'];
+      if (!perfilId) {
+        this.cargarPerfilPropio();
+        this.modoEditar = true;
+        this.modoEditarAdmin = false;
+      }
+
+      this.route.queryParams.subscribe(queryParams => {
+        if (queryParams['admin'] === 'true') {
+          this.cargarPerfilPorId(perfilId);
+          this.modoEditar = false;
+          this.modoEditarAdmin = true;
+        }
+      });
+    });
   }
 
-  private cargarPerfil() {
+  private cargarPerfilPropio() {
     const perfilId = this.authService.getPerfilIdFromToken();
 
     if (perfilId !== null) {
@@ -70,6 +87,17 @@ export class ModificarPerfilComponent implements OnInit {
         },
       });
     }
+  }
+
+  private cargarPerfilPorId(perfilId: number) {
+    this.perfilesService.getPerfilActualizadoById(perfilId).subscribe({
+      next: (data: PerfilActualizar) => {
+        if (data) {
+          this.perfilActualizar = { ...data, password: '' };
+          this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
+        }
+      },
+    });
   }
 
   togglePasswordVisibility() {
@@ -106,7 +134,7 @@ export class ModificarPerfilComponent implements OnInit {
 
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/panel-admin-perfiles']);
           this.toastOkService.presentToast('Perfil actualizado con éxito', 2000);
         },
         error: () => {

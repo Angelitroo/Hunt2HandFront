@@ -21,7 +21,7 @@
                 <b>{{ perfil.baneado ? 'Baneado' : 'Activo' }}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="justify-content: center">
-                <ion-button *ngIf="modoEditarAdmin" [routerLink]="['/modificar-perfil', perfil.id]">
+                <ion-button [routerLink]="['/modificar-perfil', perfil.id]" [queryParams]="{ admin: true }">
                   <ion-icon name="create"></ion-icon>
                 </ion-button>
                 <ion-button (click)="confirmarBorrado(perfil.id)">

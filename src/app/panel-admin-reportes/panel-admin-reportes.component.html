@@ -20,6 +20,7 @@
               <ion-card-subtitle style="font-size: 12px">
                 <b>Motivo: {{ reporte.motivo }}</b>
               </ion-card-subtitle>
+              <ion-button (click)="suspenderCuenta(reporte.reportado)">Suspender Cuenta</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>

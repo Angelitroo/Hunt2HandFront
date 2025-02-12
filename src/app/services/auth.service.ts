@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,24 @@ import {Observable} from "rxjs";
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private route: Router) {}
+
+  isAuth(){
+    if ('' != localStorage.getItem('authToken') || '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  esAdmin(): boolean {
+    return true;
+  }
+
+  cerrarSesion(){
+    localStorage.removeItem('authToken');
+    this.route.navigate(['/inicio-sesion']);
+  }
 
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);

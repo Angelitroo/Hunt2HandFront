@@ -14,9 +14,10 @@
           <ion-col size="auto" *ngIf="showSettingsButton">
             <ion-toolbar>
               <ion-buttons slot="end">
-                <ion-button [routerLink]="'/modificar-perfil'">
+                <ion-button (click)="redirigir()">
                   <ion-icon slot="icon-only" name="settings"></ion-icon>
                 </ion-button>
+
               </ion-buttons>
             </ion-toolbar>
           </ion-col>

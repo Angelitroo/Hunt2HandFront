@@ -25,6 +25,7 @@ import { ToastErrorService } from '../services/toast-error.service';
 })
 export class CrearProductoComponent implements OnInit {
   imagePath: string = '';
+  modoCrear: boolean = false;
   modoEditar: boolean = false;
   modoEditarAdmin: boolean = false;
 
@@ -75,10 +76,27 @@ export class CrearProductoComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const productId = params['id'];
+      if (!productId) {
+        this.modoCrear = true;
+        this.modoEditar = false;
+        this.modoEditarAdmin = false;
+
+      }
+
       if (productId) {
+        this.modoCrear = false;
         this.modoEditar = true;
+        this.modoEditarAdmin = false;
         this.loadProductDetails(productId);
       }
+
+      this.route.queryParams.subscribe(queryParams => {
+        if (queryParams['admin'] === 'true') {
+          this.modoCrear = false;
+          this.modoEditar = false;
+          this.modoEditarAdmin = true;
+        }
+      });
     });
   }
 
