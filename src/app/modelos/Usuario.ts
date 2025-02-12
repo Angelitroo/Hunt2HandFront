@@ -3,5 +3,4 @@ export interface Cliente {
   username: string;
   password: string;
   rol: string;
-
 }

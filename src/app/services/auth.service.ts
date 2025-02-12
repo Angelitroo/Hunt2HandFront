@@ -1,7 +1,8 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+import {PerfilesService} from "./perfiles.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,25 @@ import {Observable} from "rxjs";
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private perfilesService: PerfilesService) {}
+
+  isAuth(){
+    if (this.getToken() != null){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isAdmin(): boolean {
+    const id = this.getPerfilIdFromToken();
+    const perfil = this.perfilesService.getPerfilById(id);
+    if (perfil.perfil.rol == 'ADMIN') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
@@ -21,10 +40,6 @@ export class AuthService {
 
   clearToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
   }
 
   getAuthHeaders(): { headers: HttpHeaders } {
