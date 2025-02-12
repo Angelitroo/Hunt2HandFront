@@ -3,11 +3,17 @@
     <ion-avatar slot="start" class="navbar-avatar">
       <img [src]="imagenReceptor || '../../assets/iconoperfil.png'" />
     </ion-avatar>
-    <ion-title class="nombreusuario">{{ nombreReceptor + " " + apellidoReceptor }}</ion-title>
+    <ion-title class="nombreusuario">{{ nombreReceptor }}</ion-title>
+    <div class="estrellas">
+      <button *ngFor="let num of [1,2,3,4,5]" fill="clear" class="estrella-btn"
+              (click)="abrirValoracion(num)" [disabled]="yaValorado">
+        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[num]}" name="star" size="large"></ion-icon>
+      </button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="chat-container" #content>
+<ion-content class="chat-container">
   <ion-grid>
     <ion-item lines="none" *ngFor="let mensaje of mensajes">
 

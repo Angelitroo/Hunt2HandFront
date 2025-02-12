@@ -97,3 +97,45 @@ ion-header {
   object-fit: cover;
   border-radius: 50%;
 }
+
+.estrellas {
+  color: #994b7c;
+  float: left;
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+
+}
+
+.estrella-btn {
+  color: #b6b5b5;
+  padding: 0;
+  margin: 0 2px;
+  background-color: transparent;
+}
+
+
+.selected-star {
+  color: #994b7c;
+}
+
+.valoracion-popup {
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.valoracion-popup p {
+  margin: 0;
+  font-size: 13px;
+  color: #333;
+}
+
+.valoracion-popup ion-button {
+  margin-top: 8px;
+  width: 100%;
+  font-size: 12px;
+}
