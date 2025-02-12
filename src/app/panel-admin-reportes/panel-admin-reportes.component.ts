@@ -96,4 +96,7 @@ export class PanelAdminReportesComponent implements OnInit {
       this.getReportes();
     }
   }
+
+  suspenderCuenta(perfilId: number) {
+  }
 }

@@ -6,6 +6,7 @@ import { ProductosService } from "../services/productos.service";
 import { Producto } from "../modelos/Producto";
 import { CommonModule } from "@angular/common";
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
+import { AuthService } from "../services/auth.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
 import {RouterLink} from "@angular/router";
@@ -34,6 +35,7 @@ export class PanelAdminPublicacionesComponent implements OnInit {
 
   constructor(
     private productosService: ProductosService,
+    private authService: AuthService,
     private toastOkService: ToastOkService,
     private toastErrorService: ToastErrorService,
 
@@ -46,16 +48,12 @@ export class PanelAdminPublicacionesComponent implements OnInit {
 
   ngOnInit() {
     this.generateItems();
-    this.modoEditarAdmin = this.esAdmin();
+    this.modoEditarAdmin = this.authService.esAdmin();
     this.productosService.getProductos().subscribe({
       next: (data) => {
         this.productos = data;
       },
     });
-  }
-
-  esAdmin(): boolean {
-    return true;
   }
 
   private getProductos() {

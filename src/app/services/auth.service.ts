@@ -1,8 +1,8 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable} from "rxjs";
-import {PerfilesService} from "./perfiles.service";
+import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +10,23 @@ import {PerfilesService} from "./perfiles.service";
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
 
-  constructor(private httpClient: HttpClient, private perfilesService: PerfilesService) {}
+  constructor(private httpClient: HttpClient, private route: Router) {}
 
   isAuth(){
-    if (this.getToken() != null){
+    if ('' != localStorage.getItem('authToken') || '') {
       return true;
     } else {
       return false;
     }
   }
 
-  isAdmin(): boolean {
-    const id = this.getPerfilIdFromToken();
-    const perfil = this.perfilesService.getPerfilById(id);
-    if (perfil.perfil.rol == 'ADMIN') {
-      return true;
-    } else {
-      return false;
-    }
+  esAdmin(): boolean {
+    return true;
+  }
+
+  cerrarSesion(){
+    localStorage.removeItem('authToken');
+    this.route.navigate(['/inicio-sesion']);
   }
 
   setToken(token: string): void {
@@ -40,6 +39,10 @@ export class AuthService {
 
   clearToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 
   getAuthHeaders(): { headers: HttpHeaders } {

@@ -81,14 +81,18 @@
     </ion-row>
   </ion-grid>
 
-  <ion-button class="boton-guardar" (click)="guardarCambios()">
-    Guardar Cambios
+  <ion-button
+    *ngIf="modoEditar"
+    expand="block"
+    class="boton-guardar"
+    (click)="guardarCambios()">
+    Guardar cambios
   </ion-button>
 
   <ion-button
     *ngIf="modoEditarAdmin"
     expand="block"
-    class="create-button centrar"
+    class="boton-guardar"
     (click)="modificarPerfilAdmin()">
     Guardar cambios
   </ion-button>

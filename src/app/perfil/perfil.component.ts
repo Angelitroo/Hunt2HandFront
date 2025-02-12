@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
+import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import { addIcons } from "ionicons";
 import {settings, heartOutline, createOutline, trash, trashOutline} from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
@@ -42,6 +42,7 @@ export class PerfilComponent implements OnInit {
 
 
   constructor(
+    private actionSheetCtrl: ActionSheetController,
     private perfilesService: PerfilesService,
     private authService: AuthService,
     private productosService: ProductosService,
@@ -73,6 +74,35 @@ export class PerfilComponent implements OnInit {
         this.cargarProductos();
       }
     });
+  }
+
+  async redirigir() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Opciones',
+      buttons: [
+        {
+          text: 'Modificar perfil',
+          icon: 'create',
+          handler: () => {
+            this.router.navigate(['/modificar-perfil']);
+          }
+        },
+        {
+          text: 'Cerrar sesión',
+          icon: 'log-out',
+          handler: () => {
+            this.authService.cerrarSesion();
+          }
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await actionSheet.present();
   }
 
   flipBack(event: Event) {
