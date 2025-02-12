@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import {IonContent, IonicModule } from "@ionic/angular";
-import { DatePipe, NgForOf, NgIf } from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { addIcons } from "ionicons";
-import { send } from "ionicons/icons";
+import {send, star} from "ionicons/icons";
 import { MensajeService } from "../services/mensaje.service";
 import { Mensaje } from "../modelos/Mensaje";
 import { FormsModule } from "@angular/forms";
@@ -26,10 +26,11 @@ import { Resena } from "../modelos/Resena";
     FormsModule,
     DatePipe,
     NgForOf,
-    NgIf
+    NgIf,
+    NgClass
   ]
 })
-export class DentroChatComponent implements OnInit {
+export class DentroChatComponent implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
 
   idChat: number = 0;
@@ -65,7 +66,7 @@ export class DentroChatComponent implements OnInit {
     private chatService: ChatService,
     private resenaService: ResenaService
   ) {
-    addIcons({'send': send });
+    addIcons({'send': send, 'star': star });
   }
 
   ngOnInit() {
@@ -75,9 +76,16 @@ export class DentroChatComponent implements OnInit {
     this.chatService.getDetallesChat(this.idChat).subscribe({
       next: (detallesChat) => {
         this.idReceptor = detallesChat.id_receptor;
+
+        if (this.idEmisor === this.idReceptor) {
+          // Intercambia los valores si son iguales
+          this.idReceptor = detallesChat.id_creador;
+        }
+
         this.loadPerfilReceptor(this.idReceptor);
         this.loadPerfilEmisor(this.idEmisor);
         this.loadMensajes();
+        this.verificarSiYaValoro();
 
         this.intervalId = setInterval(() => {
           this.loadMensajes();
@@ -88,21 +96,35 @@ export class DentroChatComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
   loadMensajes() {
     this.mensajeService.obtenerMensajesPorChat(this.idChat).subscribe({
       next: (data) => {
         if (data.length > 0) {
-          const newMessages = data.filter(mensaje => mensaje.id > this.lastMessageId);
+          // Verifica que no agregue duplicados
+          const existingMessageIds = new Set(this.mensajes.map(m => m.id));
+          const newMessages = data.filter(m => !existingMessageIds.has(m.id));
+
           if (newMessages.length > 0) {
             this.mensajes.push(...newMessages);
-            this.lastMessageId = newMessages[newMessages.length - 1].id;
+            this.lastMessageId = Math.max(...this.mensajes.map(m => m.id));
             this.scrollToBottom();
           }
         }
       },
-      error: (err) => console.error('Error al obtener los mensajes:', err)
+      error: (err) => {
+        if (err.status !== 404) {
+          console.error('Error al obtener los mensajes:', err);
+        }
+      }
     });
   }
+
 
   loadPerfilReceptor(perfilId: number) {
     if (!this.perfiles[perfilId]) {
@@ -118,16 +140,16 @@ export class DentroChatComponent implements OnInit {
     }
   }
 
-  loadPerfilEmisor(idEmidor: number) {
-    if (!this.perfiles[idEmidor]) {
-      this.perfilService.getPerfilById(idEmidor).subscribe({
+  loadPerfilEmisor(idEmisor: number) {
+    if (!this.perfiles[idEmisor]) {
+      this.perfilService.getPerfilById(idEmisor).subscribe({
         next: (data) => {
-          this.perfiles[idEmidor] = data;
+          this.perfiles[idEmisor] = data;
           this.imagenEmisor = data.imagen;
         },
       });
     }
-    console.log("perfil receptor: ", perfilId);
+    console.log("perfil receptor: ", idEmisor);
   }
 
   enviarMensaje() {
@@ -151,6 +173,7 @@ export class DentroChatComponent implements OnInit {
       mensajeEnviado => {
         this.mensajes.push(mensajeEnviado);
         this.nuevoMensaje = '';
+        this.scrollToBottom();
       },
       error => console.error('Error enviando mensaje', error)
     );
@@ -192,6 +215,7 @@ export class DentroChatComponent implements OnInit {
       this.yaValorado = true;
     }
   }
+
   scrollToBottom() {
     setTimeout(() => {
       this.content.scrollToBottom(300);
