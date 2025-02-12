@@ -32,11 +32,7 @@ ion-card {
   object-fit: cover;
 }
 
-.avatar-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 
 ion-text {
   font-size: 1.4rem;
@@ -238,3 +234,25 @@ ion-card {
     crop: auto;
   }
 }
+
+.avatar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.valoracion {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.estrella-btn {
+  color: #994b7c;
+  padding: 0;
+  margin: 0 2px;
+  background-color: transparent;
+}
+

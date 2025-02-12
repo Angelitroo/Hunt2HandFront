@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import { addIcons } from "ionicons";
-import {settings, heartOutline, createOutline, trash, trashOutline} from "ionicons/icons";
+import {settings, heartOutline, createOutline, trash, trashOutline, star, warningOutline} from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { RouterLink, ActivatedRoute, Router } from "@angular/router";
 import { Perfil } from '../modelos/Perfil';
@@ -13,6 +13,7 @@ import { Producto } from '../modelos/Producto';
 import { CommonModule } from "@angular/common";
 import { SeguirDTO } from '../modelos/SeguirDTO';
 import { FavoritosService } from '../services/favoritos.service';
+import {ResenaService} from "../services/resena.service";
 
 @Component({
   selector: 'app-perfil',
@@ -34,11 +35,12 @@ export class PerfilComponent implements OnInit {
   seguidores: Perfil[] = [];
   seguidos: Perfil[] = [];
   productos: Producto[] = [];
-  showSettingsButton: boolean = true;
+  ajustesreportes: boolean = true;
   esSeguidor: boolean = false;
   favoritos: { [key: number]: boolean } = {};
   perfiles: { [key: number]: any } = {};
   perfilId: number | null = null;
+  resena: number = 0;
 
 
   constructor(
@@ -49,13 +51,16 @@ export class PerfilComponent implements OnInit {
     private route: ActivatedRoute,
     private favoritosService: FavoritosService,
     private router: Router,
+    private resenaService: ResenaService
 
   ) {
     addIcons({
       'settings': settings,
       'heartOutline': heartOutline,
       'create': createOutline,
-      'trash': trashOutline
+      'trash': trashOutline,
+      'star': star,
+      'warning-outline': warningOutline
     });
   }
 
@@ -64,14 +69,16 @@ export class PerfilComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const perfilId = params.get('id');
       if (perfilId) {
-        this.showSettingsButton = false;
-        this.cargarPerfil(parseInt(perfilId, 10));
-        this.cargarProductos(parseInt(perfilId, 10));
-        this.verificarSeguidor(parseInt(perfilId, 10));
-
+        this.ajustesreportes = false;
+        const idNumerico = parseInt(perfilId, 10);
+        this.cargarPerfil(idNumerico);
+        this.cargarProductos(idNumerico);
+        this.verificarSeguidor(idNumerico);
+        this.cargarValoracion(idNumerico);
       } else {
         this.cargarPerfil();
         this.cargarProductos();
+        this.cargarValoracion();
       }
     });
   }
@@ -203,6 +210,30 @@ export class PerfilComponent implements OnInit {
     );
   }
 
+  cargarValoracion(perfilId?: number) {
+    if (perfilId === undefined) {
+      const idFromToken = this.authService.getPerfilIdFromToken();
+      if (idFromToken !== null) {
+        perfilId = idFromToken;
+      } else {
+        console.log('No se pudo obtener el perfilId del token.');
+        return;
+      }
+    }
+    console.log('Perfil ID para cargar valoración:', perfilId);
+    this.resenaService.buscarResenaMedia(perfilId).subscribe(
+      (media) => {
+        console.log('Respuesta de buscarResenaMedia:', media);
+        this.resena = media;
+      },
+      (error) => {
+        console.error('Error al buscar la valoración media:', error);
+      }
+    );
+  }
+
+
+
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.generateItems();
     setTimeout(() => {
@@ -257,5 +288,8 @@ export class PerfilComponent implements OnInit {
       });
     }
   }
+
+
+
 
 }

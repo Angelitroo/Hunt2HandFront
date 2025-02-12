@@ -16,9 +16,9 @@ export class ResenaService {
     return this.httpClient.post<Resena>(`/api/resena/crear/${idPerfilValorador}/${idPerfilValorado}`, resena , options);
   }
 
-  buscarResenaMedia(idPerfilValorado: number): Observable<Resena> {
+  buscarResenaMedia(idPerfilValorado: number): Observable<number> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Resena>(`/api/resena/buscar/media/${idPerfilValorado}`);
+    return this.httpClient.get<number>(`/api/resena/buscar/media/${idPerfilValorado}`, options);
   }
 
   buscarResena(idPerfilValorador: number, idPerfilValorado: number): Observable<Resena> {
