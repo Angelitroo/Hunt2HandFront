@@ -19,14 +19,6 @@ export class AuthService {
     this.authState.next(isAuthenticated);
   }
 
-  isAuth(){
-    if ('' != localStorage.getItem('authToken') || '') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   esAdmin(): boolean {
     return true;
   }
