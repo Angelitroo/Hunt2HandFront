@@ -89,7 +89,7 @@ export class DentroChatComponent implements OnInit, OnDestroy {
 
         this.intervalId = setInterval(() => {
           this.loadMensajes();
-        }, 10);
+        }, 1000);
 
       },
       error: (err) => console.error('Error al obtener los detalles del chat:', err)

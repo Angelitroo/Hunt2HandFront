@@ -1,3 +1,28 @@
+.categoria-titulo {
+  margin-top: 100px;
+  margin-right: 100px;
+  margin-left: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Contenedor del slider horizontal */
+.horizontal-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* para suavizar el scroll en dispositivos táctiles */
+}
+
+/* Cada tarjeta de producto dentro del slider */
+.product-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 250px; /* Ajusta el ancho según necesites */
+}
+
 .slides-container {
   display: flex;
   overflow-x: auto;
