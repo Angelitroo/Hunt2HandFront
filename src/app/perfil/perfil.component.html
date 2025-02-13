@@ -24,9 +24,13 @@
                 <ion-button *ngIf="ajustesreportes" (click)="redirigir()">
                   <ion-icon slot="icon-only" name="settings"></ion-icon>
                 </ion-button>
-                <ion-button *ngIf="!ajustesreportes">
+
+                <ion-button [disabled]="yaReportado" *ngIf="!ajustesreportes" (click)="mostrarOpciones($event)">
                   <ion-icon slot="icon-only" name="warning-outline"></ion-icon>
                 </ion-button>
+
+
+
               </ion-buttons>
             </ion-toolbar>
           </ion-col>
