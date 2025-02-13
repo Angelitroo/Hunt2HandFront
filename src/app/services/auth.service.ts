@@ -59,7 +59,6 @@ export class AuthService {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        console.log('Token payload:', payload);
         return payload.tokenDataDTO?.id || null;
       } catch (e) {
         console.error(e);

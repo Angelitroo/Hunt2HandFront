@@ -1,7 +1,8 @@
+// productos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import {chatbox, heartOutline} from "ionicons/icons";
+import { chatbox, heartOutline } from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { ProductosService } from "../services/productos.service";
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
 import { AuthService } from "../services/auth.service";
+import { Perfil } from '../modelos/Perfil';
 
 @Component({
   selector: 'app-productos',
@@ -24,11 +26,11 @@ import { AuthService } from "../services/auth.service";
   ],
   standalone: true
 })
-
 export class ProductosComponent implements OnInit {
   items: string[] = [];
   idUsuario: number = 0;
   productos: Producto[] = [];
+  productosSeguidos: Producto[] = []; // Productos de los perfiles seguidos
   perfiles: { [key: number]: any } = {};
   favoritos: { [key: number]: boolean } = {};
   categorias: string[] = [
@@ -76,6 +78,7 @@ export class ProductosComponent implements OnInit {
     this.categorias.forEach(categoria => {
       this.getProductoByCategoria(categoria);
     });
+    this.getProductosSeguidos(); // Carga los productos de los seguidos
   }
 
   flipBack(event: Event) {
@@ -88,7 +91,8 @@ export class ProductosComponent implements OnInit {
   private loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (data) => {
-        this.productos = data.filter(producto => producto.perfil !== this.perfilId); // Filter out products from the logged-in user
+        // Filtra para excluir los productos del usuario logueado
+        this.productos = data.filter(producto => producto.perfil !== this.perfilId);
         this.productos.forEach(producto => {
           this.loadPerfil(producto.perfil);
           this.checkIfFavorito(producto.id);
@@ -169,6 +173,41 @@ export class ProductosComponent implements OnInit {
         this.productosPorCategoria[categoria] = [];
       }
     });
+  }
+
+  getProductosSeguidos() {
+    const perfilId = this.authService.getPerfilIdFromToken();
+    if (perfilId === null) {
+      console.error('El perfilId es null');
+      return;
+    }
+    this.perfilesService.getSeguidos(perfilId).subscribe(
+      (seguidos: Perfil[]) => {
+        console.log('Respuesta de la API:', seguidos); // <-- Verifica la respuesta en consola
+        seguidos.forEach((seguidor: Perfil) => {
+          this.productosService.getProductosByPerfilId(seguidor.id).subscribe(
+            (productos: Producto[]) => {
+              this.productosSeguidos = this.productosSeguidos.concat(
+                productos.filter((p: Producto) => p.perfil !== this.idUsuario)
+              );
+              console.log('Productos de seguidos:', productos);
+
+              // Procesa cada producto
+              productos.forEach(producto => {
+                this.loadPerfil(producto.perfil);
+                this.checkIfFavorito(producto.id);
+              });
+            },
+            (err) => {
+              console.error('Error fetching products for seguidor', seguidor.id, err);
+            }
+          );
+        });
+      },
+      (err) => {
+        console.error('Error fetching seguidos', err);
+      }
+    );
   }
 
   onSearch(searchValue: string) {
