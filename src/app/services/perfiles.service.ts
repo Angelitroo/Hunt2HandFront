@@ -34,6 +34,11 @@ export class PerfilesService {
     return this.httpClient.delete<void>(`api/perfiles/eliminar/${id}`, options);
   }
 
+  banearPerfil(id: number): Observable<void> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.post<void>(`api/perfiles/banear/${id}`, options);
+  }
+
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.put<Perfil>(`api/perfiles/${id}`, perfil, options);

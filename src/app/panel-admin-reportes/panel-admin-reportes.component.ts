@@ -97,6 +97,14 @@ export class PanelAdminReportesComponent implements OnInit {
     }
   }
 
-  suspenderCuenta(perfilId: number) {
+  banearPerfil(id: number) {
+    this.perfilesService.banearPerfil(id).subscribe({
+      next: () => {
+        this.toastOkService.presentToast('Perfil baneado correctamente', 2000);
+      },
+      error: (error) => {
+        this.toastErrorService.presentToast('Error al banear perfil', 2000);
+      },
+    });
   }
 }

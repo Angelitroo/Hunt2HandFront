@@ -101,12 +101,12 @@ export class PanelAdminPerfilesComponent implements OnInit {
       this.perfilesService.eliminarPerfil(perfilId).subscribe({
         next: () => {
           this.perfiles = this.perfiles.filter(perfil => perfil.id !== perfilId);
-          console.log('Producto eliminado con éxito');
+          console.log('Perfil eliminado con éxito');
         },
         error: err => {
           if (err.status === 200) {
             this.perfiles = this.perfiles.filter(perfil => perfil.id !== perfilId);
-            console.log('Producto eliminado con éxito');
+            console.log('Perfil eliminado con éxito');
           } else {
             console.error('Error al eliminar el producto:', err);
           }
