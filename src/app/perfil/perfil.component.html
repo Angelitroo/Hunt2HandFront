@@ -5,27 +5,42 @@
         <ion-avatar class="avatar">
           <ion-img [src]="perfil?.imagen"/>
         </ion-avatar>
+        <div class="valoracion">
+          <ion-text>{{resena}}</ion-text>
+          <button class="estrella-btn">
+            <ion-icon name="star" size="large"></ion-icon>
+          </button>
+        </div>
       </ion-col>
       <ion-col size="8">
         <ion-row style="align-items: center;">
           <ion-col>
             <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
           </ion-col>
-          <ion-col size="auto" *ngIf="showSettingsButton">
+
+          <ion-col size="auto">
             <ion-toolbar>
               <ion-buttons slot="end">
-                <ion-button (click)="redirigir()">
+                <ion-button *ngIf="ajustesreportes" (click)="redirigir()">
                   <ion-icon slot="icon-only" name="settings"></ion-icon>
                 </ion-button>
+
+                <ion-button [disabled]="yaReportado" *ngIf="!ajustesreportes" (click)="mostrarOpciones($event)">
+                  <ion-icon slot="icon-only" name="warning-outline"></ion-icon>
+                </ion-button>
+
+
 
               </ion-buttons>
             </ion-toolbar>
           </ion-col>
+
         </ion-row>
         <ion-row>
           <ion-col>
             <ion-text>{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
           </ion-col>
+
         </ion-row>
         <ion-row class="ion-margin-top">
           <ion-col>
@@ -48,8 +63,8 @@
     <ion-row *ngIf="perfil?.id !== perfilId">
       <ion-col class="centrar">
         <div *ngIf="perfil" class="centrar">
-          <ion-button *ngIf="!esSeguidor && !showSettingsButton" (click)="seguir()">Seguir</ion-button>
-          <ion-button *ngIf="esSeguidor && !showSettingsButton" (click)="dejarDeSeguir()">Dejar de seguir</ion-button>
+          <ion-button *ngIf="!esSeguidor && !ajustesreportes" (click)="seguir()">Seguir</ion-button>
+          <ion-button *ngIf="esSeguidor && !ajustesreportes" (click)="dejarDeSeguir()">Dejar de seguir</ion-button>
         </div>
       </ion-col>
     </ion-row>
@@ -106,12 +121,12 @@
                 <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
                 <ion-row>
                   <ion-col>
-                    <ion-button *ngIf="showSettingsButton" [routerLink]="['/crear-producto', producto.id]" fill="clear" class="like-button">
+                    <ion-button *ngIf="ajustesreportes" [routerLink]="['/crear-producto', producto.id]" fill="clear" class="like-button">
                       <ion-icon name="create"></ion-icon>
                     </ion-button>
                   </ion-col>
                   <ion-col>
-                    <ion-button *ngIf="showSettingsButton" fill="clear" class="like-button" (click)="confirmarBorrado(producto.id)">
+                    <ion-button *ngIf="ajustesreportes" fill="clear" class="like-button" (click)="confirmarBorrado(producto.id)">
                       <ion-icon name="trash"></ion-icon>
                     </ion-button>
                   </ion-col>

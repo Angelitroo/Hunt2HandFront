@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Reportes} from '../modelos/Reportes';
 import {AuthService} from "./auth.service";
+import {Reporte} from "../modelos/Reporte";
+import {Reportes} from "../modelos/Reportes";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,25 @@ export class ReportesService {
 
   getReportes(): Observable<Reportes[]> {
     const options = this.authService.getAuthHeaders();
-    console.log('GET /api/reportes', options);
-    return this.httpClient.get<Reportes[]>('/api/reportes/', options);
+    console.log('GET /api/reporte', options);
+    return this.httpClient.get<Reportes[]>('/api/reporte/', options);
   }
 
   getReporteByNombre(nombre: string): Observable<Reportes> {
     const options = this.authService.getAuthHeaders();
-    console.log(`GET /api/reportes/buscar/${nombre}`, options);
-    return this.httpClient.get<Reportes>(`/api/reportes/buscar/${nombre}`, options);
+    console.log(`GET /api/reporte/buscar/${nombre}`, options);
+    return this.httpClient.get<Reportes>(`/api/reporte/buscar/${nombre}`, options);
+  }
+
+  crearReporte(reporte: { fecha: Date; motivo: string }, idReportador: number, idReportado: number): Observable<any> {
+    const options = this.authService.getAuthHeaders();
+    console.log('POST /api/reporte/crear', reporte, idReportador, idReportado, options);
+    return this.httpClient.post<Reporte>(`/api/reporte/crear/${idReportador}/${idReportado}`, reporte, options);
+  }
+
+  buscarReporte(idReportador: number, idReportado: number): Observable<Reporte>{
+    const options = this.authService.getAuthHeaders();
+    console.log(`GET /api/reporte/buscar/${idReportador}/${idReportado}`, options);
+    return this.httpClient.get<Reporte>(`/api/reporte/buscar/${idReportador}/${idReportado}`, options);
   }
 }

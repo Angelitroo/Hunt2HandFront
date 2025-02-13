@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
+import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule, PopoverController} from "@ionic/angular";
 import { addIcons } from "ionicons";
-import {settings, heartOutline, createOutline, trash, trashOutline} from "ionicons/icons";
+import {settings, heartOutline, createOutline, trash, trashOutline, star, warningOutline} from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import { RouterLink, ActivatedRoute, Router } from "@angular/router";
 import { Perfil } from '../modelos/Perfil';
@@ -13,6 +13,10 @@ import { Producto } from '../modelos/Producto';
 import { CommonModule } from "@angular/common";
 import { SeguirDTO } from '../modelos/SeguirDTO';
 import { FavoritosService } from '../services/favoritos.service';
+import {ResenaService} from "../services/resena.service";
+import {FormsModule} from "@angular/forms";
+import {ReportarPopoverComponent} from "../reportar-popover/reportar-popover.component";
+import {ReportesService} from "../services/reportes.service";
 
 @Component({
   selector: 'app-perfil',
@@ -23,7 +27,8 @@ import { FavoritosService } from '../services/favoritos.service';
     MenuInferiorComponent,
     RouterLink,
     NgIf,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   standalone: true
 })
@@ -34,14 +39,17 @@ export class PerfilComponent implements OnInit {
   seguidores: Perfil[] = [];
   seguidos: Perfil[] = [];
   productos: Producto[] = [];
-  showSettingsButton: boolean = true;
+  ajustesreportes: boolean = true;
   esSeguidor: boolean = false;
   favoritos: { [key: number]: boolean } = {};
   perfiles: { [key: number]: any } = {};
   perfilId: number | null = null;
+  resena: number = 0;
 
+  yaReportado: boolean = false;
 
   constructor(
+    private popoverCtrl: PopoverController,
     private actionSheetCtrl: ActionSheetController,
     private perfilesService: PerfilesService,
     private authService: AuthService,
@@ -49,13 +57,17 @@ export class PerfilComponent implements OnInit {
     private route: ActivatedRoute,
     private favoritosService: FavoritosService,
     private router: Router,
+    private resenaService: ResenaService,
+  private reportesService: ReportesService
 
   ) {
     addIcons({
       'settings': settings,
       'heartOutline': heartOutline,
       'create': createOutline,
-      'trash': trashOutline
+      'trash': trashOutline,
+      'star': star,
+      'warning-outline': warningOutline
     });
   }
 
@@ -64,14 +76,20 @@ export class PerfilComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const perfilId = params.get('id');
       if (perfilId) {
-        this.showSettingsButton = false;
-        this.cargarPerfil(parseInt(perfilId, 10));
-        this.cargarProductos(parseInt(perfilId, 10));
-        this.verificarSeguidor(parseInt(perfilId, 10));
-
+        this.ajustesreportes = false;
+        const idNumerico = parseInt(perfilId, 10);
+        this.cargarPerfil(idNumerico);
+        this.cargarProductos(idNumerico);
+        this.verificarSeguidor(idNumerico);
+        this.cargarValoracion(idNumerico);
+        this.verificarSiReporto(idNumerico);
       } else {
         this.cargarPerfil();
         this.cargarProductos();
+        this.cargarValoracion();
+        if (this.perfilId) {
+          this.verificarSiReporto(this.perfilId);
+        }
       }
     });
   }
@@ -203,6 +221,30 @@ export class PerfilComponent implements OnInit {
     );
   }
 
+  cargarValoracion(perfilId?: number) {
+    if (perfilId === undefined) {
+      const idFromToken = this.authService.getPerfilIdFromToken();
+      if (idFromToken !== null) {
+        perfilId = idFromToken;
+      } else {
+        console.log('No se pudo obtener el perfilId del token.');
+        return;
+      }
+    }
+    console.log('Perfil ID para cargar valoración:', perfilId);
+    this.resenaService.buscarResenaMedia(perfilId).subscribe(
+      (media) => {
+        console.log('Respuesta de buscarResenaMedia:', media);
+        this.resena = media;
+      },
+      (error) => {
+        console.error('Error al buscar la valoración media:', error);
+      }
+    );
+  }
+
+
+
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.generateItems();
     setTimeout(() => {
@@ -257,5 +299,39 @@ export class PerfilComponent implements OnInit {
       });
     }
   }
+  verificarSiReporto(idReportado: number) {
+    const idReportador = this.authService.getPerfilIdFromToken() ?? 0;
+    this.reportesService.buscarReporte(idReportador, idReportado).subscribe({
+      next: (data) => {
+        console.log('Respuesta de buscar Reporte:', data);
+        if (data.id_reportador === idReportador && data.id_reportado === idReportado) {
+          this.yaReportado = true;
+        } else {
+          console.log('No ha reportado aún.');
+          this.yaReportado = false;
+        }
+      },
+      error: (err) => {
+        console.error('No existe ningun reporte con:', 'Reportador:', idReportador, 'Reportado', idReportado, err);
+        this.yaReportado = false;
+      }
+    });
+  }
+
+
+  async mostrarOpciones(ev: Event) {
+    if (!this.perfil) return;
+
+    const popover = await this.popoverCtrl.create({
+      component: ReportarPopoverComponent,
+      componentProps: { idReportado: this.perfil.id },
+      event: ev,
+      translucent: true
+    });
+
+    await popover.present();
+  }
+
+
 
 }
