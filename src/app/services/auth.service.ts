@@ -1,7 +1,7 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -10,7 +10,14 @@ import {Router} from "@angular/router";
 export class AuthService {
   private readonly TOKEN_KEY = 'authToken';
 
+  private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
+  authState$ = this.authState.asObservable();
+
   constructor(private httpClient: HttpClient, private route: Router) {}
+
+  setAuthState(isAuthenticated: boolean): void {
+    this.authState.next(isAuthenticated);
+  }
 
   isAuth(){
     if ('' != localStorage.getItem('authToken') || '') {

@@ -15,8 +15,12 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    // if (this.authService.isAuth()) {
-    //   this.router.navigate(['/inicio-sesion']);
-    // }
+    this.authService.authState$.subscribe((isAuthenticated) => {
+
+      if (!isAuthenticated) {
+        this.router.navigate(['/inicio-sesion']);
+      }
+
+    });
   }
 }
