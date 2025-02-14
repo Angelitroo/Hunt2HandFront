@@ -58,7 +58,7 @@ export class PerfilComponent implements OnInit {
     private favoritosService: FavoritosService,
     private router: Router,
     private resenaService: ResenaService,
-  private reportesService: ReportesService
+  private reportesService:   ReportesService
 
   ) {
     addIcons({
