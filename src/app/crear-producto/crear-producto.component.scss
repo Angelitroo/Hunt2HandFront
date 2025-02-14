@@ -59,7 +59,7 @@ ion-item {
 .align-items-center {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espaciado entre columnas */
+  gap: 10px;
 }
 
 .horizontal-button-container {
@@ -105,10 +105,10 @@ ion-content {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  height: 100vh;
 }
 
 ion-grid {
   width: 100%;
-  max-width: 500px; /* Ajusta el ancho del formulario según sea necesario */
+  max-width: 500px;
 }

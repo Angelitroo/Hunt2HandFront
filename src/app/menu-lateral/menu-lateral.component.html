@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom"  class="vertical-tabs-bar">
+      <ion-tab-button [routerLink]="'/productos'">
+        <ion-icon name="home"></ion-icon>
+        <ion-text> Inicio </ion-text>
+      </ion-tab-button>
+      <ion-tab-button [routerLink]="'/favoritos'">
+        <ion-icon name="heart"></ion-icon>
+        <ion-text> Favoritos </ion-text>
+      </ion-tab-button>
+      <ion-tab-button [routerLink]="'/crear-producto'">
+        <ion-icon name="pricetag"></ion-icon>
+        <ion-text> Vender </ion-text>
+      </ion-tab-button>
+      <ion-tab-button [routerLink]="'/chat'">
+        <ion-icon name="chatbubbles"></ion-icon>
+        <ion-text> Mensajes </ion-text>
+      </ion-tab-button>
+      <ion-tab-button [routerLink]="'/perfil'">
+        <ion-icon name="person"></ion-icon>
+        <ion-text> Cuenta </ion-text>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

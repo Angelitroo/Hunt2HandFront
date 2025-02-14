@@ -91,5 +91,10 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-  <app-menu-inferior></app-menu-inferior>
+  <ng-container *ngIf="isScreenSmall; else largeScreen">
+    <app-menu-inferior></app-menu-inferior>
+  </ng-container>
+  <ng-template #largeScreen>
+    <app-menu-lateral></app-menu-lateral>
+  </ng-template>
 </ion-content>

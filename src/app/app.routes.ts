@@ -39,6 +39,10 @@ export const routes: Routes = [
     loadComponent: () => import('./productos/productos.component').then((m) => m.ProductosComponent),
   },
   {
+    path: 'menu-lateral',
+    loadComponent: () => import('./menu-lateral/menu-lateral.component').then((m) => m.MenuLateralComponent),
+  },
+  {
     path: 'menu-inferior',
     loadComponent: () => import('./menu-inferior/menu-inferior.component').then((m) => m.MenuInferiorComponent),
   },

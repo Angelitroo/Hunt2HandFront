@@ -1,5 +1,5 @@
 // productos.component.ts
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
 import { chatbox, heartOutline } from "ionicons/icons";
@@ -13,6 +13,7 @@ import { Router } from "@angular/router";
 import { FavoritosService } from "../services/favoritos.service";
 import { AuthService } from "../services/auth.service";
 import { Perfil } from '../modelos/Perfil';
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-productos',
@@ -22,7 +23,8 @@ import { Perfil } from '../modelos/Perfil';
     IonicModule,
     MenuInferiorComponent,
     BuscadorMenuComponent,
-    CommonModule
+    CommonModule,
+    MenuLateralComponent
   ],
   standalone: true
 })
@@ -30,6 +32,7 @@ export class ProductosComponent implements OnInit {
   items: string[] = [];
   idUsuario: number = 0;
   productos: Producto[] = [];
+  isScreenSmall: boolean = false;
   productosSeguidos: Producto[] = []; // Productos de los perfiles seguidos
   perfiles: { [key: number]: any } = {};
   favoritos: { [key: number]: boolean } = {};
@@ -71,6 +74,7 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.perfilId = this.authService.getPerfilIdFromToken();
     this.generateItems();
     this.loadProductos();
@@ -226,5 +230,14 @@ export class ProductosComponent implements OnInit {
     } else {
       this.loadProductos();
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }
