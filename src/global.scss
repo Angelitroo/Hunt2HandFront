@@ -1,39 +1,13 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 @font-face {
@@ -59,27 +33,6 @@
   text-align: center;
 }
 
-
-.color-app {
-  --background: #994B7C;
-}
-
-.price-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.product-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.heart-icon {
-  color: #994B7C;
-}
-
 hr {
   border: 0;
   border-top: 0.25px solid #000;
@@ -88,13 +41,9 @@ hr {
 
 ion-text, h1, h2, h3, h4, h5, h6, ion-title, ion-card-subtitle, ion-card-title, ion-button, ion-item, p, a {
   font-family: "Louis George Cafe";
+  color: #ffffff;
 }
 
-ion-content {
-  padding-top: 120px;
-  padding-bottom: 50px;
-  box-sizing: border-box;
-}
 
 app-buscador-menu {
   position: fixed;
@@ -146,12 +95,8 @@ app-menu-inferior-admin {
   z-index: 500;
 }
 
-.gradient-background {
-  --background: linear-gradient(360deg, #e6a1f1 0%, #ffffff 90%, #ffffff 100%);
-}
-
 ion-content {
-  @extend .gradient-background;
+  --background: rgba(0, 0, 0, 0.92);
   padding-top: 120px;
   padding-bottom: 50px;
   box-sizing: content-box;

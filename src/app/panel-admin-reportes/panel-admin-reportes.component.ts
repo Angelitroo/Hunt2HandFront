@@ -4,7 +4,7 @@ import { PanelAdminComponent } from "../panel-admin/panel-admin.component";
 import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior-admin.component";
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ReportesService } from "../services/reportes.service";
-import { Reportes } from '../modelos/Reportes';
+import { Reporte } from '../modelos/Reporte';
 import { NgForOf } from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { Perfil } from "../modelos/Perfil";
@@ -26,7 +26,7 @@ import { ToastErrorService } from '../services/toast-error.service';
 })
 export class PanelAdminReportesComponent implements OnInit {
   items: string[] = [];
-  reportes: Reportes[] = [];
+  reportes: Reporte[] = [];
   perfiles: { [key: string]: Perfil } = {};
 
   constructor(
@@ -42,11 +42,11 @@ export class PanelAdminReportesComponent implements OnInit {
       next: (data) => {
         this.reportes = data;
         this.reportes.forEach(reporte => {
-          if (reporte.reportado !== undefined) {
-            this.loadPerfil(reporte.reportado);
+          if (reporte.id_reportado !== undefined) {
+            this.loadPerfil(reporte.id_reportado);
           }
-          if (reporte.reportador !== undefined) {
-            this.loadPerfil(reporte.reportador);
+          if (reporte.id_reportador !== undefined) {
+            this.loadPerfil(reporte.id_reportador);
           }
         });
       },

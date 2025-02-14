@@ -9,10 +9,10 @@
           <ion-card>
             <ion-card-content class="ion-margin">
               <ion-card-subtitle style="font-size: 12px; margin-top: 10px">
-                <b>Reporte de cuenta: {{ perfiles[reporte.reportado].nombre}}</b>
+                <b>Reporte de cuenta: {{ perfiles[reporte.id_reportado].nombre}}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="font-size: 12px">
-                <b>Reportado por: {{ perfiles[reporte.reportador].nombre}}</b>
+                <b>Reportado por: {{ perfiles[reporte.id_reportador].nombre}}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="font-size: 12px">
                 <b>Fecha Reporte: {{ reporte.fecha }}</b>
@@ -20,7 +20,7 @@
               <ion-card-subtitle style="font-size: 12px">
                 <b>Motivo: {{ reporte.motivo }}</b>
               </ion-card-subtitle>
-              <ion-button (click)="banearPerfil(reporte.reportado)">Suspender Cuenta</ion-button>
+              <ion-button (click)="banearPerfil(reporte.id_reportado)">Suspender Cuenta</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
