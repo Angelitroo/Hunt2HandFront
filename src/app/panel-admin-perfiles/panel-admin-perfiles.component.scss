@@ -4,6 +4,10 @@ ion-card {
   flex-direction: column;
 }
 
+app-panel-admin {
+  --background: #000000;
+}
+
 div {
   width: 100%;
   padding-top: 100%;
