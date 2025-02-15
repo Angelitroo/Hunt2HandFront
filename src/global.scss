@@ -68,6 +68,30 @@ app-buscador-menu-admin {
   z-index: 999;
 }
 
+app-menu-lateral {
+  top: 0px;
+  position: fixed;
+  width: 12%;
+  z-index: 1000;
+  height: 700px;
+  border-right: 2px solid #ffffff;
+
+}
+
+@media (min-width: 1440px) {
+  app-menu-lateral {
+    width: 15%;
+    height: 700px;
+  }
+}
+
+@media (min-width: 1850px) {
+  app-menu-lateral {
+    width: 15%;
+    height: 925px;
+  }
+}
+
 app-menu-inferior {
   position: fixed;
   bottom: 0;
@@ -125,6 +149,11 @@ ion-card {
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.92);
 }
 
+ion-list ion-grid ion-col ion-row {
+  --background: transparent;
+  background: transparent;
+}
+
 .modificar {
   --background: #994B7C;
   --color: #ffffff;
@@ -133,4 +162,16 @@ ion-card {
 .eliminar {
   --background: #ff0000;
   --color: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .contenido {
+    margin-left: 12%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .contenido {
+    margin-left: 15%;
+  }
 }

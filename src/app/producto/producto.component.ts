@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { ProductosService } from "../services/productos.service";
 import { PerfilesService } from "../services/perfiles.service";
@@ -12,24 +12,27 @@ import {addIcons} from "ionicons";
 import {chatbox, heartOutline} from "ionicons/icons";
 import {ChatService} from "../services/chat.service";
 import {Chat} from "../modelos/Chat";
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.scss'],
-  imports: [
-    MenuInferiorComponent,
-    IonicModule,
-    NgIf,
-    CommonModule,
-    RouterLink
-  ],
+    imports: [
+        MenuInferiorComponent,
+        IonicModule,
+        NgIf,
+        CommonModule,
+        RouterLink,
+        MenuLateralComponent
+    ],
   standalone: true
 })
 
 export class ProductoComponent implements OnInit {
   producto: any;
   perfil: any;
+  isScreenSmall: boolean = false;
   isFavorito: boolean = true;
   perfilId: number | null = null;
 
@@ -48,6 +51,7 @@ export class ProductoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.perfilId = this.authService.getPerfilIdFromToken();
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.productosService.getProductoById(id).subscribe({
@@ -113,5 +117,14 @@ export class ProductoComponent implements OnInit {
         console.error('Error creating chat:', err);
       }
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

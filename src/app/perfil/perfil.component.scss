@@ -82,29 +82,20 @@ ion-text {
 }
 
 .card-front {
-  background-color: #fff;
+  background-color: #000000;
 }
 
 .card-back {
-  background-color: #f8f8f8;
+  background-color: #000000;
   transform: rotateY(180deg);
-}
-
-.product-image {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.product-name, .price-container {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  margin-bottom: 30%;
 }
 
 .grid1 {
   margin-top: 15%;
+}
+
+.boton {
+  --background: transparent;
 }
 
 .like-button {
@@ -192,6 +183,10 @@ ion-text {
     height: 250px;
     padding-top: 0;
   }
+
+  .card {
+    max-width: 250px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -227,11 +222,39 @@ ion-text {
     padding-top: 0;
   }
 }
+
 ion-card {
   ion-img {
     width: 100%;
     height: 50px;
     crop: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-card {
+    width: 48%;
+    margin: 1%;
+    margin-left: 4%;
+    margin-top: 4%;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .product-card {
+    margin-top: 2%;
+    margin-left: 2%;
+  }
+}
+
+@media (min-width: 1850px) {
+  .product-card {
+    margin-top: 2%;
+    margin-left: 2%;
   }
 }
 
@@ -255,4 +278,37 @@ ion-card {
   margin: 0 2px;
   background-color: transparent;
 }
+
+.product-name,
+.price-container {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-left: 0;
+  text-align: left;
+}
+
+.product-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+ion-popover.custom-popover {
+  --background: #000000;
+  --color: #ffffff;
+}
+
+ion-popover.custom-popover .popover-content {
+  color: #ffffff !important;
+}
+
+ion-popover.custom-popover ion-icon {
+  color: #ffffff !important;
+}
+
 

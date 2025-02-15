@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { IonicModule } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
@@ -9,22 +9,25 @@ import { ProductosService } from '../services/productos.service';
 import { AuthService } from "../services/auth.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-crear-producto',
   templateUrl: './crear-producto.component.html',
   styleUrls: ['./crear-producto.component.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    FormsModule,
-    NgForOf,
-    MenuInferiorComponent,
-    NgIf
-  ]
+    imports: [
+        IonicModule,
+        FormsModule,
+        NgForOf,
+        MenuInferiorComponent,
+        NgIf,
+        MenuLateralComponent
+    ]
 })
 export class CrearProductoComponent implements OnInit {
   imagePath: string = '';
+  isScreenSmall: boolean = false;
   modoCrear: boolean = false;
   modoEditar: boolean = false;
   modoEditarAdmin: boolean = false;
@@ -74,6 +77,7 @@ export class CrearProductoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.route.params.subscribe(params => {
       const productId = params['id'];
       if (!productId) {
@@ -168,5 +172,15 @@ export class CrearProductoComponent implements OnInit {
     } else {
       this.toastErrorService.presentToast('ID de producto no encontrado', 3000);
     }
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

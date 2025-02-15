@@ -1,5 +1,5 @@
 .chat-container {
-  --background: none;
+  --background: rgb(24, 24, 24);
   padding: 10px;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .message-bubble.sent {
-  background-color: #ffffff;
+  background-color: transparent;
   color: #333;
 }
 

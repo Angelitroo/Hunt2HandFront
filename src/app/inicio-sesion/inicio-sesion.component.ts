@@ -1,4 +1,3 @@
-// src/app/inicio-sesion/inicio-sesion.component.ts
 import { Component, OnInit } from '@angular/core';
 import { IonicModule, NavController, Platform } from "@ionic/angular";
 import { FormsModule } from "@angular/forms";

@@ -1,48 +1,55 @@
-<ion-content>
-<ion-card tappable class="profile-card">
-  <ion-grid>
-    <ion-row class="avatar-row" style="display: flex; align-items: center;" *ngIf="perfil" [routerLink]="['/perfil', perfil.id]">
-      <ion-col size="5" class="ion-text-center avatar-col">
-        <ion-avatar class="avatar" style="margin: 0 auto">
-          <img [alt]="perfil.nombre" [src]="perfil.imagen"/>
-        </ion-avatar>
-      </ion-col>
-      <ion-col size="5">
-        <ion-row style="align-items: center;">
-          <ion-col>
-            <ion-text><b>{{ perfil.nombre }}</b></ion-text>
+<ion-content class="content-container">
+  <div class="contenido">
+    <ion-card tappable class="profile-card">
+      <ion-grid>
+        <ion-row class="avatar-row" *ngIf="perfil" [routerLink]="['/perfil', perfil.id]">
+          <ion-col size="5" class="ion-text-center avatar-col">
+            <ion-avatar class="avatar">
+              <img [alt]="perfil.nombre" [src]="perfil.imagen"/>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="5">
+            <ion-row class="align-center">
+              <ion-col>
+                <ion-text class="profile-name"><b>{{ perfil.nombre }}</b></ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-text class="small-text">{{ perfil.ubicacion }}</ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col [routerLink]="['/dentro-chat', perfil.id]" size="2" class="ion-text-end">
+            <ion-icon name="chatboxes" class="chat-icon" (click)="crearChat()"></ion-icon>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-text style="font-size: 12px">{{ perfil.ubicacion }}</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-      <ion-col [routerLink]="['/dentro-chat', perfil.id]" size="2" class="ion-text-end">
-        <ion-icon name="chatboxes" style="margin: 15px; font-size: 45px" (click)="crearChat()"/>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-card>
+      </ion-grid>
+    </ion-card>
 
-  <ion-card class="product-card" *ngIf="producto">
-    <ion-card-content class="ion-margin">
-      <ion-img [src]="producto.imagen"/>
-      <ion-card-title class="price-container" style="margin-top: 10px">
-        {{ producto.precio + "€" }}
-        <ion-button *ngIf="producto.perfil !== perfilId" fill="clear" class="ion-float-end" (click)="toggleFavorito($event, producto.id)">
-          <ion-icon [name]="isFavorito ? 'heart' : 'heart-outline'" class="heart-icon" [style.color]="isFavorito ? 'red' : 'grey'"></ion-icon>
-        </ion-button>
-      </ion-card-title>
-      <ion-card-subtitle class="product-name">
-        <b>{{ producto.nombre }}</b>
-      </ion-card-subtitle>
-      <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
-      <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
-      <ion-card-subtitle class="ion-text-end"><b>{{ producto.ubicacion }}</b></ion-card-subtitle>
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="product-card" *ngIf="producto">
+      <ion-card-content class="ion-margin">
+        <ion-img [src]="producto.imagen" class="product-image"/>
+        <ion-card-title class="price-container">
+          {{ producto.precio + "€" }}
+          <ion-button *ngIf="producto.perfil !== perfilId" fill="clear" class="like-button ion-float-end" (click)="toggleFavorito($event, producto.id)">
+            <ion-icon [name]="isFavorito ? 'heart' : 'heart-outline'" [class.heart]="isFavorito" [class.heart-outline]="!isFavorito"></ion-icon>
+          </ion-button>
+        </ion-card-title>
+        <ion-card-subtitle class="product-name">
+          <b>{{ producto.nombre }}</b>
+        </ion-card-subtitle>
+        <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
+        <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
+        <ion-card-subtitle class="ion-text-end"><b>{{ producto.ubicacion }}</b></ion-card-subtitle>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-  <app-menu-inferior></app-menu-inferior>
+  <ng-container *ngIf="isScreenSmall; else largeScreen">
+    <app-menu-inferior></app-menu-inferior>
+  </ng-container>
+  <ng-template #largeScreen>
+    <app-menu-lateral></app-menu-lateral>
+  </ng-template>
 </ion-content>

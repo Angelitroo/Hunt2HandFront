@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule, PopoverController} from "@ionic/angular";
 import { addIcons } from "ionicons";
 import {settings, heartOutline, createOutline, trash, trashOutline, star, warningOutline} from "ionicons/icons";
@@ -17,6 +17,7 @@ import {ResenaService} from "../services/resena.service";
 import {FormsModule} from "@angular/forms";
 import {ReportarPopoverComponent} from "../reportar-popover/reportar-popover.component";
 import {ReportesService} from "../services/reportes.service";
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-perfil',
@@ -28,7 +29,8 @@ import {ReportesService} from "../services/reportes.service";
     RouterLink,
     NgIf,
     CommonModule,
-    FormsModule
+    FormsModule,
+    MenuLateralComponent
   ],
   standalone: true
 })
@@ -39,6 +41,7 @@ export class PerfilComponent implements OnInit {
   seguidores: Perfil[] = [];
   seguidos: Perfil[] = [];
   productos: Producto[] = [];
+  isScreenSmall: boolean = false;
   ajustesreportes: boolean = true;
   esSeguidor: boolean = false;
   favoritos: { [key: number]: boolean } = {};
@@ -72,6 +75,7 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.perfilId = this.authService.getPerfilIdFromToken();
     this.route.paramMap.subscribe(params => {
       const perfilId = params.get('id');
@@ -243,15 +247,6 @@ export class PerfilComponent implements OnInit {
     );
   }
 
-
-
-  onIonInfinite(event: InfiniteScrollCustomEvent) {
-    this.generateItems();
-    setTimeout(() => {
-      event.target.complete();
-    }, 500);
-  }
-
   private generateItems() {
     const count = this.items.length + 1;
     for (let i = 0; i < 50; i++) {
@@ -299,6 +294,7 @@ export class PerfilComponent implements OnInit {
       });
     }
   }
+
   verificarSiReporto(idReportado: number) {
     const idReportador = this.authService.getPerfilIdFromToken() ?? 0;
     this.reportesService.buscarReporte(idReportador, idReportado).subscribe({
@@ -318,7 +314,6 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-
   async mostrarOpciones(ev: Event) {
     if (!this.perfil) return;
 
@@ -326,12 +321,19 @@ export class PerfilComponent implements OnInit {
       component: ReportarPopoverComponent,
       componentProps: { idReportado: this.perfil.id },
       event: ev,
-      translucent: true
+      translucent: false,
+      cssClass: 'custom-popover',
     });
 
     await popover.present();
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
 
-
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
+  }
 }

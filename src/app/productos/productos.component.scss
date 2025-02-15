@@ -6,21 +6,19 @@
   font-weight: bold;
 }
 
-/* Contenedor del slider horizontal */
 .horizontal-slider {
   display: flex;
   overflow-x: auto;
   gap: 10px;
   padding: 10px;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; /* para suavizar el scroll en dispositivos táctiles */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Cada tarjeta de producto dentro del slider */
 .product-card {
   flex: 0 0 auto;
   scroll-snap-align: start;
-  width: 250px; /* Ajusta el ancho según necesites */
+  width: 250px;
 }
 
 .slides-container {
@@ -90,25 +88,42 @@
 }
 
 .card-front {
-  background-color: #fff;
+  background-color: #000000;
 }
 
 .card-back {
-  background-color: #f8f8f8;
+  background-color: #000000;
   transform: rotateY(180deg);
 }
 
-.product-image {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
+@media (max-width: 767px) {
+  .product-card {
+    width: 60%;
+    margin: 1%;
+  }
+
+  .card {
+    max-width: 100%;
+  }
 }
 
-.product-name, .price-container {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  margin-bottom: 30%;
+.product-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.product-name,
+.price-container {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-left: 0;
+  text-align: left;
 }
 
 .grid1 {
@@ -116,7 +131,6 @@
 }
 
 .like-button {
-  background-color: white;
   border: none;
   position: relative;
   overflow: hidden;
@@ -161,21 +175,13 @@
 }
 
 @media (min-width: 768px) {
-  .grid1 {
-    margin-top: 10%;
-  }
-
   .card {
     max-width: 250px;
   }
 }
 
 @media (min-width: 1024px) {
-  .grid1 {
-    margin-top: 5%;
-  }
-
-  .card {
-    max-width: 330px;
+  ion-content {
+    margin-left: 12%;
   }
 }

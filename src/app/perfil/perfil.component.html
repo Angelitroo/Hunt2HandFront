@@ -1,127 +1,122 @@
 <ion-content>
-  <ion-grid>
-    <ion-row class="avatar-row">
-      <ion-col size="4" class="ion-text-center avatar-col">
-        <ion-avatar class="avatar">
-          <ion-img [src]="perfil?.imagen"/>
-        </ion-avatar>
-        <div class="valoracion">
-          <ion-text>{{resena}}</ion-text>
-          <button class="estrella-btn">
-            <ion-icon name="star" size="large"></ion-icon>
-          </button>
-        </div>
-      </ion-col>
-      <ion-col size="8">
-        <ion-row style="align-items: center;">
-          <ion-col>
-            <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
-          </ion-col>
+  <div class="contenido">
+    <ion-grid style="background: #000000; border-bottom: 1px solid #ffffff">
+      <ion-row class="avatar-row">
+        <ion-col size="4" class="ion-text-center avatar-col">
+          <ion-avatar class="avatar">
+            <ion-img [src]="perfil?.imagen"/>
+          </ion-avatar>
+          <div class="valoracion">
+            <ion-text>{{resena}}</ion-text>
+            <button class="estrella-btn">
+              <ion-icon name="star" size="large"></ion-icon>
+            </button>
+          </div>
+        </ion-col>
+        <ion-col size="8">
+          <ion-row style="align-items: center;">
+            <ion-col>
+              <ion-text class="nombre"><b>{{ perfil?.nombre }} {{ perfil?.apellido }}</b></ion-text>
+            </ion-col>
 
-          <ion-col size="auto">
-            <ion-toolbar style="--background: transparent">
-              <ion-buttons slot="end">
-                <ion-button *ngIf="ajustesreportes" (click)="redirigir()">
-                  <ion-icon slot="icon-only" name="settings" class="iconos"></ion-icon>
-                </ion-button>
+            <ion-col size="auto">
+              <ion-toolbar style="--background: transparent">
+                <ion-buttons slot="end">
+                  <ion-button *ngIf="ajustesreportes" (click)="redirigir()">
+                    <ion-icon slot="icon-only" name="settings" class="iconos"></ion-icon>
+                  </ion-button>
 
-                <ion-button [disabled]="yaReportado" *ngIf="!ajustesreportes" (click)="mostrarOpciones($event)">
-                  <ion-icon slot="icon-only" name="warning-outline" class="iconos"></ion-icon>
-                </ion-button>
+                  <ion-button [disabled]="yaReportado" *ngIf="!ajustesreportes" (click)="mostrarOpciones($event)">
+                    <ion-icon slot="icon-only" name="warning-outline" class="iconos"></ion-icon>
+                  </ion-button>
 
 
 
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-col>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-col>
 
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-text>{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
-          </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-text>{{ perfil?.ubicacion || 'Ubicación no especificada' }}</ion-text>
+            </ion-col>
 
-        </ion-row>
-        <ion-row class="ion-margin-top">
-          <ion-col>
-            <ion-text>Seguidores</ion-text>
-          </ion-col>
-          <ion-col>
-            <ion-text>Seguidos</ion-text>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-text>{{ seguidores.length }}</ion-text>
-          </ion-col>
-          <ion-col>
-            <ion-text>{{ seguidos.length }}</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="perfil?.id !== perfilId">
-      <ion-col class="centrar">
-        <div *ngIf="perfil" class="centrar">
-          <ion-button *ngIf="!esSeguidor && !ajustesreportes" (click)="seguir()">Seguir</ion-button>
-          <ion-button *ngIf="esSeguidor && !ajustesreportes" (click)="dejarDeSeguir()">Dejar de seguir</ion-button>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <hr/>
-
-  <ion-list>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6" size-md="3" size-lg="3" *ngFor="let producto of productos">
-          <div class="card" (click)="flipBack($event)">
-            <div class="card-inner">
-              <div class="card-front">
-                <ion-img [src]="producto.imagen" class="product-image" />
-                <ion-row>
-                  <ion-col size="9">
-                    <ion-card-title class="product-name">
-                      <b>{{ producto.nombre }}</b>
-                    </ion-card-title>
-                  </ion-col>
-                  <ion-col size="3">
-                    <ion-card-title class="price-container">
-                      {{ producto.precio + "€" }}
-                    </ion-card-title>
-                  </ion-col>
-                </ion-row>
-              </div>
-              <div class="card-back">
-                <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
-                <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
-                <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
-                <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
-                <ion-row>
-                  <ion-col>
-                    <ion-button *ngIf="ajustesreportes" [routerLink]="['/crear-producto', producto.id]" fill="clear" class="like-button">
-                      <ion-icon name="create"></ion-icon>
-                    </ion-button>
-                  </ion-col>
-                  <ion-col>
-                    <ion-button *ngIf="ajustesreportes" fill="clear" class="like-button" (click)="confirmarBorrado(producto.id)">
-                      <ion-icon name="trash"></ion-icon>
-                    </ion-button>
-                  </ion-col>
-                </ion-row>
-                <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
-              </div>
-            </div>
+          </ion-row>
+          <ion-row class="ion-margin-top">
+            <ion-col>
+              <ion-text>Seguidores</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>Seguidos</ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-text>{{ seguidores.length }}</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>{{ seguidos.length }}</ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="perfil?.id !== perfilId">
+        <ion-col class="centrar">
+          <div *ngIf="perfil" class="centrar">
+            <ion-button *ngIf="!esSeguidor && !ajustesreportes" (click)="seguir()">Seguir</ion-button>
+            <ion-button *ngIf="esSeguidor && !ajustesreportes" (click)="dejarDeSeguir()">Dejar de seguir</ion-button>
           </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <div class="product-card" *ngFor="let producto of productos">
+      <div class="card" (click)="flipBack($event)">
+        <div class="card-inner">
+          <div class="card-front">
+            <ion-img [src]="producto.imagen" class="product-image" />
+            <ion-row>
+              <ion-col size="6">
+                <ion-card-title class="product-name">
+                  <b>{{ producto.nombre }}</b>
+                </ion-card-title>
+              </ion-col>
+              <ion-col size="6">
+                <ion-card-title class="price-container">
+                  {{ producto.precio + "€" }}
+                </ion-card-title>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div class="card-back">
+            <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ producto.estado }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
+            <ion-row>
+              <ion-col>
+                <ion-button *ngIf="ajustesreportes" [routerLink]="['/crear-producto', producto.id]" fill="clear" class="boton">
+                  <ion-icon name="create"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button *ngIf="ajustesreportes" fill="clear" class="boton" (click)="confirmarBorrado(producto.id)">
+                  <ion-icon name="trash"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-button style="--background: #994b7c" (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <app-menu-inferior></app-menu-inferior>
+  <ng-container *ngIf="isScreenSmall; else largeScreen">
+    <app-menu-inferior></app-menu-inferior>
+  </ng-container>
+  <ng-template #largeScreen>
+    <app-menu-lateral></app-menu-lateral>
+  </ng-template>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { AuthService } from '../services/auth.service';
@@ -11,17 +11,19 @@ import { chatbubbleOutline } from "ionicons/icons";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
 import {PerfilesService} from "../services/perfiles.service";
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, IonicModule, MenuInferiorComponent, RouterModule],
+  imports: [CommonModule, IonicModule, MenuInferiorComponent, RouterModule, MenuLateralComponent],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
 
 export class ChatComponent implements OnInit {
   idUsuario!: number;
+  isScreenSmall: boolean = false;
   perfiles: { [key: number]: any } = {};
   chats: Chat[] = [];
 
@@ -40,6 +42,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.idUsuario = this.authService.getPerfilIdFromToken() ?? 0;
     this.chatService.getChatById(this.idUsuario).subscribe({
       next: (data) => {
@@ -65,5 +68,14 @@ export class ChatComponent implements OnInit {
 
   cargarChat(idChat: number) {
     this.router.navigate(['/dentro-chat', idChat]);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

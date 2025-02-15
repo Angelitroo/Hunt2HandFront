@@ -82,7 +82,7 @@ export class ProductosComponent implements OnInit {
     this.categorias.forEach(categoria => {
       this.getProductoByCategoria(categoria);
     });
-    this.getProductosSeguidos(); // Carga los productos de los seguidos
+    this.getProductosSeguidos();
   }
 
   flipBack(event: Event) {
@@ -98,7 +98,6 @@ export class ProductosComponent implements OnInit {
   private loadProductos() {
     this.productosService.getProductos().subscribe({
       next: (data) => {
-        // Filtra para excluir los productos del usuario logueado
         this.productos = data.filter(producto => producto.perfil !== this.perfilId);
         this.productos.forEach(producto => {
           this.loadPerfil(producto.perfil);

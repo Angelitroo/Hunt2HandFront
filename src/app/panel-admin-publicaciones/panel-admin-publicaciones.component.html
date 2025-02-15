@@ -27,10 +27,10 @@
                 <b>{{ producto.vendido ? 'Vendido' : 'Disponible' }}</b>
               </ion-card-subtitle>
               <ion-card-subtitle style="justify-content: center">
-                <ion-button [routerLink]="['/crear-producto', producto.id]" [queryParams]="{ admin: true }">
+                <ion-button class="modificar" [routerLink]="['/crear-producto', producto.id]" [queryParams]="{ admin: true }">
                   <ion-icon name="create"></ion-icon>
                 </ion-button>
-                <ion-button (click)="confirmarBorrado(producto.id)">
+                <ion-button class="eliminar" (click)="confirmarBorrado(producto.id)">
                   <ion-icon name="trash"></ion-icon>
                 </ion-button>
               </ion-card-subtitle>

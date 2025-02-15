@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'activar-cuenta',
+    loadComponent: () => import('./activar-cuenta/activar-cuenta.component').then((m) => m.ActivarCuentaComponent),
+  },
+  {
     path: 'inicio-sesion',
     loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },

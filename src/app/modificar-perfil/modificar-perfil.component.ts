@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import { settings, heartOutline } from "ionicons/icons";
+import {settings, heartOutline, eyeOff, eye} from "ionicons/icons";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import {RouterLink, Router, ActivatedRoute} from "@angular/router";
 import { PerfilActualizar } from '../modelos/PerfilActualizar';
@@ -11,6 +11,7 @@ import { NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-modificar-perfil',
@@ -22,11 +23,13 @@ import { ToastErrorService } from '../services/toast-error.service';
     MenuInferiorComponent,
     FormsModule,
     NgIf,
+    MenuLateralComponent,
   ]
 })
 export class ModificarPerfilComponent implements OnInit {
   modoEditar: boolean = false;
   modoEditarAdmin: boolean = false;
+  isScreenSmall: boolean = false;
 
   perfilActualizar: PerfilActualizar = {
     id: 0,
@@ -51,11 +54,14 @@ export class ModificarPerfilComponent implements OnInit {
   ) {
     addIcons({
       'settings': settings,
-      'heartOutline': heartOutline
+      'heartOutline': heartOutline,
+      'eye-off': eyeOff,
+      'eye': eye
     });
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.route.params.subscribe(params => {
       const perfilId = +params['id'];
       if (!perfilId) {
@@ -142,5 +148,14 @@ export class ModificarPerfilComponent implements OnInit {
         }
       });
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

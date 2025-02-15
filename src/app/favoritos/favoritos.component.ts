@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import { Producto } from "../modelos/Producto";
 import { ProductosService } from "../services/productos.service";
 import { Router } from "@angular/router";
@@ -7,11 +7,12 @@ import { heartOutline } from "ionicons/icons";
 import { InfiniteScrollCustomEvent, IonicModule } from "@ionic/angular";
 import { BuscadorMenuComponent } from "../buscador-menu/buscador-menu.component";
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
-import { NgForOf } from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { FavoritosService } from "../services/favoritos.service";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-favoritos',
@@ -21,12 +22,15 @@ import { ToastErrorService } from '../services/toast-error.service';
     IonicModule,
     BuscadorMenuComponent,
     MenuInferiorComponent,
-    NgForOf
+    NgForOf,
+    MenuLateralComponent,
+    NgIf
   ],
   standalone: true
 })
 export class FavoritosComponent implements OnInit {
   productos: Producto[] = [];
+  isScreenSmall: boolean = false;
   favoritos: { [key: number]: boolean } = {};
 
   constructor(
@@ -43,6 +47,7 @@ export class FavoritosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.loadFavoritos();
   }
 
@@ -109,10 +114,12 @@ export class FavoritosComponent implements OnInit {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
 
-  onIonInfinite(event: InfiniteScrollCustomEvent) {
-    setTimeout(() => {
-      event.target.complete();
-    }, 500);
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

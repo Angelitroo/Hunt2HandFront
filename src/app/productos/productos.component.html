@@ -1,22 +1,66 @@
 <ion-content>
-  <app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
+  <div class="contenido">
+    <app-buscador-menu (searchEvent)="onSearch($event.searchValue)"></app-buscador-menu>
 
-  <ng-container *ngFor="let categoria of categorias">
-    <div *ngIf="productosPorCategoria[categoria]?.length" style="margin: 30px">
-      <h2 class="categoria-titulo">{{ categoria }}</h2>
+    <ng-container *ngFor="let categoria of categorias">
+      <div *ngIf="productosPorCategoria[categoria]?.length" style="margin: 30px">
+        <h2 class="categoria-titulo">{{ categoria }}</h2>
+        <div class="horizontal-slider">
+          <div class="product-card" *ngFor="let producto of productosPorCategoria[categoria]">
+            <div class="card" (click)="flipBack($event)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <ion-img [src]="producto.imagen" class="product-image"></ion-img>
+                  <ion-row>
+                    <ion-col size="9">
+                      <ion-card-title class="product-name">
+                        <b>{{ producto.nombre }}</b>
+                      </ion-card-title>
+                    </ion-col>
+                    <ion-col size="3">
+                      <ion-card-title class="price-container">
+                        {{ producto.precio + "€" }}
+                      </ion-card-title>
+                    </ion-col>
+                  </ion-row>
+                </div>
+                <div class="card-back">
+                  <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
+                  <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
+                  <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
+                  <ion-buttons>
+                    <ion-button fill="clear" class="like-button" (click)="toggleFavorito($event, producto.id)">
+                      <ion-icon
+                        [name]="favoritos[producto.id] ? 'heart' : 'heart-outline'"
+                        [class.heart]="favoritos[producto.id]"
+                        [class.heart-outline]="!favoritos[producto.id]">
+                      </ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                  <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="productosSeguidos.length" style="margin: 30px">
+      <h2 class="categoria-titulo">Productos de las personas que sigues</h2>
       <div class="horizontal-slider">
-        <div class="product-card" *ngFor="let producto of productosPorCategoria[categoria]">
+        <div class="product-card" *ngFor="let producto of productosSeguidos">
           <div class="card" (click)="flipBack($event)">
             <div class="card-inner">
               <div class="card-front">
                 <ion-img [src]="producto.imagen" class="product-image"></ion-img>
                 <ion-row>
-                  <ion-col size="9">
+                  <ion-col size="6">
                     <ion-card-title class="product-name">
                       <b>{{ producto.nombre }}</b>
                     </ion-card-title>
                   </ion-col>
-                  <ion-col size="3">
+                  <ion-col size="6">
                     <ion-card-title class="price-container">
                       {{ producto.precio + "€" }}
                     </ion-card-title>
@@ -36,60 +80,14 @@
                     </ion-icon>
                   </ion-button>
                 </ion-buttons>
-                <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
+                <ion-button style="--background: #994b7c" (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </ng-container>
-
-  <div *ngIf="productosSeguidos.length" style="margin: 30px">
-    <h2 class="categoria-titulo">Productos de las personas que sigues</h2>
-    <div class="horizontal-slider">
-      <div class="product-card" *ngFor="let producto of productosSeguidos">
-        <div class="card" (click)="flipBack($event)">
-          <div class="card-inner">
-            <div class="card-front">
-              <ion-img [src]="producto.imagen" class="product-image"></ion-img>
-              <ion-row>
-                <ion-col size="9">
-                  <ion-card-title class="product-name">
-                    <b>{{ producto.nombre }}</b>
-                  </ion-card-title>
-                </ion-col>
-                <ion-col size="3">
-                  <ion-card-title class="price-container">
-                    {{ producto.precio + "€" }}
-                  </ion-card-title>
-                </ion-col>
-              </ion-row>
-            </div>
-            <div class="card-back">
-              <ion-card-subtitle>{{ producto.descripcion }}</ion-card-subtitle>
-              <ion-card-subtitle>{{ producto.categoria }}</ion-card-subtitle>
-              <ion-card-subtitle>{{ perfiles[producto.perfil]?.nombre }}</ion-card-subtitle>
-              <ion-buttons>
-                <ion-button fill="clear" class="like-button" (click)="toggleFavorito($event, producto.id)">
-                  <ion-icon
-                    [name]="favoritos[producto.id] ? 'heart' : 'heart-outline'"
-                    [class.heart]="favoritos[producto.id]"
-                    [class.heart-outline]="!favoritos[producto.id]">
-                  </ion-icon>
-                </ion-button>
-              </ion-buttons>
-              <ion-button (click)="verProducto($event, producto.id)">Ver Producto</ion-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 
   <ng-container *ngIf="isScreenSmall; else largeScreen">
     <app-menu-inferior></app-menu-inferior>

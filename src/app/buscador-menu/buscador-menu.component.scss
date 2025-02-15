@@ -22,3 +22,13 @@ ion-toolbar {
   --ion-font-family: 'Louis George Cafe';
   border-bottom: 1px solid #ffffff;
 }
+
+ion-searchbar {
+  --color: white;
+  --placeholder-color: white;
+}
+
+ion-searchbar::part(icon) {
+  color: white;
+}
+

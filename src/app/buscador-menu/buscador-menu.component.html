@@ -3,24 +3,8 @@
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar placeholder="Buscar" (ionInput)="onSearchChange($event)"></ion-searchbar>
+    <ion-searchbar style="--background: rgb(24, 24, 24)" placeholder="Buscar" (ionInput)="onSearchChange($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
-<ion-menu side="start" menuId="main-menu" contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menú</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list>
-      <ion-item routerLink="/pagina1">Página 1</ion-item>
-      <ion-item routerLink="/pagina2">Página 2</ion-item>
-      <ion-item routerLink="/pagina3">Página 3</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-menu>
 
 <ion-content id="main-content"></ion-content>

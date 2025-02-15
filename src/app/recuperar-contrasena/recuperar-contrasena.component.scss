@@ -1,0 +1,32 @@
+.recuperar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+ion-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+ion-item {
+  --background: transparent;
+}
+
+ion-input {
+  background-color: transparent;
+  font-family: 'Louis George Cafe', sans-serif;
+}
+
+ion-label {
+  font-family: 'Louis George Cafe', sans-serif;
+}
+
+ion-button {
+  --background: #994B7C;
+}

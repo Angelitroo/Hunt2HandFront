@@ -23,6 +23,11 @@ export class AuthService {
     return true;
   }
 
+  activarCuenta(token: string): Observable<any> {
+    const options = this.getAuthHeaders();
+    return this.httpClient.post(`api/auth/activar-cuenta`, { token }, options);
+  }
+
   cerrarSesion(){
     localStorage.removeItem('authToken');
     this.route.navigate(['/inicio-sesion']);
