@@ -88,7 +88,6 @@ export class ModificarPerfilComponent implements OnInit {
         next: (data: PerfilActualizar) => {
           if (data) {
             this.perfilActualizar = { ...data, password: '' };
-            this.toastOkService.presentToast('Perfil cargado con éxito', 3000);
           }
         },
       });

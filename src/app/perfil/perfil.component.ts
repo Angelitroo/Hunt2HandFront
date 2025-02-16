@@ -181,7 +181,7 @@ export class PerfilComponent implements OnInit {
       next: () => {
         this.esSeguidor = true;
         const perfilSeguidor: Perfil = { id: this.authService.getPerfilIdFromToken()! } as Perfil;
-        this.seguidores.push(perfilSeguidor); // Add the current user's Perfil object to the followers list
+        this.seguidores.push(perfilSeguidor);
       },
       error: () => {
         console.error('Error al seguir');
@@ -200,7 +200,7 @@ export class PerfilComponent implements OnInit {
         const perfilSeguidorId = this.authService.getPerfilIdFromToken()!;
         const index = this.seguidores.findIndex(seguidor => seguidor.id === perfilSeguidorId);
         if (index > -1) {
-          this.seguidores.splice(index, 1); // Remove the current user's Perfil object from the followers list
+          this.seguidores.splice(index, 1);
         }
       },
       error: (err) => {

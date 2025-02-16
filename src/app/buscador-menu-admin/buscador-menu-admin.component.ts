@@ -29,7 +29,6 @@ export class BuscadorMenuAdminComponent implements OnInit {
       const searchValue = event.target.value;
       const url = this.router.url;
       this.searchEvent.emit({ searchValue, url });
-      this.toastOkService.presentToast('Búsqueda realizada con éxito', 3000);
     } catch (error) {
       this.toastErrorService.presentToast('Error al realizar la búsqueda', 3000);
     }

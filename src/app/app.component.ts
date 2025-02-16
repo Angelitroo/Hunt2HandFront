@@ -20,7 +20,6 @@ export class AppComponent {
       if (!isAuthenticated) {
         this.router.navigate(['/inicio-sesion']);
       }
-
     });
   }
 }

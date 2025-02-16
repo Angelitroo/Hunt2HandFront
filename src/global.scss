@@ -126,14 +126,10 @@ ion-content {
   box-sizing: content-box;
 }
 
-ion-list {
-  --background: transparent;
-  background: transparent;
-}
 
-ion-list, ion-grid, ion-row, ion-col {
-  --background: transparent;
-  background: transparent;
+
+ion-list {
+  --ion-background-color: rgb(24, 24, 24);
 }
 
 .grid-container
@@ -146,12 +142,7 @@ ion-list, ion-grid, ion-row, ion-col {
 
 ion-card {
   --background: #000000;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.92);
-}
-
-ion-list ion-grid ion-col ion-row {
-  --background: transparent;
-  background: transparent;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.92);
 }
 
 .modificar {

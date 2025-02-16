@@ -96,8 +96,10 @@ export class InicioSesionComponent implements OnInit {
       next: response => {
         this.authService.setToken(response.token);
         this.loginService.setAuthState(true);
-        this.toastOkService.presentToast('Sesión iniciada con éxito', 2000, 'ok');
         this.router.navigate(['/productos']);
+        if (this.authService.esAdmin()) {
+          this.router.navigate(['/panel-admin-perfiles']);
+        }
       },
       error: err => {
         this.toastErrorService.presentToast('Contraseña o usuario incorrecto', 2000, 'error');
