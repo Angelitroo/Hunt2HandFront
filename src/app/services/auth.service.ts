@@ -25,7 +25,7 @@ export class AuthService {
 
   activarCuenta(token: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.post(`api/auth/activar-cuenta`, { token }, options);
+    return this.httpClient.put(`api/auth/activar`, { token }, options);
   }
 
   cerrarSesion(){

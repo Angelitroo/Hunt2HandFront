@@ -124,13 +124,6 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  onIonInfinite(event: InfiniteScrollCustomEvent) {
-    this.generateItems();
-    setTimeout(() => {
-      event.target.complete();
-    }, 500);
-  }
-
   verProducto(event: Event, id: number) {
     event.stopPropagation();
     this.router.navigate(['/productos', id]);

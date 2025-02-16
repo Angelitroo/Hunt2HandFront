@@ -98,7 +98,6 @@ export class InicioSesionComponent implements OnInit {
         this.loginService.setAuthState(true);
         this.toastOkService.presentToast('Sesión iniciada con éxito', 2000, 'ok');
         this.router.navigate(['/productos']);
-        window.location.reload();
       },
       error: err => {
         this.toastErrorService.presentToast('Contraseña o usuario incorrecto', 2000, 'error');

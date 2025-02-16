@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import {NgIf} from "@angular/common";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-activar-cuenta',
@@ -14,10 +14,13 @@ import {NgIf} from "@angular/common";
 })
 export class ActivarCuentaComponent implements OnInit {
   token: string | null = null;
+  perfilId: number | null = null;
 
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.perfilId = this.authService.getPerfilIdFromToken();
+
     this.token = this.route.snapshot.queryParamMap.get('token');
     if (this.token) {
       this.authService.activarCuenta(this.token).subscribe(
