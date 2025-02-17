@@ -96,6 +96,9 @@ export class PanelAdminReportesComponent implements OnInit {
         next: (data) => {
           this.reportes = Array.isArray(data) ? data : [data];
         },
+        error: () => {
+          this.reportes = [];
+        }
       });
     } else {
       this.getReportes();
