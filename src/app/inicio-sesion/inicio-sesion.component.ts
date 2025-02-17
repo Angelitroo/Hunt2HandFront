@@ -96,9 +96,12 @@ export class InicioSesionComponent implements OnInit {
       next: response => {
         this.authService.setToken(response.token);
         this.loginService.setAuthState(true);
-        this.router.navigate(['/productos']);
         if (this.authService.esAdmin()) {
           this.router.navigate(['/panel-admin-perfiles']);
+        }
+        else {
+          this.router.navigate(['/productos']);
+
         }
       },
       error: err => {
@@ -121,7 +124,7 @@ export class InicioSesionComponent implements OnInit {
 
     this.loginService.register(registro).subscribe({
       next: () => {
-        this.toastOkService.presentToast('Registro exitoso', 3000, 'ok');
+        this.toastOkService.presentToast('Registro exitoso, active su cuenta desde email', 3000, 'ok');
         this.cambioRegistro();
       },
       error: err => {

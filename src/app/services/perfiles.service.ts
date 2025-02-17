@@ -5,6 +5,8 @@ import { Perfil } from '../modelos/Perfil';
 import { AuthService } from './auth.service';
 import {PerfilActualizar} from "../modelos/PerfilActualizar";
 import { SeguirDTO } from '../modelos/SeguirDTO';
+import { BanearPerfil } from '../modelos/BanearPerfil';
+import { DesbanearPerfil } from '../modelos/DesbanearPerfil';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +36,14 @@ export class PerfilesService {
     return this.httpClient.delete<void>(`api/perfiles/eliminar/${id}`, options);
   }
 
-  banearPerfil(id: number): Observable<void> {
+  banearPerfil(banearPerfil: BanearPerfil): Observable<void> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<void>(`api/perfiles/banear/${id}`, options);
+    return this.httpClient.put<void>('api/perfiles/banear', banearPerfil, options);
+  }
+
+  desbanearPerfil(desbanearPerfil: DesbanearPerfil): Observable<void> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.put<void>(`api/perfiles/desbanear`, desbanearPerfil, options);
   }
 
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {

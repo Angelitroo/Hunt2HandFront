@@ -19,7 +19,7 @@ export class AuthService {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.tokenDataDTO?.rol || null;
+        return payload.tokenDataDTO?.rol === 'ADMIN';
       } catch (e) {
         console.error('Error extracting perfilId from token', e);
         return false;

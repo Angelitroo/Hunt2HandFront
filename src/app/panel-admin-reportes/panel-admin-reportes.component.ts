@@ -5,11 +5,13 @@ import { MenuInferiorAdminComponent } from "../menu-inferior-admin/menu-inferior
 import { BuscadorMenuAdminComponent } from "../buscador-menu-admin/buscador-menu-admin.component";
 import { ReportesService } from "../services/reportes.service";
 import { Reporte } from '../modelos/Reporte';
-import { NgForOf } from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { PerfilesService } from "../services/perfiles.service";
 import { Perfil } from "../modelos/Perfil";
+import { BanearPerfil } from "../modelos/BanearPerfil";
 import { ToastOkService } from '../services/toast-ok.service';
 import { ToastErrorService } from '../services/toast-error.service';
+import {DesbanearPerfil} from "../modelos/DesbanearPerfil";
 
 @Component({
   selector: 'app-panel-admin-reportes',
@@ -20,7 +22,8 @@ import { ToastErrorService } from '../services/toast-error.service';
     IonicModule,
     MenuInferiorAdminComponent,
     BuscadorMenuAdminComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   standalone: true
 })
@@ -28,6 +31,8 @@ export class PanelAdminReportesComponent implements OnInit {
   items: string[] = [];
   reportes: Reporte[] = [];
   perfiles: { [key: string]: Perfil } = {};
+  baneado: boolean = false;
+  noBaneado: boolean = true;
 
   constructor(
     private reporteService: ReportesService,
@@ -97,13 +102,37 @@ export class PanelAdminReportesComponent implements OnInit {
     }
   }
 
-  banearPerfil(id: number) {
-    this.perfilesService.banearPerfil(id).subscribe({
+  banearPerfil(id: number, motivo: string) {
+    const banearPerfil: BanearPerfil = {
+      idPerfil: id,
+      motivo: motivo,
+    };
+
+    this.perfilesService.banearPerfil(banearPerfil).subscribe({
       next: () => {
         this.toastOkService.presentToast('Perfil baneado correctamente', 2000);
+        this.baneado = true;
+        this.noBaneado = false;
       },
       error: (error) => {
         this.toastErrorService.presentToast('Error al banear perfil', 2000);
+      },
+    });
+  }
+
+  desbanearPerfil(id: number) {
+    const desbanearPerfil: DesbanearPerfil = {
+      idPerfil: id,
+    };
+
+    this.perfilesService.desbanearPerfil(desbanearPerfil).subscribe({
+      next: () => {
+        this.toastOkService.presentToast('Perfil desbaneado correctamente', 2000);
+        this.baneado = false;
+        this.noBaneado = true;
+      },
+      error: (error) => {
+        this.toastErrorService.presentToast('Error al desbanear perfil', 2000);
       },
     });
   }

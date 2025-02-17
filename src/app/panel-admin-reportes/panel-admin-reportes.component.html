@@ -20,7 +20,8 @@
               <ion-card-subtitle style="font-size: 12px">
                 <b>Motivo: {{ reporte.motivo }}</b>
               </ion-card-subtitle>
-              <ion-button (click)="banearPerfil(reporte.id_reportado)">Suspender Cuenta</ion-button>
+              <ion-button class="eliminar" *ngIf="noBaneado" (click)="banearPerfil(reporte.id_reportado, reporte.motivo)">Banear Cuenta</ion-button>
+              <ion-button class="modificar" *ngIf="baneado" (click)="desbanearPerfil(reporte.id_reportado)">Desbanear Cuenta</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>

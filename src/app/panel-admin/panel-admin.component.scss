@@ -18,7 +18,7 @@
   background-color: #000000;
   color: #ffffff;
   width: 100%;
-  height: 6%;
+  height: 8%;
   margin: 0;
   padding: 0;
 }
@@ -27,6 +27,16 @@
   .responsive-title {
     margin-left: 38%;
     margin-right: 22%;
+  }
+
+  :host {
+    display: block;
+    background-color: #000000;
+    color: #ffffff;
+    width: 100%;
+    height: 6%;
+    margin: 0;
+    padding: 0;
   }
 }
 
