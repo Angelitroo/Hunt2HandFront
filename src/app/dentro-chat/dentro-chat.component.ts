@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuInferiorComponent } from "../menu-inferior/menu-inferior.component";
 import {IonContent, IonicModule } from "@ionic/angular";
@@ -14,24 +14,28 @@ import { Subscription } from "rxjs";
 import {ChatService} from "../services/chat.service";
 import {ResenaService} from "../services/resena.service";
 import { Resena } from "../modelos/Resena";
+import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
 
 @Component({
   selector: 'app-dentro-chat',
   templateUrl: './dentro-chat.component.html',
   styleUrls: ['./dentro-chat.component.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    MenuInferiorComponent,
-    FormsModule,
-    DatePipe,
-    NgForOf,
-    NgIf,
-    NgClass
-  ]
+    imports: [
+        IonicModule,
+        MenuInferiorComponent,
+        FormsModule,
+        DatePipe,
+        NgForOf,
+        NgIf,
+        NgClass,
+        MenuLateralComponent
+    ]
 })
 export class DentroChatComponent implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
+
+  isScreenSmall: boolean = false;
 
   idChat: number = 0;
   idEmisor: number = 0;
@@ -70,6 +74,7 @@ export class DentroChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.checkScreenSize();
     this.idEmisor = this.authService.getPerfilIdFromToken() ?? 0;
     this.idChat = +this.route.snapshot.paramMap.get('id_chat')!;
 
@@ -240,5 +245,14 @@ export class DentroChatComponent implements OnInit, OnDestroy {
         console.log(`Valoración confirmada: ${this.estrellaSeleccionada} estrella(s)` );
         this.yaValorado = true;
       });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isScreenSmall = window.innerWidth < 1024;
   }
 }

@@ -9,11 +9,11 @@
         </ion-col>
       </ion-row>
 
-      <ion-row class="ion-justify-content-center">
+      <ion-row class="ion-justify-content-center" style="align-items: center">
         <ion-col size="5" class="ion-text-center">
-          <ion-avatar style="width: 120px; height: 120px; margin: auto; margin-bottom: 5%;">
-            <img [src]="perfilActualizar.imagen || 'https://ruta-de-la-imagen-por-defecto.com/default.jpg'" alt="Imagen de perfil" />
-          </ion-avatar>
+          <ion-card class="foto">
+            <img [src]="perfilActualizar.imagen || 'https://ruta-de-la-imagen-por-defecto.com/default.jpg'"/>
+          </ion-card>
         </ion-col>
         <ion-col size="7" class="ion-text-center">
           <ion-item>

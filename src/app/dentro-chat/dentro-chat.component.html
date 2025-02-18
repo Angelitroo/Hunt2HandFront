@@ -1,52 +1,59 @@
-<ion-header>
-  <ion-toolbar style="cursor: pointer; --background: #333">
-    <ion-avatar slot="start" class="navbar-avatar">
-      <img [src]="imagenReceptor || '../../assets/iconoperfil.png'" />
-    </ion-avatar>
-    <ion-title class="nombreusuario">{{ nombreReceptor }}</ion-title>
-    <div class="estrellas">
-      <button *ngFor="let num of [1,2,3,4,5]" fill="clear" class="estrella-btn"
-              (click)="abrirValoracion(num)" [disabled]="yaValorado">
-        <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[num]}" name="star" size="large"></ion-icon>
-      </button>
-    </div>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="container">
+    <ion-header>
+      <ion-toolbar style="cursor: pointer; --background: #333; height: 100px; display: flex; align-items: center;">
+        <ion-avatar slot="start" class="navbar-avatar">
+          <img [src]="imagenReceptor || '../../assets/iconoperfil.png'" />
+        </ion-avatar>
+        <ion-title class="nombreusuario">{{ nombreReceptor }}</ion-title>
+        <div class="estrellas">
+          <button *ngFor="let num of [1,2,3,4,5]" fill="clear" class="estrella-btn"
+                  (click)="abrirValoracion(num)" [disabled]="yaValorado">
+            <ion-icon [ngClass]="{'selected-star': estrellasSeleccionadas[num]}" name="star" size="large"></ion-icon>
+          </button>
+        </div>
+      </ion-toolbar>
+    </ion-header>
 
-<ion-content >
-  <ion-grid>
-    <ion-item lines="none" *ngFor="let mensaje of mensajes">
+    <ion-grid>
+      <ion-item lines="none" *ngFor="let mensaje of mensajes">
 
-      <ion-avatar slot="end" *ngIf="mensaje.idEmisor === idEmisor">
-        <ion-img [src]="imagenEmisor || '../../assets/iconoperfil.png'"></ion-img>
-      </ion-avatar>
-      <ion-label  class="message-bubble received" slot="end" *ngIf="mensaje.idEmisor === idEmisor">
-        {{ mensaje.contenido }}
-        <br>
-        <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
-      </ion-label>
+        <ion-avatar slot="end" *ngIf="mensaje.idEmisor === idEmisor">
+          <ion-img [src]="imagenEmisor || '../../assets/iconoperfil.png'"></ion-img>
+        </ion-avatar>
+        <ion-label  class="message-bubble received" slot="end" *ngIf="mensaje.idEmisor === idEmisor">
+          {{ mensaje.contenido }}
+          <br>
+          <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
+        </ion-label>
 
-      <ion-avatar slot="start" *ngIf="mensaje.idEmisor !== idEmisor">
-        <ion-img [src]="imagenReceptor   || '../../assets/iconoperfil.png'"></ion-img>
-      </ion-avatar>
-      <ion-label class="message-bubble sent"  *ngIf="mensaje.idEmisor !== idEmisor">
-        {{ mensaje.contenido }}
-        <br>
-        <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
-      </ion-label>
+        <ion-avatar slot="start" *ngIf="mensaje.idEmisor !== idEmisor">
+          <ion-img [src]="imagenReceptor   || '../../assets/iconoperfil.png'"></ion-img>
+        </ion-avatar>
+        <ion-label class="message-bubble sent"  *ngIf="mensaje.idEmisor !== idEmisor">
+          {{ mensaje.contenido }}
+          <br>
+          <ion-text style="font-size: 9pt">{{ mensaje.fecha | date: 'shortTime' }}</ion-text>
+        </ion-label>
 
-    </ion-item>
-  </ion-grid>
+      </ion-item>
+    </ion-grid>
+
+    <ion-toolbar>
+      <div class="chat-input-container">
+        <div class="chat-input">
+          <input type="text" placeholder="Escribe un mensaje..." class="input-field" [(ngModel)]="nuevoMensaje" />
+          <ion-icon name="send" class="send-icon" (click)="enviarMensaje()"></ion-icon>
+        </div>
+      </div>
+    </ion-toolbar>
+  </div>
+
+  <ng-container *ngIf="isScreenSmall; else largeScreen">
+    <app-menu-inferior></app-menu-inferior>
+  </ng-container>
+  <ng-template #largeScreen>
+    <app-menu-lateral></app-menu-lateral>
+  </ng-template>
 </ion-content>
 
-<ion-toolbar>
-  <div class="chat-input-container">
-    <div class="chat-input">
-      <input type="text" placeholder="Escribe un mensaje..." class="input-field" [(ngModel)]="nuevoMensaje" />
-      <ion-icon name="send" class="send-icon" (click)="enviarMensaje()"></ion-icon>
-    </div>
-  </div>
-  <div class="menu-inferior-container">
-    <app-menu-inferior></app-menu-inferior>
-  </div>
-</ion-toolbar>
