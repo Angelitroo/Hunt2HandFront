@@ -132,3 +132,31 @@ ion-header {
   width: 100%;
   font-size: 12px;
 }
+
+@media (max-width: 767px) {
+  .container {
+    height: 760px;
+  }
+
+  ion-content {
+    height: 600px
+  }
+
+  ion-grid {
+    height: 680px;
+  }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+  .container {
+    margin-left: 15%;
+    height: 300px;
+  }
+
+  ion-grid {
+    height: 495px;
+  }
+}
