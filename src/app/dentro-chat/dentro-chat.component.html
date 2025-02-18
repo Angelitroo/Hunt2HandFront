@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar style="cursor: pointer;">
+  <ion-toolbar style="cursor: pointer; --background: #333">
     <ion-avatar slot="start" class="navbar-avatar">
       <img [src]="imagenReceptor || '../../assets/iconoperfil.png'" />
     </ion-avatar>
@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="chat-container">
+<ion-content >
   <ion-grid>
     <ion-item lines="none" *ngFor="let mensaje of mensajes">
 
@@ -39,7 +39,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-toolbar style="background-color: #f0f0f0">
+<ion-toolbar>
   <div class="chat-input-container">
     <div class="chat-input">
       <input type="text" placeholder="Escribe un mensaje..." class="input-field" [(ngModel)]="nuevoMensaje" />

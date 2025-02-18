@@ -1,13 +1,7 @@
-.chat-container {
-  --background: rgb(24, 24, 24);
-  padding: 10px;
-}
-
 .message-bubble {
   border-radius: 15px;
   padding: 10px 15px;
   font-size: 14px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   word-wrap: break-word; /* Evita que el texto se desborde */
   max-width: 65%; /* Máximo ancho de la burbuja solo para los mensajes enviados */
   min-width: auto;
@@ -34,11 +28,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: rgb(24, 24, 24);
 }
 
 .chat-input {
-  background-color: #d5d2d2;
+  background-color: #333;
   border-radius: 25px;
   padding: 5px 10px;
   display: flex;
@@ -125,7 +119,6 @@ ion-header {
   font-size: 14px;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .valoracion-popup p {
