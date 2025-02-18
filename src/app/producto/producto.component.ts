@@ -9,10 +9,11 @@ import { AuthService } from "../services/auth.service";
 import { CommonModule } from "@angular/common";
 import { FavoritosService } from "../services/favoritos.service";
 import {addIcons} from "ionicons";
-import {chatboxOutline, heartOutline} from "ionicons/icons";
+import {chatboxOutline, heartOutline, star} from "ionicons/icons";
 import {ChatService} from "../services/chat.service";
 import {Chat} from "../modelos/Chat";
 import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
+import {ResenaService} from "../services/resena.service";
 
 @Component({
   selector: 'app-producto',
@@ -35,6 +36,8 @@ export class ProductoComponent implements OnInit {
   isScreenSmall: boolean = false;
   isFavorito: boolean = true;
   perfilId: number | null = null;
+  resena: number = 0;
+
 
   constructor(
     private authService: AuthService,
@@ -43,14 +46,17 @@ export class ProductoComponent implements OnInit {
     private perfilService: PerfilesService,
     private route: ActivatedRoute,
     private router: Router,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private resenaService: ResenaService
   ) {
     addIcons({
       'chatboxes': chatboxOutline,
+      'star': star,
     });
   }
 
   ngOnInit() {
+    this.cargarValoracion();
     this.checkScreenSize();
     this.perfilId = this.authService.getPerfilIdFromToken();
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -126,5 +132,27 @@ export class ProductoComponent implements OnInit {
 
   checkScreenSize() {
     this.isScreenSmall = window.innerWidth < 1024;
+  }
+
+  cargarValoracion(perfilId?: number) {
+    if (perfilId === undefined) {
+      const idFromToken = this.authService.getPerfilIdFromToken();
+      if (idFromToken !== null) {
+        perfilId = idFromToken;
+      } else {
+        console.log('No se pudo obtener el perfilId del token.');
+        return;
+      }
+    }
+    console.log('Perfil ID para cargar valoración:', perfilId);
+    this.resenaService.buscarResenaMedia(perfilId).subscribe(
+      (media) => {
+        console.log('Respuesta de buscarResenaMedia:', media);
+        this.resena = media;
+      },
+      (error) => {
+        console.error('Error al buscar la valoración media:', error);
+      }
+    );
   }
 }
