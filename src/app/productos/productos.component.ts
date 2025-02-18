@@ -86,6 +86,7 @@ export class ProductosComponent implements OnInit {
   }
 
   flipBack(event: Event) {
+    event.stopPropagation();
     const cardInner = (event.currentTarget as HTMLElement).querySelector('.card-inner');
     if (cardInner) {
       cardInner.classList.toggle('flipped');
