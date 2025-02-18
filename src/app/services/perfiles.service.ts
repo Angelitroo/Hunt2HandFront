@@ -20,6 +20,10 @@ export class PerfilesService {
     console.log('GET /api/perfiles', options);
     return this.httpClient.get<Perfil[]>('api/perfiles/', options);
   }
+  getUsuarioById(id: number): Observable<Perfil> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil>(`api/usuarios/${id}`, options);
+  }
 
   getPerfilByUsername(username: string): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();

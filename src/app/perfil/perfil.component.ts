@@ -18,6 +18,7 @@ import {FormsModule} from "@angular/forms";
 import {ReportarPopoverComponent} from "../reportar-popover/reportar-popover.component";
 import {ReportesService} from "../services/reportes.service";
 import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
+import {AjustesPopoverComponent} from "../ajustes-popover/ajustes-popover.component";
 
 @Component({
   selector: 'app-perfil',
@@ -98,39 +99,15 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  async redirigir() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Opciones',
-      buttons: [
-        {
-          text: 'Modificar perfil',
-          icon: 'create',
-          handler: () => {
-            this.router.navigate(['/modificar-perfil']);
-          }
-        },
-        {
-          text: 'Cerrar sesión',
-          icon: 'log-out',
-          handler: () => {
-            this.authService.cerrarSesion();
-          }
-        },
-        {
-          text: 'Cancelar',
-          icon: 'close',
-          role: 'cancel'
-        }
-      ]
-    });
 
-    await actionSheet.present();
-  }
 
   flipBack(event: Event) {
     const cardInner = (event.currentTarget as HTMLElement).querySelector('.card-inner');
     if (cardInner) {
       cardInner.classList.toggle('flipped');
+      setTimeout(() => {
+        cardInner.classList.toggle('flipped');
+      }, 5000);
     }
   }
 
@@ -314,10 +291,10 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  async mostrarOpciones(ev: Event) {
+  async mostrarReportes(ev: Event) {
     if (!this.perfil) return;
 
-    const popover = await this.popoverCtrl.create({
+    const popoverReportar = await this.popoverCtrl.create({
       component: ReportarPopoverComponent,
       componentProps: { idReportado: this.perfil.id },
       event: ev,
@@ -325,8 +302,23 @@ export class PerfilComponent implements OnInit {
       cssClass: 'custom-popover',
     });
 
-    await popover.present();
+    await popoverReportar.present();
   }
+  async mostrarAjustes(ev: Event) {
+    if (!this.perfil) return;
+
+    const popoverAjustes = await this.popoverCtrl.create({
+      component: AjustesPopoverComponent,
+      componentProps: { idReportado: this.perfil.id },
+      event: ev,
+      translucent: false,
+      cssClass: 'custom-popover',
+    });
+
+    await popoverAjustes.present();
+  }
+
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -336,4 +328,6 @@ export class PerfilComponent implements OnInit {
   checkScreenSize() {
     this.isScreenSmall = window.innerWidth < 1024;
   }
+
+
 }
