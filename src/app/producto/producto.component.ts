@@ -19,14 +19,14 @@ import {ResenaService} from "../services/resena.service";
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.scss'],
-    imports: [
-        MenuInferiorComponent,
-        IonicModule,
-        NgIf,
-        CommonModule,
-        RouterLink,
-        MenuLateralComponent
-    ],
+  imports: [
+    MenuInferiorComponent,
+    IonicModule,
+    NgIf,
+    CommonModule,
+    RouterLink,
+    MenuLateralComponent
+  ],
   standalone: true
 })
 
@@ -37,7 +37,6 @@ export class ProductoComponent implements OnInit {
   isFavorito: boolean = true;
   perfilId: number | null = null;
   resena: number = 0;
-
 
   constructor(
     private authService: AuthService,
@@ -56,7 +55,6 @@ export class ProductoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarValoracion();
     this.checkScreenSize();
     this.perfilId = this.authService.getPerfilIdFromToken();
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -65,6 +63,7 @@ export class ProductoComponent implements OnInit {
         this.producto = data;
         this.loadPerfil(data.perfil);
         this.checkIfFavorito(data.id);
+        this.cargarValoracion(data.perfil); // Ahora usa el perfil del producto
       },
     });
   }
@@ -134,16 +133,7 @@ export class ProductoComponent implements OnInit {
     this.isScreenSmall = window.innerWidth < 1024;
   }
 
-  cargarValoracion(perfilId?: number) {
-    if (perfilId === undefined) {
-      const idFromToken = this.authService.getPerfilIdFromToken();
-      if (idFromToken !== null) {
-        perfilId = idFromToken;
-      } else {
-        console.log('No se pudo obtener el perfilId del token.');
-        return;
-      }
-    }
+  cargarValoracion(perfilId: number) {
     console.log('Perfil ID para cargar valoración:', perfilId);
     this.resenaService.buscarResenaMedia(perfilId).subscribe(
       (media) => {
