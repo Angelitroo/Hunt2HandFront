@@ -80,6 +80,10 @@ export class ModificarPerfilComponent implements OnInit {
     });
   }
 
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+
   private cargarPerfilPropio() {
     const perfilId = this.authService.getPerfilIdFromToken();
 
@@ -103,10 +107,6 @@ export class ModificarPerfilComponent implements OnInit {
         }
       },
     });
-  }
-
-  togglePasswordVisibility() {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 
   guardarCambios() {
