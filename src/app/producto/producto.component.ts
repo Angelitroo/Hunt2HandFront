@@ -9,7 +9,7 @@ import { AuthService } from "../services/auth.service";
 import { CommonModule } from "@angular/common";
 import { FavoritosService } from "../services/favoritos.service";
 import {addIcons} from "ionicons";
-import {chatbox, heartOutline} from "ionicons/icons";
+import {chatboxOutline, heartOutline} from "ionicons/icons";
 import {ChatService} from "../services/chat.service";
 import {Chat} from "../modelos/Chat";
 import {MenuLateralComponent} from "../menu-lateral/menu-lateral.component";
@@ -46,7 +46,7 @@ export class ProductoComponent implements OnInit {
     private chatService: ChatService
   ) {
     addIcons({
-      'chatboxes': chatbox
+      'chatboxes': chatboxOutline,
     });
   }
 

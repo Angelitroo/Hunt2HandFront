@@ -20,6 +20,11 @@
   text-align: left;
 }
 
+.avatar-row {
+  display: flex;
+  align-items: center;
+}
+
 .small-text {
   font-size: calc(0.8rem + 0.3vw);
   text-align: left;
@@ -74,6 +79,12 @@
   .product-card {
     margin-top: 5%;
   }
+}
+
+.chat-icon {
+  margin-left: auto;
+  color: #994B7C;
+  font-size: 50px;
 }
 
 .like-button {
