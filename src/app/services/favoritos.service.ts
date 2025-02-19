@@ -9,12 +9,13 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class FavoritosService {
+  private api = 'https://hunt2hand.onrender.com';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getFavoritosByPerfil(idPerfil: number): Observable<Favoritos[]> {
     const options = this.authService.getAuthHeaders();
-    const url = `/api/perfiles/favoritos/${idPerfil}`;
+    const url = `${this.api}/perfiles/favoritos/${idPerfil}`;
     return this.http.get<Favoritos[]>(url, options).pipe(
       catchError(this.handleError)
     );
@@ -26,7 +27,7 @@ export class FavoritosService {
       return throwError('No se pudo obtener el idPerfil del token');
     }
     const options = this.authService.getAuthHeaders();
-    const url = `api/perfiles/favoritos/${idPerfil}/${idProducto}`;
+    const url = `${this.api}/perfiles/favoritos/${idPerfil}/${idProducto}`;
     return this.http.post<Favoritos>(url, {}, options).pipe(
       catchError(this.handleError)
     );
@@ -39,7 +40,7 @@ export class FavoritosService {
       responseType: 'text' as 'json'
     };
 
-    return this.http.delete(`/api/perfiles/favoritos/eliminar/${idPerfil}/${productoId}`, options)
+    return this.http.delete(`${this.api}/perfiles/favoritos/eliminar/${idPerfil}/${productoId}`, options)
       .pipe(
         tap(response => {
           console.log('Respuesta de la API:', response);
@@ -57,7 +58,7 @@ export class FavoritosService {
       throw new Error('No se pudo obtener el idPerfil del token');
     }
     const options = this.authService.getAuthHeaders();
-    const url = `/api/perfiles/favoritos/comprobar/${idPerfil}/${idProducto}`;
+    const url = `${this.api}/perfiles/favoritos/comprobar/${idPerfil}/${idProducto}`;
     return this.http.get<boolean>(url, options);
   }
 

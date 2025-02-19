@@ -108,6 +108,20 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  private loadCategorias() {
+    this.categorias.forEach(categoria => {
+      this.productosService.getProductoByCategoria(categoria).subscribe({
+        next: (data) => {
+          this.productos = data.filter(producto => producto.perfil !== this.perfilId);
+          this.productos.forEach(producto => {
+            this.loadPerfil(producto.perfil);
+            this.checkIfFavorito(producto.id);
+          });
+        },
+      });
+    });
+  }
+
   loadPerfil(perfilId: number) {
     if (!this.perfiles[perfilId]) {
       this.perfilesService.getPerfilById(perfilId).subscribe({
@@ -217,11 +231,13 @@ export class ProductosComponent implements OnInit {
           this.productos = Array.isArray(data) ? data : [data];
         },
         error: () => {
+          this.categorias = [];
           this.productos = [];
         }
       });
     } else {
-      this.loadProductos();
+      this.loadCategorias();
+      window.location.reload();
     }
   }
 

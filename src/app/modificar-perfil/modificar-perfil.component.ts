@@ -119,7 +119,9 @@ export class ModificarPerfilComponent implements OnInit {
 
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/perfil']).then(() => {
+            window.location.reload();
+          });
           this.toastOkService.presentToast('Perfil actualizado con éxito', 2000);
         },
         error: () => {
@@ -139,7 +141,9 @@ export class ModificarPerfilComponent implements OnInit {
 
       this.perfilesService.actualizar(this.perfilActualizar.id, perfilActualizado).subscribe({
         next: (data: PerfilActualizar) => {
-          this.router.navigate(['/panel-admin-perfiles']);
+          this.router.navigate(['/panel-admin-perfiles\'']).then(() => {
+            window.location.reload();
+          });
           this.toastOkService.presentToast('Perfil actualizado con éxito', 2000);
         },
         error: () => {
