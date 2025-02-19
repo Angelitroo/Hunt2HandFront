@@ -4,16 +4,20 @@ import {map, Observable, of, tap, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Favoritos } from '../modelos/Favoritos';
 import { AuthService } from './auth.service';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritosService {
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getFavoritosByPerfil(idPerfil: number): Observable<Favoritos[]> {
     const options = this.authService.getAuthHeaders();
-    const url = `/api/perfiles/favoritos/${idPerfil}`;
+    const url = `${this.apiUrl}/perfiles/favoritos/${idPerfil}`;
     return this.http.get<Favoritos[]>(url, options).pipe(
       catchError(this.handleError)
     );
@@ -25,7 +29,7 @@ export class FavoritosService {
       return throwError('No se pudo obtener el idPerfil del token');
     }
     const options = this.authService.getAuthHeaders();
-    const url = `/api/perfiles/favoritos/${idPerfil}/${idProducto}`;
+    const url = `${this.apiUrl}/perfiles/favoritos/${idPerfil}/${idProducto}`;
     return this.http.post<Favoritos>(url, {}, options).pipe(
       catchError(this.handleError)
     );
@@ -38,7 +42,7 @@ export class FavoritosService {
       responseType: 'text' as 'json'
     };
 
-    return this.http.delete(`/api/perfiles/favoritos/eliminar/${idPerfil}/${productoId}`, options)
+    return this.http.delete(`${this.apiUrl}/perfiles/favoritos/eliminar/${idPerfil}/${productoId}`, options)
       .pipe(
         tap(response => {
           console.log('Respuesta de la API:', response);
@@ -56,7 +60,7 @@ export class FavoritosService {
       throw new Error('No se pudo obtener el idPerfil del token');
     }
     const options = this.authService.getAuthHeaders();
-    const url = `/api/perfiles/favoritos/comprobar/${idPerfil}/${idProducto}`;
+    const url = `${this.apiUrl}/perfiles/favoritos/comprobar/${idPerfil}/${idProducto}`;
     return this.http.get<boolean>(url, options);
   }
 

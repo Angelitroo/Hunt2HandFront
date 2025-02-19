@@ -12,6 +12,8 @@ export class LoginService {
   private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();
 
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   setAuthState(isAuthenticated: boolean): void {
@@ -19,10 +21,10 @@ export class LoginService {
   }
 
   login(loginData: Login): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${environment.apiUrl}/auth/login`, loginData);
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, loginData);
   }
 
   register(registro: Registro): Observable<any> {
-    return this.http.post<any>(`/api/auth/registro`, registro);
+    return this.http.post<any>(`${this.apiUrl}/auth/registro`, registro);
   }
 }

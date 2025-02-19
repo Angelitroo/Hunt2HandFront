@@ -4,31 +4,35 @@ import {Observable} from "rxjs";
 import {Producto} from "../modelos/Producto";
 import {AuthService} from "./auth.service";
 import {Chat} from "../modelos/Chat";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   crearChat(chat: Partial<Chat>): Observable<Chat> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<Chat>(`/api/chat/crear`, chat, options);
+    return this.httpClient.post<Chat>(`${this.apiUrl}/chat/crear`, chat, options);
   }
 
   getChatById(idUsuario: number): Observable<Chat[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Chat[]>(`/api/chat/${idUsuario}`, options);
+    return this.httpClient.get<Chat[]>(`${this.apiUrl}/chat/${idUsuario}`, options);
   }
 
   getDetallesChat(idChat: number): Observable<Chat> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Chat>(`/api/chat/detalles/${idChat}`, options);
+    return this.httpClient.get<Chat>(`${this.apiUrl}/chat/detalles/${idChat}`, options);
   }
 
   obtenerReceptorPorChat(idChat: number): Observable<number> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<number>(`/api/chat/receptor/${idChat}`, options);
+    return this.httpClient.get<number>(`${this.apiUrl}/chat/receptor/${idChat}`, options);
   }
 
 
