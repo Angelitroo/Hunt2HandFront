@@ -19,7 +19,7 @@ export class LoginService {
   }
 
   login(loginData: Login): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`/api/auth/login`, loginData);
+    return this.http.post<{ token: string }>(`${environment.apiUrl}/auth/login`, loginData);
   }
 
   register(registro: Registro): Observable<any> {
