@@ -132,7 +132,9 @@ export class CrearProductoComponent implements OnInit {
     if (perfilId !== undefined) {
       this.productosService.guardarProducto(perfilId, nuevoProducto).subscribe({
         next: () => {
-          this.router.navigate(['/productos']);
+          this.router.navigate(['/productos']).then(() => {
+            window.location.reload();
+          });
           this.toastOkService.presentToast('Producto creado con éxito', 3000);
         },
         error: err => {
@@ -146,7 +148,9 @@ export class CrearProductoComponent implements OnInit {
     if (this.producto.id) {
       this.productosService.modificarProducto(this.producto.id, this.producto).subscribe({
         next: () => {
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/perfil']).then(() => {
+            window.location.reload();
+          });
           this.toastOkService.presentToast('Producto modificado con éxito', 3000);
         },
         error: err => {
@@ -162,7 +166,9 @@ export class CrearProductoComponent implements OnInit {
     if (this.producto.id) {
       this.productosService.modificarProducto(this.producto.id, this.producto).subscribe({
         next: () => {
-          this.router.navigate(['/panel-admin-productos']);
+          this.router.navigate(['/panel-admin-productos']).then(() => {
+            window.location.reload();
+          });
           this.toastOkService.presentToast('Producto modificado con éxito', 3000);
         },
         error: err => {
