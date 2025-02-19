@@ -8,23 +8,21 @@ import {AuthService} from "./auth.service";
   providedIn: 'root'
 })
 export class ResenaService {
-  private api = 'https://hunt2hand.onrender.com';
-
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   crearResena(resena: Resena, idPerfilValorador: number, idPerfilValorado: number): Observable<Resena> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<Resena>(`${this.api}/resena/crear/${idPerfilValorador}/${idPerfilValorado}`, resena , options);
+    return this.httpClient.post<Resena>(`/api/resena/crear/${idPerfilValorador}/${idPerfilValorado}`, resena , options);
   }
 
   buscarResenaMedia(idPerfilValorado: number): Observable<number> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<number>(`${this.api}/resena/buscar/media/${idPerfilValorado}`, options);
+    return this.httpClient.get<number>(`/api/resena/buscar/media/${idPerfilValorado}`, options);
   }
 
   buscarResena(idPerfilValorador: number, idPerfilValorado: number): Observable<Resena> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Resena>(`${this.api}/resena/buscar/${idPerfilValorador}/${idPerfilValorado}`, options);
+    return this.httpClient.get<Resena>(`/api/resena/buscar/${idPerfilValorador}/${idPerfilValorado}`, options);
   }
 
 

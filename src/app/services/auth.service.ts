@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class AuthService {
-  private api = 'https://hunt2hand.onrender.com';
 
   private readonly TOKEN_KEY = 'authToken';
 
@@ -42,7 +41,7 @@ export class AuthService {
 
   activarCuenta(idPerfil: number): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.put(`${this.api}/auth/activar`, { idPerfil }, options);
+    return this.httpClient.put(`/api/auth/activar`, { idPerfil }, options);
   }
 
   cerrarSesion(){
@@ -83,11 +82,11 @@ export class AuthService {
 
   recuperarContrasena(email: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.post(`${this.api}/auth/recuperar-contrasena`, { email }, options);
+    return this.httpClient.post(`/api/auth/recuperar-contrasena`, { email }, options);
   }
 
   restablecerContrasena(token: string, newPassword: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.post(`${this.api}/auth/restablecer-contrasena`, { token, newPassword }, options);
+    return this.httpClient.post(`/api/auth/restablecer-contrasena`, { token, newPassword }, options);
   }
 }
