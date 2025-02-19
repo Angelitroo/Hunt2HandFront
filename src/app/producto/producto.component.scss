@@ -163,3 +163,21 @@
     }
   }
 }
+
+.valoracion {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  font-size: x-large;
+}
+
+.estrella-btn {
+  color: #994b7c;
+  padding: 0;
+  margin: 0 2px;
+  background-color: transparent;
+  scale: 1.5;
+}
