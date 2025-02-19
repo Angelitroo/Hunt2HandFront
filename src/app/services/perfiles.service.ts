@@ -5,64 +5,63 @@ import { Perfil } from '../modelos/Perfil';
 import { AuthService } from './auth.service';
 import {PerfilActualizar} from "../modelos/PerfilActualizar";
 import { SeguirDTO } from '../modelos/SeguirDTO';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilesService {
-
+  private apiUrl:string = environment.apiUrl;
   constructor(private httpClient: HttpClient, private authService:AuthService) {}
 
   getPerfiles(): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
-    console.log('GET /api/perfiles', options);
-    return this.httpClient.get<Perfil[]>('api/perfiles/', options);
+    return this.httpClient.get<Perfil[]>(`${this.apiUrl}/perfiles/`, options);
   }
 
   getPerfilByUsername(username: string): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil>(`api/perfiles/buscar/${username}`, options);
+    return this.httpClient.get<Perfil>(`${this.apiUrl}/perfiles/buscar/${username}`, options);
   }
 
   getPerfilById(id: number): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil>(`api/perfiles/${id}`, options);
+    return this.httpClient.get<Perfil>(`${this.apiUrl}/perfiles/${id}`, options);
   }
 
   eliminarPerfil(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.delete<void>(`api/perfiles/eliminar/${id}`, options);
+    return this.httpClient.delete<void>(`${this.apiUrl}/perfiles/eliminar/${id}`, options);
   }
 
   banearPerfil(id: number): Observable<void> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<void>(`api/perfiles/banear/${id}`, options);
+    return this.httpClient.post<void>(`${this.apiUrl}/perfiles/banear/${id}`, options);
   }
 
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.put<Perfil>(`api/perfiles/${id}`, perfil, options);
+    return this.httpClient.put<Perfil>(`${this.apiUrl}/perfiles/${id}`, perfil, options);
   }
 
   getPerfilActualizadoById(id: number): Observable<PerfilActualizar> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<PerfilActualizar>(`api/perfiles/actualizado/${id}`, options);
+    return this.httpClient.get<PerfilActualizar>(`${this.apiUrl}/perfiles/actualizado/${id}`, options);
   }
 
   actualizar(id: number, perfilActualizar: Partial<PerfilActualizar>): Observable<PerfilActualizar> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.put<PerfilActualizar>(`api/perfiles/actualizar/${id}`, perfilActualizar, options);
+    return this.httpClient.put<PerfilActualizar>(`${this.apiUrl}/perfiles/actualizar/${id}`, perfilActualizar, options);
   }
 
   crearPerfil(perfil: Perfil): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<Perfil>('api/perfiles/', perfil, options);
+    return this.httpClient.post<Perfil>(`${this.apiUrl}/perfiles/`, perfil, options);
   }
 
   seguirPerfil(seguirDTO: SeguirDTO): Observable<Perfil> {
     const options = this.authService.getAuthHeaders();
-    console.log('POST /api/perfiles/seguir', seguirDTO, options);
-    return this.httpClient.post<Perfil>('/api/perfiles/seguir', seguirDTO, options);
+    return this.httpClient.post<Perfil>(`${this.apiUrl}/perfiles/seguir`, seguirDTO, options);
   }
 
   dejarDeSeguirPerfil(seguirDTO: SeguirDTO): Observable<string> {
@@ -70,26 +69,26 @@ export class PerfilesService {
       ...this.authService.getAuthHeaders(),
       responseType: 'text' as 'json'
     }
-    return this.httpClient.post<string>('/api/perfiles/dejar-seguir', seguirDTO, options);
+    return this.httpClient.post<string>(`${this.apiUrl}/perfiles/dejar-seguir`, seguirDTO, options);
   }
 
   esSeguidor(seguirDTO: SeguirDTO): Observable<boolean> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<boolean>('/api/perfiles/es-seguidor', seguirDTO, options);
+    return this.httpClient.post<boolean>(`${this.apiUrl}/perfiles/es-seguidor`, seguirDTO, options);
   }
 
   getSeguidores(id: number): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil[]>(`api/perfiles/seguidores/${id}`, options);
+    return this.httpClient.get<Perfil[]>(`${this.apiUrl}/perfiles/seguidores/${id}`, options);
   }
 
   getSeguidos(id: number): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil[]>(`api/perfiles/seguidos/${id}`, options);
+    return this.httpClient.get<Perfil[]>(`${this.apiUrl}/perfiles/seguidos/${id}`, options);
   }
 
   buscarPorNombre(nombre: string): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Perfil[]>(`/api/perfiles/buscar/${nombre}`, options);
+    return this.httpClient.get<Perfil[]>(`${this.apiUrl}/perfiles/buscar/${nombre}`, options);
   }
 }
