@@ -10,7 +10,9 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   crearChat(chat: Partial<Chat>): Observable<Chat> {

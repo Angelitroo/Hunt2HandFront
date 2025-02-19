@@ -5,18 +5,26 @@ import { Perfil } from '../modelos/Perfil';
 import { AuthService } from './auth.service';
 import {PerfilActualizar} from "../modelos/PerfilActualizar";
 import { SeguirDTO } from '../modelos/SeguirDTO';
+import { BanearPerfil } from '../modelos/BanearPerfil';
+import { DesbanearPerfil } from '../modelos/DesbanearPerfil';
 import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilesService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private httpClient: HttpClient, private authService:AuthService) {}
 
   getPerfiles(): Observable<Perfil[]> {
     const options = this.authService.getAuthHeaders();
     return this.httpClient.get<Perfil[]>(`${this.apiUrl}/perfiles/`, options);
+  }
+  getUsuarioById(id: number): Observable<Perfil> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.get<Perfil>(`${this.apiUrl}/usuarios/${id}`, options);
   }
 
   getPerfilByUsername(username: string): Observable<Perfil> {
@@ -34,9 +42,14 @@ export class PerfilesService {
     return this.httpClient.delete<void>(`${this.apiUrl}/perfiles/eliminar/${id}`, options);
   }
 
-  banearPerfil(id: number): Observable<void> {
+  banearPerfil(banearPerfil: BanearPerfil): Observable<void> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<void>(`${this.apiUrl}/perfiles/banear/${id}`, options);
+    return this.httpClient.put<void>(`${this.apiUrl}/perfiles/banear`, banearPerfil, options);
+  }
+
+  desbanearPerfil(desbanearPerfil: DesbanearPerfil): Observable<void> {
+    const options = this.authService.getAuthHeaders();
+    return this.httpClient.put<void>(`${this.apiUrl}/perfiles/desbanear`, desbanearPerfil, options);
   }
 
   modificarPerfil(id: number, perfil: Perfil): Observable<Perfil> {

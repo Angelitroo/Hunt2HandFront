@@ -9,13 +9,14 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ReportesService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   getReportes(): Observable<Reporte[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Reporte[]>(`${this.apiUrl}//reporte/`, options);
+    return this.httpClient.get<Reporte[]>(`${this.apiUrl}/reporte/`, options);
   }
 
   getReporteByNombre(nombre: string): Observable<Reporte> {

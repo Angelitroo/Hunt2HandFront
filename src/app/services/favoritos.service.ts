@@ -10,12 +10,14 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class FavoritosService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getFavoritosByPerfil(idPerfil: number): Observable<Favoritos[]> {
     const options = this.authService.getAuthHeaders();
-    const url =`${this.apiUrl}/perfiles/favoritos/${idPerfil}`;
+    const url = `${this.apiUrl}/perfiles/favoritos/${idPerfil}`;
     return this.http.get<Favoritos[]>(url, options).pipe(
       catchError(this.handleError)
     );

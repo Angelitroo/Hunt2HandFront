@@ -9,9 +9,10 @@ import {Registro} from "../modelos/Registro";
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl:string = environment.apiUrl;
   private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

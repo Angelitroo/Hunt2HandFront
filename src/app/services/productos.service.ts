@@ -9,7 +9,8 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ProductosService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 

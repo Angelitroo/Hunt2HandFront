@@ -10,7 +10,8 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class MensajeService {
-  private apiUrl:string = environment.apiUrl;
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
