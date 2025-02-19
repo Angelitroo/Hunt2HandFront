@@ -4,23 +4,24 @@ import {Observable, of} from 'rxjs';
 import { AuthService } from './auth.service';
 import { Mensaje } from '../modelos/Mensaje';
 import {catchError} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MensajeService {
-  private api = 'https://hunt2hand.onrender.com';
+  private apiUrl:string = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   enviarMensaje(mensaje: Mensaje): Observable<Mensaje> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.post<Mensaje>(`${this.api}/mensaje/enviar`, mensaje, options);
+    return this.httpClient.post<Mensaje>(`${this.apiUrl}/mensaje/enviar`, mensaje, options);
   }
 
   obtenerMensajesPorChat(idChat: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.api}/mensaje/chat/${idChat}`, options).pipe(
+    return this.httpClient.get<Mensaje[]>(`${this.apiUrl}/mensaje/chat/${idChat}`, options).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 404) {
           return of([]);
@@ -34,11 +35,11 @@ export class MensajeService {
 
   obtenerMensajesEnviados(idUsuario: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.api}/mensaje/enviados/${idUsuario}`, options);
+    return this.httpClient.get<Mensaje[]>(`${this.apiUrl}/mensaje/enviados/${idUsuario}`, options);
   }
 
   obtenerMensajesRecibidos(idUsuario: number): Observable<Mensaje[]> {
     const options = this.authService.getAuthHeaders();
-    return this.httpClient.get<Mensaje[]>(`${this.api}/mensaje/recibidos/${idUsuario}`, options);
+    return this.httpClient.get<Mensaje[]>(`${this.apiUrl}/mensaje/recibidos/${idUsuario}`, options);
   }
 }

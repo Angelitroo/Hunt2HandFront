@@ -9,8 +9,7 @@ import {Registro} from "../modelos/Registro";
   providedIn: 'root'
 })
 export class LoginService {
-  private api = 'https://hunt2hand.onrender.com';
-
+  private apiUrl:string = environment.apiUrl;
   private authState = new BehaviorSubject<boolean>(!!localStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();
 
@@ -21,10 +20,10 @@ export class LoginService {
   }
 
   login(loginData: Login): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.api}/auth/login`, loginData);
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, loginData);
   }
 
   register(registro: Registro): Observable<any> {
-    return this.http.post<any>(`${this.api}/auth/registro`, registro);
+    return this.http.post<any>(`${this.apiUrl}/auth/registro`, registro);
   }
 }

@@ -1,13 +1,15 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private api = 'https://hunt2hand.onrender.com';
+  private apiUrl:string = environment.apiUrl;
 
   private readonly TOKEN_KEY = 'authToken';
 
@@ -16,33 +18,17 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient, private route: Router) {}
 
+  setAuthState(isAuthenticated: boolean): void {
+    this.authState.next(isAuthenticated);
+  }
+
   esAdmin(): boolean {
-    const token = this.getToken();
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.tokenDataDTO?.rol === 'ADMIN';
-      } catch (e) {
-        console.error('Error extracting perfilId from token', e);
-        return false;
-      }
-    }
-    return false;
+    return true;
   }
 
-  getIdActivarCuenta(token: string): number | null {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.tokenDataDTO?.id || null;
-    } catch (e) {
-      console.error('Error extracting perfilId from token', e);
-      return null;
-    }
-  }
-
-  activarCuenta(idPerfil: number): Observable<any> {
+  activarCuenta(token: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.put(`${this.api}/auth/activar`, { idPerfil }, options);
+    return this.httpClient.post(`api/auth/activar-cuenta`, { token }, options);
   }
 
   cerrarSesion(){
@@ -56,6 +42,14 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  clearToken(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
   }
 
   getAuthHeaders(): { headers: HttpHeaders } {
@@ -83,11 +77,11 @@ export class AuthService {
 
   recuperarContrasena(email: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.post(`${this.api}/auth/recuperar-contrasena`, { email }, options);
+    return this.httpClient.post(`${this.apiUrl}/auth/recuperar-contrasena`, { email }, options);
   }
 
   restablecerContrasena(token: string, newPassword: string): Observable<any> {
     const options = this.getAuthHeaders();
-    return this.httpClient.post(`${this.api}/auth/restablecer-contrasena`, { token, newPassword }, options);
+    return this.httpClient.post(`${this.apiUrl}/auth/restablecer-contrasena`, { token, newPassword }, options);
   }
 }
